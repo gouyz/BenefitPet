@@ -1,0 +1,90 @@
+//
+//  BPHuanZheRiChengVC.swift
+//  BenefitPet
+//  日程
+//  Created by gouyz on 2018/8/17.
+//  Copyright © 2018年 gyz. All rights reserved.
+//
+
+import UIKit
+
+private let huanZheRiChengCell = "huanZheRiChengCell"
+private let huanZheRiChengHeader = "huanZheRiChengHeader"
+
+class BPHuanZheRiChengVC: GYZBaseVC {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalTo(0)
+        }
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    lazy var tableView : UITableView = {
+        let table = UITableView(frame: CGRect.zero, style: .grouped)
+        table.dataSource = self
+        table.delegate = self
+        table.separatorColor = kGrayLineColor
+        
+        table.register(BPRiChengCell.self, forCellReuseIdentifier: huanZheRiChengCell)
+        table.register(BPRiChengHeaderView.self, forHeaderFooterViewReuseIdentifier: huanZheRiChengHeader)
+        //        weak var weakSelf = self
+        //        ///添加下拉刷新
+        //        GYZTool.addPullRefresh(scorllView: table, pullRefreshCallBack: {
+        //            weakSelf?.refresh()
+        //        })
+        //        ///添加上拉加载更多
+        //        GYZTool.addLoadMore(scorllView: table, loadMoreCallBack: {
+        //            weakSelf?.loadMore()
+        //        })
+        
+        return table
+    }()
+    
+}
+extension BPHuanZheRiChengVC: UITableViewDelegate,UITableViewDataSource{
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 5
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return section + 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: huanZheRiChengCell) as! BPRiChengCell
+        
+        cell.selectionStyle = .none
+        return cell
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: huanZheRiChengHeader) as! BPRiChengHeaderView
+        
+        
+        return headerView
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        return UIView()
+    }
+    ///MARK : UITableViewDelegate
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 34
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.00001
+    }
+}

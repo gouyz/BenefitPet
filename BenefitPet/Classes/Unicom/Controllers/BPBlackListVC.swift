@@ -1,0 +1,159 @@
+//
+//  BPBlackListVC.swift
+//  BenefitPet
+//  患者黑名单
+//  Created by gouyz on 2018/8/1.
+//  Copyright © 2018年 gyz. All rights reserved.
+//
+
+import UIKit
+
+private let blackListCell = "blackListCell"
+
+class BPBlackListVC: GYZBaseVC {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.navigationItem.title = "患者黑名单"
+        
+        view.addSubview(bottomView)
+        bottomView.addSubview(noteLab)
+        bottomView.addSubview(lineView)
+        bottomView.addSubview(addImgView)
+        view.addSubview(tableView)
+        
+        bottomView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(view)
+            make.height.equalTo(kBottomTabbarHeight)
+        }
+        noteLab.snp.makeConstraints { (make) in
+            make.left.top.bottom.equalTo(bottomView)
+            make.right.equalTo(lineView.snp.left)
+        }
+        lineView.snp.makeConstraints { (make) in
+            make.top.equalTo(5)
+            make.bottom.equalTo(-5)
+            make.right.equalTo(addImgView.snp.left).offset(-20)
+            make.width.equalTo(klineDoubleWidth)
+        }
+        addImgView.snp.makeConstraints { (make) in
+            make.right.equalTo(-20)
+            make.centerY.equalTo(bottomView)
+            make.size.equalTo(CGSize.init(width: 34, height: 35))
+        }
+        tableView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view)
+            make.bottom.equalTo(bottomView.snp.top)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(view)
+            }else{
+                make.top.equalTo(kTitleAndStateHeight)
+            }
+        }
+        
+        tableView.tableHeaderView = searchView
+        searchView.searchBtn.set(image: UIImage.init(named: "icon_search"), title: "请输入宠物姓名", titlePosition: .right, additionalSpacing: 5, state: .normal)
+        
+        addImgView.addOnClickListener(target: self, action: #selector(onClickedAdd))
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    lazy var tableView : UITableView = {
+        let table = UITableView(frame: CGRect.zero, style: .grouped)
+        table.dataSource = self
+        table.delegate = self
+        table.separatorStyle = .none
+        
+        
+        table.register(BPOnLineOrderCell.self, forCellReuseIdentifier: blackListCell)
+        
+        return table
+    }()
+    /// 搜索
+    lazy var searchView: BPSearchHeaderView = BPSearchHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 50))
+    
+    lazy var bottomView: UIView = {
+        let bgView = UIView()
+        bgView.backgroundColor = kBlueFontColor
+        
+        return bgView
+    }()
+    /// 内容
+    var noteLab : UILabel = {
+        let lab = UILabel()
+        lab.font = k15Font
+        lab.textColor = kWhiteColor
+        lab.textAlignment = .center
+        lab.numberOfLines = 2
+        lab.text = "记录这些不良患者，\n帮助我的同仁多加留心这些患者"
+        
+        return lab
+    }()
+    lazy var lineView: UIView = {
+        let bgView = UIView()
+        bgView.backgroundColor = kWhiteColor
+        
+        return bgView
+    }()
+    lazy var addImgView: UIImageView = UIImageView.init(image: UIImage.init(named: "icon_edit_pen"))
+    /// add
+    @objc func onClickedAdd(){
+        let vc = BPAddBlackListVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    /// 患者聊天、同步诊疗记录
+    func goChatVC(){
+        let vc = BPChatManagerVC()
+        vc.currIndex = 1
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension BPBlackListVC: UITableViewDelegate,UITableViewDataSource{
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 16
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: blackListCell) as! BPOnLineOrderCell
+        
+        cell.contentLab.text = "小腿骨裂"
+        
+        cell.selectionStyle = .none
+        return cell
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        
+        return UIView()
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        return UIView()
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        goChatVC()
+    }
+    ///MARK : UITableViewDelegate
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.00001
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.00001
+    }
+}
