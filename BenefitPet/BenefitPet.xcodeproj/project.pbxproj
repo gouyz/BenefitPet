@@ -93,7 +93,6 @@
 		0A838904210AB3EC009ECF96 /* GYZBaseWhiteNavVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83889C210AB3EB009ECF96 /* GYZBaseWhiteNavVC.swift */; };
 		0A838905210AB3EC009ECF96 /* GYZBaseNavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83889D210AB3EB009ECF96 /* GYZBaseNavigationVC.swift */; };
 		0A838906210AB3EC009ECF96 /* GYZBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83889E210AB3EB009ECF96 /* GYZBaseVC.swift */; };
-		0A838907210AB3EC009ECF96 /* PWServiceCenterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8388A5210AB3EB009ECF96 /* PWServiceCenterModel.swift */; };
 		0A838908210AB3EC009ECF96 /* LHSUserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8388A6210AB3EB009ECF96 /* LHSUserInfoModel.swift */; };
 		0A83890C210AB3EC009ECF96 /* GYZUIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8388AE210AB3EB009ECF96 /* GYZUIView+Extension.swift */; };
 		0A83890D210AB3EC009ECF96 /* ETNavBarTransparent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8388AF210AB3EB009ECF96 /* ETNavBarTransparent.swift */; };
@@ -147,6 +146,7 @@
 		0A838948210AF3AD009ECF96 /* GYZLoginInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A838947210AF3AD009ECF96 /* GYZLoginInputView.swift */; };
 		0A83894A210AF4AB009ECF96 /* BPLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A838949210AF4AB009ECF96 /* BPLoginVC.swift */; };
 		0A83894C210B0432009ECF96 /* BPRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83894B210B0432009ECF96 /* BPRegisterVC.swift */; };
+		0A86151E215B805300775DAD /* BPHomeBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A86151D215B805300775DAD /* BPHomeBannerModel.swift */; };
 		0A8CDF90212BA46F0032E6C8 /* BPBenifitUniversityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8CDF8F212BA46F0032E6C8 /* BPBenifitUniversityVC.swift */; };
 		0A8CDF92212BFC660032E6C8 /* BPBenefitUniversityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8CDF91212BFC660032E6C8 /* BPBenefitUniversityCell.swift */; };
 		0A8CDF94212C00C80032E6C8 /* BPAddClassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8CDF93212C00C80032E6C8 /* BPAddClassVC.swift */; };
@@ -303,7 +303,6 @@
 		0A83889C210AB3EB009ECF96 /* GYZBaseWhiteNavVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GYZBaseWhiteNavVC.swift; sourceTree = "<group>"; };
 		0A83889D210AB3EB009ECF96 /* GYZBaseNavigationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GYZBaseNavigationVC.swift; sourceTree = "<group>"; };
 		0A83889E210AB3EB009ECF96 /* GYZBaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GYZBaseVC.swift; sourceTree = "<group>"; };
-		0A8388A5210AB3EB009ECF96 /* PWServiceCenterModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PWServiceCenterModel.swift; sourceTree = "<group>"; };
 		0A8388A6210AB3EB009ECF96 /* LHSUserInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LHSUserInfoModel.swift; sourceTree = "<group>"; };
 		0A8388AE210AB3EB009ECF96 /* GYZUIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GYZUIView+Extension.swift"; sourceTree = "<group>"; };
 		0A8388AF210AB3EB009ECF96 /* ETNavBarTransparent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ETNavBarTransparent.swift; sourceTree = "<group>"; };
@@ -364,6 +363,7 @@
 		0A838947210AF3AD009ECF96 /* GYZLoginInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GYZLoginInputView.swift; sourceTree = "<group>"; };
 		0A838949210AF4AB009ECF96 /* BPLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPLoginVC.swift; sourceTree = "<group>"; };
 		0A83894B210B0432009ECF96 /* BPRegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPRegisterVC.swift; sourceTree = "<group>"; };
+		0A86151D215B805300775DAD /* BPHomeBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHomeBannerModel.swift; sourceTree = "<group>"; };
 		0A8CDF8F212BA46F0032E6C8 /* BPBenifitUniversityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPBenifitUniversityVC.swift; sourceTree = "<group>"; };
 		0A8CDF91212BFC660032E6C8 /* BPBenefitUniversityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPBenefitUniversityCell.swift; sourceTree = "<group>"; };
 		0A8CDF93212C00C80032E6C8 /* BPAddClassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPAddClassVC.swift; sourceTree = "<group>"; };
@@ -523,6 +523,7 @@
 		0A838880210AB3EB009ECF96 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0A86151D215B805300775DAD /* BPHomeBannerModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -783,7 +784,6 @@
 		0A8388A4210AB3EB009ECF96 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0A8388A5210AB3EB009ECF96 /* PWServiceCenterModel.swift */,
 				0A8388A6210AB3EB009ECF96 /* LHSUserInfoModel.swift */,
 			);
 			path = Models;
@@ -1320,6 +1320,7 @@
 				0A838937210AB3EC009ECF96 /* GYZAlertViewTools.swift in Sources */,
 				0A81431D211BDC1C00529C74 /* BPWenZhenTableDetailCell.swift in Sources */,
 				0A9BB53F2133EB65002ED5C7 /* UsefulPickerView.swift in Sources */,
+				0A86151E215B805300775DAD /* BPHomeBannerModel.swift in Sources */,
 				0A838943210AC094009ECF96 /* BPWorkingVC.swift in Sources */,
 				0A72AB49210FEAEC0018DCCC /* GYZCommonIconArrowCell.swift in Sources */,
 				0A83891E210AB3EC009ECF96 /* HXTagCollectionViewFlowLayout.m in Sources */,
@@ -1407,7 +1408,6 @@
 				0A90997A210EFFBC00C225AA /* BPWorkingAdsHeaderView.swift in Sources */,
 				0A303514212E8D4600B55AAE /* BPFriendsEmptyView.swift in Sources */,
 				0A838934210AB3EC009ECF96 /* GYZUpdateVersionTool.swift in Sources */,
-				0A838907210AB3EC009ECF96 /* PWServiceCenterModel.swift in Sources */,
 				0A838938210AB3EC009ECF96 /* GYZThrowLineTool.swift in Sources */,
 				0A909978210EFA0A00C225AA /* BPWorkingHeaderView.swift in Sources */,
 				0A78AFFA2123B9F8006672CF /* BPCashRecordVC.swift in Sources */,
