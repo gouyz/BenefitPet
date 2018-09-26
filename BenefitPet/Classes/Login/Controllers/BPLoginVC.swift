@@ -7,13 +7,9 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPLoginVC: GYZBaseVC {
-
-    /// 输入手机号码是否合法
-    var validPhone : Bool = false
-    /// 密码是否合法
-    var validPwd : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,12 +137,75 @@ class BPLoginVC: GYZBaseVC {
     }
     /// 登录
     @objc func clickedLoginBtn() {
-        KeyWindow.rootViewController = GYZMainTabBarVC()
+        hiddenKeyBoard()
+        
+        if !validPhoneNO() {
+            return
+        }
+        
+        if pwdInputView.textFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入密码")
+            return
+        }
+        
+        requestLogin()
     }
     /// 忘记密码
     @objc func clickedForgetPwdBtn() {
         let forgetPwdVC = BPRegisterVC()
         forgetPwdVC.registerType = .forgetpwd
         navigationController?.pushViewController(forgetPwdVC, animated: true)
+    }
+    /// 判断手机号是否有效
+    ///
+    /// - Returns:
+    func validPhoneNO() -> Bool{
+        
+        if phoneInputView.textFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入手机号")
+            return false
+        }
+        if phoneInputView.textFiled.text!.isMobileNumber(){
+            return true
+        }else{
+            MBProgressHUD.showAutoDismissHUD(message: "请输入正确的手机号")
+            return false
+        }
+        
+    }
+    /// 隐藏键盘
+    func hiddenKeyBoard(){
+        phoneInputView.textFiled.resignFirstResponder()
+        pwdInputView.textFiled.resignFirstResponder()
+    }
+    
+    /// 登录
+    func requestLogin(){
+        
+        weak var weakSelf = self
+        createHUD(message: "登录中...")
+        
+        GYZNetWork.requestNetwork("doctor/login", parameters: ["plone":phoneInputView.textFiled.text!,"password": pwdInputView.textFiled.text!],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            //            GYZLog(response)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                let data = response["data"]
+                
+                userDefaults.set(true, forKey: kIsLoginTagKey)//是否登录标识
+                userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
+                userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
+                userDefaults.set(data["name"].stringValue, forKey: "username")//用户名称
+                userDefaults.set(data["head"].url, forKey: "headImg")//用户logo
+                KeyWindow.rootViewController = GYZMainTabBarVC()
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
     }
 }

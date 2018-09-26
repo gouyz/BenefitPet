@@ -23,8 +23,6 @@ class BPRegisterVC: GYZBaseVC {
     
     /// 类型
     var registerType: RegisterVCType = .register
-    ///记录获取的验证码
-    var codeStr: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -207,11 +205,21 @@ class BPRegisterVC: GYZBaseVC {
         if pwdInputView.textFiled.text!.isEmpty {
             MBProgressHUD.showAutoDismissHUD(message: "请输入密码")
             return
-        }else if (pwdInputView.textFiled.text?.count < 6 || pwdInputView.textFiled.text?.count > 20){
-            MBProgressHUD.showAutoDismissHUD(message: "请输入6-20位密码")
+        }
+        if repwdInputView.textFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入确认密码")
+            return
+        }
+        if (pwdInputView.textFiled.text != repwdInputView.textFiled.text){
+            MBProgressHUD.showAutoDismissHUD(message: "密码和确认密码不一致")
             return
         }
         
+        if registerType == .register {//注册
+            requestRegister()
+        }else{//忘记/修改密码
+            requestUpdatePwd()
+        }
         
     }
     /// 判断手机号是否有效
@@ -234,10 +242,9 @@ class BPRegisterVC: GYZBaseVC {
     /// 获取验证码
     @objc func clickedCodeBtn(btn: UIButton){
         hiddenKeyBoard()
-        codeBtn.startSMSWithDuration(duration: 60)
-//        if validPhoneNO() {
-//            requestCode()
-//        }
+        if validPhoneNO() {
+            requestCode()
+        }
     }
     
     /// 找回密码
@@ -246,15 +253,15 @@ class BPRegisterVC: GYZBaseVC {
         weak var weakSelf = self
         createHUD(message: "加载中...")
         
-        GYZNetWork.requestNetwork("app/editPassword.do", parameters: ["phone":phoneInputView.textFiled.text!,"password": pwdInputView.textFiled.text!,"code":codeInputView.textFiled.text!],  success: { (response) in
+        GYZNetWork.requestNetwork("doctor/change_password", parameters: ["username":phoneInputView.textFiled.text!,"password": pwdInputView.textFiled.text!,"passagain": repwdInputView.textFiled.text!,"code":codeInputView.textFiled.text!],  success: { (response) in
             
             weakSelf?.hud?.hide(animated: true)
             GYZLog(response)
             if response["code"].intValue == kQuestSuccessTag{//请求成功
-                
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
                 _ = weakSelf?.navigationController?.popViewController(animated: true)
             }else{
-                MBProgressHUD.showAutoDismissHUD(message: response["message"].stringValue)
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
             }
             
         }, failture: { (error) in
@@ -269,7 +276,7 @@ class BPRegisterVC: GYZBaseVC {
         weak var weakSelf = self
         createHUD(message: "注册中...")
         
-        GYZNetWork.requestNetwork("User/register", parameters: ["member_name":phoneInputView.textFiled.text!,"member_passwd": pwdInputView.textFiled.text!,"code":codeStr,"submit":"==get"],  success: { (response) in
+        GYZNetWork.requestNetwork("doctor/register", parameters: ["plone":phoneInputView.textFiled.text!,"password": pwdInputView.textFiled.text!,"passagain": repwdInputView.textFiled.text!,"code":codeInputView.textFiled.text!],  success: { (response) in
             
             weakSelf?.hud?.hide(animated: true)
             //            GYZLog(response)
@@ -278,13 +285,13 @@ class BPRegisterVC: GYZBaseVC {
                 let data = response["data"]
                 
                 userDefaults.set(true, forKey: kIsLoginTagKey)//是否登录标识
-                userDefaults.set(data["member_id"].stringValue, forKey: "userId")//用户ID
-                userDefaults.set(data["member_name"].stringValue, forKey: "phone")//用户电话
-                //                userDefaults.set(data["username"].stringValue, forKey: "username")//用户名称
-                //                userDefaults.set(info["head_img"].url, forKey: "headImg")//用户logo
-                _ = weakSelf?.navigationController?.popViewController(animated: true)
+                userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
+                userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
+                userDefaults.set(data["name"].stringValue, forKey: "username")//用户名称
+                userDefaults.set(data["head"].url, forKey: "headImg")//用户logo
+                KeyWindow.rootViewController = GYZMainTabBarVC()
             }else{
-                MBProgressHUD.showAutoDismissHUD(message: response["result"]["msg"].stringValue)
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
             }
             
         }, failture: { (error) in
@@ -306,7 +313,7 @@ class BPRegisterVC: GYZBaseVC {
         weak var weakSelf = self
         createHUD(message: "获取中...")
         
-        GYZNetWork.requestNetwork("app/generateCode.do", parameters: ["phone":phoneInputView.textFiled.text!],  success: { (response) in
+        GYZNetWork.requestNetwork("doctor/sms_send1", parameters: ["plone":phoneInputView.textFiled.text!],  success: { (response) in
             
             weakSelf?.hud?.hide(animated: true)
             GYZLog(response)

@@ -59,12 +59,24 @@ class BPMineVC: GYZBaseVC {
     
     /// 个人信息
     @objc func onClickedMsg(){
-        let vc = BPMyProfileVC()
-        navigationController?.pushViewController(vc, animated: true)
+        
+        if userDefaults.bool(forKey: kIsLoginTagKey) {
+            let vc = BPMyProfileVC()
+            navigationController?.pushViewController(vc, animated: true)
+        }else{
+            goLogin()
+        }
     }
     ///我的设置
     func goSetting(){
+        
         let vc = BPSettingVC()
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    /// 登录
+    func goLogin(){
+        let vc = BPLoginVC()
         navigationController?.pushViewController(vc, animated: true)
     }
     ///个人主页
