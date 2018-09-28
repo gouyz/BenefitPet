@@ -54,7 +54,7 @@ class BPStudyVC: GYZBaseVC {
     
     /// 查看全部
     @objc func onClickedHeaderView(sender: UITapGestureRecognizer){
-        let tag = sender.view?.tag
+        let tag: Int = (sender.view?.tag)!
         
         switch tag {
         case 0://专家网课

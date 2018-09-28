@@ -9,7 +9,7 @@
 import UIKit
 
 class BPOnLineOrderCell: UITableViewCell {
-
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

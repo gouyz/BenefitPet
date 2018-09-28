@@ -14,6 +14,7 @@
 		0A303516212E957200B55AAE /* BPSchoolFriendsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */; };
 		0A303518212EA01D00B55AAE /* BPModifySchoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */; };
 		0A30351A212EA30200B55AAE /* BPTongShiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303519212EA30200B55AAE /* BPTongShiVC.swift */; };
+		0A64D007215E6F000045F14F /* BPYuYueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64D006215E6F000045F14F /* BPYuYueModel.swift */; };
 		0A714DF4212CF1160016BAB1 /* BPStudyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A714DF3212CF1160016BAB1 /* BPStudyVC.swift */; };
 		0A714DF6212CFC7A0016BAB1 /* BPStudyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A714DF5212CFC7A0016BAB1 /* BPStudyHeaderView.swift */; };
 		0A714DF8212D04510016BAB1 /* BPStudyVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A714DF7212D04510016BAB1 /* BPStudyVideoCell.swift */; };
@@ -219,6 +220,7 @@
 		0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolFriendsCell.swift; sourceTree = "<group>"; };
 		0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifySchoolVC.swift; sourceTree = "<group>"; };
 		0A303519212EA30200B55AAE /* BPTongShiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPTongShiVC.swift; sourceTree = "<group>"; };
+		0A64D006215E6F000045F14F /* BPYuYueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPYuYueModel.swift; sourceTree = "<group>"; };
 		0A714DF3212CF1160016BAB1 /* BPStudyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPStudyVC.swift; sourceTree = "<group>"; };
 		0A714DF5212CFC7A0016BAB1 /* BPStudyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPStudyHeaderView.swift; sourceTree = "<group>"; };
 		0A714DF7212D04510016BAB1 /* BPStudyVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPStudyVideoCell.swift; sourceTree = "<group>"; };
@@ -527,6 +529,7 @@
 			children = (
 				0A86151D215B805300775DAD /* BPHomeBannerModel.swift */,
 				0A7533EF215CB95D004ADCBC /* BPHomeModel.swift */,
+				0A64D006215E6F000045F14F /* BPYuYueModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1125,19 +1128,22 @@
 				TargetAttributes = {
 					0A83884C210AA2DE009ECF96 = {
 						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
 					};
 					0A838860210AA2E1009ECF96 = {
 						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 0A83884C210AA2DE009ECF96;
 					};
 					0A83886B210AA2E1009ECF96 = {
 						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 0A83884C210AA2DE009ECF96;
 					};
 				};
 			};
 			buildConfigurationList = 0A838848210AA2DE009ECF96 /* Build configuration list for PBXProject "BenefitPet" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1274,6 +1280,7 @@
 				0A30351A212EA30200B55AAE /* BPTongShiVC.swift in Sources */,
 				0A83891B210AB3EC009ECF96 /* HXTagsView.m in Sources */,
 				0A83892C210AB3EC009ECF96 /* GYZActionSheet.swift in Sources */,
+				0A64D007215E6F000045F14F /* BPYuYueModel.swift in Sources */,
 				0A83891C210AB3EC009ECF96 /* HXTagsCell.m in Sources */,
 				0A7B6F0621256263005EBCF0 /* BPZhenLiaoRecordInfoCell.swift in Sources */,
 				0A96492E2119280200BE7DC3 /* BPEditGroupVC.swift in Sources */,
@@ -1605,10 +1612,7 @@
 				DEVELOPMENT_TEAM = FPA9N9SK5A;
 				INFOPLIST_FILE = BenefitPet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gouyz.BenefitPet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BenefitPet/BenefitPet-Bridging-Header.h";
@@ -1626,10 +1630,7 @@
 				DEVELOPMENT_TEAM = FPA9N9SK5A;
 				INFOPLIST_FILE = BenefitPet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gouyz.BenefitPet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BenefitPet/BenefitPet-Bridging-Header.h";
@@ -1646,11 +1647,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FPA9N9SK5A;
 				INFOPLIST_FILE = BenefitPetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gouyz.BenefitPetTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1667,11 +1664,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FPA9N9SK5A;
 				INFOPLIST_FILE = BenefitPetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gouyz.BenefitPetTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1687,11 +1680,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FPA9N9SK5A;
 				INFOPLIST_FILE = BenefitPetUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gouyz.BenefitPetUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1707,11 +1696,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FPA9N9SK5A;
 				INFOPLIST_FILE = BenefitPetUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gouyz.BenefitPetUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

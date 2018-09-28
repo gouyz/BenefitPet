@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let yuYueListCell = "yuYueListCell"
 
@@ -14,19 +15,26 @@ class BPYuYueListVC: GYZBaseVC {
     
     /// 是否是完成预约
     var isFinished : Bool = false
+    var status: String = "0"
+    
+    var dataList: [BPYuYueModel] = [BPYuYueModel]()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if isFinished {
             self.navigationItem.title = "已完成预约"
+            status = "1"
         }else{
             self.navigationItem.title = "未完成预约"
+            status = "0"
         }
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
+        requestYuYueDatas()
         
     }
     
@@ -55,6 +63,55 @@ class BPYuYueListVC: GYZBaseVC {
         return table
     }()
     
+    ///获取预约数据
+    func requestYuYueDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("doctorindex/yuyue_one",parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"]["yuyue"].array else { return }
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPYuYueModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.tableView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无预约信息")
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.requestYuYueDatas()
+                weakSelf?.hiddenEmptyView()
+            })
+        })
+    }
+    
     /// 患者聊天、同步诊疗记录
     func goChatVC(){
         let vc = BPChatManagerVC()
@@ -68,14 +125,18 @@ extension BPYuYueListVC: UITableViewDelegate,UITableViewDataSource{
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 16
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: yuYueListCell) as! BPOnLineOrderCell
         
-        cell.contentLab.text = "7月3号上午10：00"
+        let model = dataList[indexPath.row]
+        cell.nameLab.text = model.user_name
+        cell.iconView.kf.setImage(with: URL.init(string: model.head!), placeholder: UIImage.init(named: "icon_header_default"), options: nil, progressBlock: nil, completionHandler: nil)
+        cell.contentLab.text = model.xinxi
+        
         if isFinished {
             cell.rightIconView.isHidden = false
         }else{
