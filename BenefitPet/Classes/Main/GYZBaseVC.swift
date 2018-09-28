@@ -13,8 +13,6 @@ class GYZBaseVC: UIViewController {
     
     var hud : MBProgressHUD?
 //    var statusBarShouldLight = true
-    /// 用户信息
-    var userInfo: LHSUserInfoModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +24,6 @@ class GYZBaseVC: UIViewController {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back")?.withRenderingMode(.alwaysOriginal), style: .done, target: self, action: #selector(clickedBackBtn))
         }
         
-        getUserInfo()
     }
     
     /// 重载设置状态栏样式
@@ -70,14 +67,6 @@ class GYZBaseVC: UIViewController {
         }
         
         hud = MBProgressHUD.showHUD(message: message,toView: view)
-    }
-    /// 获取用户信息
-    func getUserInfo(){
-        let model = userDefaults.data(forKey: USERINFO)
-        if model != nil {
-            
-            userInfo = NSKeyedUnarchiver.unarchiveObject(with: model!) as? LHSUserInfoModel
-        }
     }
     
     override func didReceiveMemoryWarning() {

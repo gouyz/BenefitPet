@@ -63,15 +63,15 @@ class BPWorkingAdsHeaderView: UIView {
         }
         
         headerImgView.snp.makeConstraints { (make) in
-            make.right.equalTo(-kMargin)
+            make.centerX.equalTo(userNameLab)
             make.top.equalTo(nameLab)
             make.size.equalTo(CGSize.init(width: kTitleHeight, height: kTitleHeight))
         }
         userNameLab.snp.makeConstraints { (make) in
-            make.right.equalTo(headerImgView)
+            make.right.equalTo(-kMargin)
             make.top.equalTo(headerImgView.snp.bottom)
             make.height.equalTo(nameLab)
-            make.left.equalTo(numberLab.snp.right).offset(kMargin)
+            make.width.equalTo(80)
         }
         
         onLineBtn.snp.makeConstraints { (make) in
@@ -93,7 +93,8 @@ class BPWorkingAdsHeaderView: UIView {
     /// 广告轮播图
     lazy var adsImgView: ZCycleView = {
         let adsView = ZCycleView()
-//        adsView.placeholderImage = UIImage.init(named: "icon_home_ads_default")
+
+        adsView.placeholderImage = UIImage.init(named: "icon_working_ads")
         adsView.setImagesGroup([#imageLiteral(resourceName: "icon_working_ads"),#imageLiteral(resourceName: "icon_working_ads"),#imageLiteral(resourceName: "icon_working_ads")])
         adsView.pageControlAlignment = .center
         adsView.pageControlIndictirColor = kWhiteColor
@@ -111,7 +112,6 @@ class BPWorkingAdsHeaderView: UIView {
         let lab = UILabel()
         lab.font = k15Font
         lab.textColor = kBlackFontColor
-        lab.text = "xx医院"
         
         return lab
     }()
@@ -137,7 +137,6 @@ class BPWorkingAdsHeaderView: UIView {
         let lab = UILabel()
         lab.font = k15Font
         lab.textColor = kBlackFontColor
-        lab.text = "今日回答：88人"
         
         return lab
     }()
@@ -145,7 +144,6 @@ class BPWorkingAdsHeaderView: UIView {
     /// 图片
     lazy var headerImgView : UIImageView = {
         let imgView = UIImageView()
-        imgView.image = UIImage.init(named: "icon_header_default")
         imgView.cornerRadius = 22
         
         return imgView
@@ -156,7 +154,7 @@ class BPWorkingAdsHeaderView: UIView {
         let lab = UILabel()
         lab.font = k15Font
         lab.textColor = kBlackFontColor
-        lab.textAlignment = .right
+        lab.textAlignment = .center
         lab.text = "玛丽"
         
         return lab

@@ -7,11 +7,17 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPShouYiCertificateVC: GYZBaseVC {
     
+    /// 选择结果回调
+    var resultBlock:(() -> Void)?
+
     /// 选择图片
     var selectImg: UIImage?
+    /// 
+    var imgUrl: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +36,8 @@ class BPShouYiCertificateVC: GYZBaseVC {
         setUpUI()
         
         iconView.addOnClickListener(target: self, action: #selector(onClickedAddImg))
+        
+        iconView.kf.setImage(with: URL.init(string: imgUrl), placeholder: UIImage.init(named: "icon_add_backgroud_gray"), options: nil, progressBlock: nil, completionHandler: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,23 +75,54 @@ class BPShouYiCertificateVC: GYZBaseVC {
         return lab
     }()
     /// 图片
-    lazy var iconView: UIImageView = UIImageView.init(image: UIImage.init(named: "icon_add_backgroud_gray"))
+    lazy var iconView: UIImageView = UIImageView()
     /// 保存
     @objc func onClickRightBtn(){
-        
+        if selectImg == nil {
+            MBProgressHUD.showAutoDismissHUD(message: "请选择图片")
+            return
+        }
+        requestUpdateImg()
     }
     
     /// 添加图片
     @objc func onClickedAddImg(){
         
-        if selectImg != nil {
-            return
-        }
         GYZOpenCameraPhotosTool.shareTool.choosePicture(self, editor: false, finished: { [weak self] (image) in
             
             self?.selectImg = image
             self?.iconView.image = image
-//            self?.requestUpdateHeaderImg()
+        })
+    }
+    
+    /// 上传职业兽医资格认证
+    func requestUpdateImg(){
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        let imgParam: ImageFileUploadParam = ImageFileUploadParam()
+        imgParam.name = "zige"
+        imgParam.fileName = "zige.jpg"
+        imgParam.mimeType = "image/jpg"
+        imgParam.data = UIImageJPEGRepresentation(selectImg!, 0.5)
+        
+        GYZNetWork.uploadImageRequest("doctor/file_zige", parameters: ["id":userDefaults.string(forKey: "userId") ?? ""], uploadParam: [imgParam], success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            GYZLog(response)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                if weakSelf?.resultBlock != nil{
+                    weakSelf?.resultBlock!()
+                }
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
         })
     }
 }

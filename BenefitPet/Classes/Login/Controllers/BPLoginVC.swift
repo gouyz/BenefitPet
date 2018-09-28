@@ -196,8 +196,6 @@ class BPLoginVC: GYZBaseVC {
                 userDefaults.set(true, forKey: kIsLoginTagKey)//是否登录标识
                 userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
                 userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
-                userDefaults.set(data["name"].stringValue, forKey: "username")//用户名称
-                userDefaults.set(data["head"].url, forKey: "headImg")//用户logo
                 KeyWindow.rootViewController = GYZMainTabBarVC()
             }else{
                 MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)

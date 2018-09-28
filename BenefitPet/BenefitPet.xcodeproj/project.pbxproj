@@ -47,6 +47,7 @@
 		0A7517A02126B9580002553A /* BPHuanZheFollowPlanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A75179F2126B9580002553A /* BPHuanZheFollowPlanVC.swift */; };
 		0A7517A22126BBE10002553A /* BPEditHuanZheInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7517A12126BBE10002553A /* BPEditHuanZheInfoVC.swift */; };
 		0A7517A42126C0590002553A /* BPGroupManagerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7517A32126C0590002553A /* BPGroupManagerVC.swift */; };
+		0A7533F0215CB95D004ADCBC /* BPHomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7533EF215CB95D004ADCBC /* BPHomeModel.swift */; };
 		0A755113211A93C700A06AD2 /* BPPastWenZhenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A755112211A93C700A06AD2 /* BPPastWenZhenVC.swift */; };
 		0A78AFF62123AF8C006672CF /* BPCashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A78AFF52123AF8C006672CF /* BPCashVC.swift */; };
 		0A78AFF82123B91A006672CF /* BPCashRecordManagerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A78AFF72123B91A006672CF /* BPCashRecordManagerVC.swift */; };
@@ -251,6 +252,7 @@
 		0A75179F2126B9580002553A /* BPHuanZheFollowPlanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHuanZheFollowPlanVC.swift; sourceTree = "<group>"; };
 		0A7517A12126BBE10002553A /* BPEditHuanZheInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPEditHuanZheInfoVC.swift; sourceTree = "<group>"; };
 		0A7517A32126C0590002553A /* BPGroupManagerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPGroupManagerVC.swift; sourceTree = "<group>"; };
+		0A7533EF215CB95D004ADCBC /* BPHomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHomeModel.swift; sourceTree = "<group>"; };
 		0A755112211A93C700A06AD2 /* BPPastWenZhenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPPastWenZhenVC.swift; sourceTree = "<group>"; };
 		0A78AFF52123AF8C006672CF /* BPCashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPCashVC.swift; sourceTree = "<group>"; };
 		0A78AFF72123B91A006672CF /* BPCashRecordManagerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPCashRecordManagerVC.swift; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 			isa = PBXGroup;
 			children = (
 				0A86151D215B805300775DAD /* BPHomeBannerModel.swift */,
+				0A7533EF215CB95D004ADCBC /* BPHomeModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1305,6 +1308,7 @@
 				0A78AFF62123AF8C006672CF /* BPCashVC.swift in Sources */,
 				0A7517A22126BBE10002553A /* BPEditHuanZheInfoVC.swift in Sources */,
 				0A83893F210AC031009ECF96 /* BPMyHuanZheVC.swift in Sources */,
+				0A7533F0215CB95D004ADCBC /* BPHomeModel.swift in Sources */,
 				0A838904210AB3EC009ECF96 /* GYZBaseWhiteNavVC.swift in Sources */,
 				0A8388FD210AB3EB009ECF96 /* LHSCheckView.swift in Sources */,
 				0A7168B5212F960600125444 /* GYZAddressBookManager.swift in Sources */,

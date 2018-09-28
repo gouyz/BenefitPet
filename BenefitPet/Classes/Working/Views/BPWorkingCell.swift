@@ -9,6 +9,30 @@
 import UIKit
 
 class BPWorkingCell: UITableViewCell {
+    
+    /// 填充数据
+    var dataModel : BPHomeNewModel?{
+        didSet{
+            if let model = dataModel {
+                
+                categoryLab.text = model.title! + "》"
+                
+                let attrStr = try! NSMutableAttributedString.init(data: (model.content?.dealFuTextImgSize().data(using: .unicode, allowLossyConversion: true))!, options: [.documentType: NSAttributedString.DocumentType.html,
+                                                                                                                                                                        .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+                
+                //调整行间距
+                let paragraphStye = NSMutableParagraphStyle()
+                
+                paragraphStye.lineSpacing = 5
+                let rang = NSMakeRange(0, attrStr.length)
+                attrStr.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStye, range: rang)
+                
+                contentLab.attributedText = attrStr
+                
+                timeLab.text = model.add_time?.dateFromTimeInterval()?.dateDesc
+            }
+        }
+    }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,8 +53,8 @@ class BPWorkingCell: UITableViewCell {
         bgView.addSubview(categoryLab)
         bgView.addSubview(lineView)
         bgView.addSubview(contentLab)
-        bgView.addSubview(contentImgView)
-        bgView.addSubview(desLab)
+//        bgView.addSubview(contentImgView)
+//        bgView.addSubview(desLab)
         
         bgView.addSubview(sourceLab)
         bgView.addSubview(timeLab)
@@ -54,20 +78,20 @@ class BPWorkingCell: UITableViewCell {
         contentLab.snp.makeConstraints { (make) in
             make.left.equalTo(categoryLab)
             make.right.equalTo(-kMargin)
-            make.top.equalTo(categoryLab.snp.bottom).offset(5)
+            make.top.equalTo(categoryLab.snp.bottom).offset(kMargin)
         }
-        contentImgView.snp.makeConstraints { (make) in
-            make.left.right.equalTo(contentLab)
-            make.top.equalTo(contentLab.snp.bottom).offset(5)
-            make.height.equalTo((kScreenWidth - kMargin * 2) * 0.24)
-        }
-        desLab.snp.makeConstraints { (make) in
-            make.top.equalTo(contentImgView.snp.bottom).offset(5)
-            make.left.right.equalTo(contentLab)
-        }
+//        contentImgView.snp.makeConstraints { (make) in
+//            make.left.right.equalTo(contentLab)
+//            make.top.equalTo(contentLab.snp.bottom).offset(5)
+//            make.height.equalTo((kScreenWidth - kMargin * 2) * 0.24)
+//        }
+//        desLab.snp.makeConstraints { (make) in
+//            make.top.equalTo(contentLab.snp.bottom).offset(kMargin)
+//            make.left.right.equalTo(contentLab)
+//        }
         sourceLab.snp.makeConstraints { (make) in
             make.left.equalTo(contentLab)
-            make.top.equalTo(desLab.snp.bottom).offset(kMargin)
+            make.top.equalTo(contentLab.snp.bottom).offset(kMargin)
             make.right.equalTo(timeLab.snp.left).offset(-kMargin)
             make.height.equalTo(24)
             make.bottom.equalTo(-kMargin)
@@ -87,7 +111,6 @@ class BPWorkingCell: UITableViewCell {
         let lab = UILabel()
         lab.textColor = kBlueFontColor
         lab.font = k13Font
-        lab.text = "宠物喂养》"
         
         return lab
     }()
@@ -105,30 +128,28 @@ class BPWorkingCell: UITableViewCell {
         lab.textColor = kBlackFontColor
         lab.font = k13Font
         lab.numberOfLines = 0
-        lab.text = "生态粮生态粮生态粮生态粮生态粮生态粮生态粮生态粮生态粮生态粮生态粮"
         
         return lab
     }()
     
     /// 图片
-    lazy var contentImgView : UIImageView = {
-        let imgView = UIImageView()
-        imgView.image = UIImage.init(named: "icon_working_default")
-        imgView.cornerRadius = kCornerRadius
-        
-        return imgView
-    }()
+//    lazy var contentImgView : UIImageView = {
+//        let imgView = UIImageView()
+//        imgView.image = UIImage.init(named: "icon_working_default")
+//        imgView.cornerRadius = kCornerRadius
+//
+//        return imgView
+//    }()
     
     /// 描述
-    lazy var desLab : UILabel = {
-        let lab = UILabel()
-        lab.textColor = kBlackFontColor
-        lab.font = k13Font
-        lab.numberOfLines = 0
-        lab.text = "生态粮中富含的蛋白质、维生素以及多种微量元素，生态粮中富含的蛋白质、维生素以及多种微量元素，生态粮中富含的蛋白质、维生素以及多种微量元素"
-        
-        return lab
-    }()
+//    lazy var desLab : UILabel = {
+//        let lab = UILabel()
+//        lab.textColor = kBlackFontColor
+//        lab.font = k13Font
+//        lab.numberOfLines = 0
+//
+//        return lab
+//    }()
     
     /// 来源
     lazy var sourceLab : UILabel = {
@@ -146,7 +167,6 @@ class BPWorkingCell: UITableViewCell {
         lab.textColor = kHeightGaryFontColor
         lab.font = k13Font
         lab.textAlignment = .right
-        lab.text = "今天15：00"
         
         return lab
     }()
