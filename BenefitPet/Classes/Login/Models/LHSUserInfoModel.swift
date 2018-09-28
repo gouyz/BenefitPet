@@ -14,25 +14,25 @@ class LHSUserInfoModel: LHSBaseModel {
     var id : String?
     /// 用户姓名
     var name : String? = ""
-    /// 医院名称
+    /// 所属医院
     var hospital : String? = ""
-    /// 学校名称
+    /// 毕业学院
     var school : String? = ""
-    ///
-    var role : String? = ""
+    /// 星级
+    var role : String? = "0"
     /// 头像
     var head : String? = ""
-    ///
+    /// 医生资格证
     var zige : String? = ""
-    ///
+    /// 医生余额
     var balance : String? = "0"
-    ///
+    /// 专业
     var major : String?
-    ///
+    /// 学位
     var degree : String?
-    ///
+    /// 入学时间
     var in_school_time : String?
-    ///
+    /// 毕业时间
     var le_school_time : String?
     ///
     var status : String?
@@ -46,7 +46,7 @@ class LHSUserInfoModel: LHSBaseModel {
     var class_id : String?
     /// 电话
     var plone : String?
-    ///
+    /// 医生认证
     var renzheng : String?
     
 }

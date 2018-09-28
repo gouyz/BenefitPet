@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPUniversityVC: GYZBaseVC {
+    
+    /// 选择结果回调
+    var resultBlock:(() -> Void)?
+    var userInfoModel: LHSUserInfoModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +104,7 @@ class BPUniversityVC: GYZBaseVC {
         textFiled.textColor = kBlackFontColor
         textFiled.clearButtonMode = .whileEditing
         textFiled.placeholder = "请输入您的毕业院校"
+        textFiled.text = userInfoModel?.school
         
         return textFiled
     }()
@@ -116,6 +122,7 @@ class BPUniversityVC: GYZBaseVC {
         textFiled.textColor = kBlackFontColor
         textFiled.clearButtonMode = .whileEditing
         textFiled.placeholder = "请输入您的专业"
+        textFiled.text = userInfoModel?.major
         
         return textFiled
     }()
@@ -133,6 +140,7 @@ class BPUniversityVC: GYZBaseVC {
         textFiled.textColor = kBlackFontColor
         textFiled.clearButtonMode = .whileEditing
         textFiled.placeholder = "请输入您的学位"
+        textFiled.text = userInfoModel?.degree
         
         return textFiled
     }()
@@ -150,6 +158,7 @@ class BPUniversityVC: GYZBaseVC {
         textFiled.textColor = kBlackFontColor
         textFiled.clearButtonMode = .whileEditing
         textFiled.placeholder = "请输入您的入学时间"
+        textFiled.text = userInfoModel?.in_school_time
         
         return textFiled
     }()
@@ -167,6 +176,7 @@ class BPUniversityVC: GYZBaseVC {
         textFiled.textColor = kBlackFontColor
         textFiled.clearButtonMode = .whileEditing
         textFiled.placeholder = "请输入您的毕业时间"
+        textFiled.text = userInfoModel?.le_school_time
         
         return textFiled
     }()
@@ -179,7 +189,52 @@ class BPUniversityVC: GYZBaseVC {
     
     /// 保存
     @objc func onClickRightBtn(){
-        
+        if nameFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入您的毕业院校")
+            return
+        }
+        if zhuanYeFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入您的专业")
+            return
+        }
+        if xueWeiFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入您的学位")
+            return
+        }
+        if startDateFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入您的入学时间")
+            return
+        }
+        if endDateFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入您的毕业时间")
+            return
+        }
+        requestModifySchool()
     }
 
+    /// 保存
+    func requestModifySchool(){
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("doctor/perfect", parameters: ["id":userDefaults.string(forKey: "userId") ?? "","school":nameFiled.text!,"major": zhuanYeFiled.text!,"degree": xueWeiFiled.text!,"in_school_time": startDateFiled.text!,"le_school_time": endDateFiled.text!],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            GYZLog(response)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                if weakSelf?.resultBlock != nil{
+                    weakSelf?.resultBlock!()
+                }
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
 }

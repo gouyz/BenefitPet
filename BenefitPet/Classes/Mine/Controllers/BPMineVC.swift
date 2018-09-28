@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let mineCell = "mineCell"
 
@@ -14,6 +15,8 @@ class BPMineVC: GYZBaseVC {
     
     var titles: [String] = ["个人主页","我的提现","我的设置"]
     var tagImgs: [String] = ["icon_mine_home","icon_mine_cash","icon_mine_setting"]
+    
+    var userInfoModel: LHSUserInfoModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,13 +38,23 @@ class BPMineVC: GYZBaseVC {
         }
         
         tableView.tableHeaderView = userHeaderView
+        
+        userHeaderView.bgView.addOnClickListener(target: self, action: #selector(onClickedLogin))
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if userDefaults.bool(forKey: kIsLoginTagKey) {
+            requestMineData()
+        }else{
+            setEmptyHeaderData()
+        }
+    }
     
     /// 懒加载UITableView
     lazy var tableView : UITableView = {
@@ -57,15 +70,68 @@ class BPMineVC: GYZBaseVC {
     
     lazy var userHeaderView: BPMineHeaderView = BPMineHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 130 + kTitleAndStateHeight))
     
+    /// 获取我的 数据
+    func requestMineData(){
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("doctor/doctor", parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                guard let data = response["data"].dictionaryObject else { return }
+                weakSelf?.userInfoModel = LHSUserInfoModel.init(dict: data)
+                weakSelf?.setHeaderData()
+                
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["datas"]["error"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
+    /// 设置header
+    func setHeaderData(){
+        userHeaderView.desLab.text = userInfoModel?.name
+        userHeaderView.userHeaderView.kf.setImage(with: URL.init(string: (userInfoModel?.head)!), placeholder: UIImage.init(named: "icon_header_default"), options: nil, progressBlock: nil, completionHandler: nil)
+        userHeaderView.moneyLab.text = String.init(format: "我的余额：￥%.2f", Double((userInfoModel?.balance)!)!)
+        
+    }
+    
+    ///
+    func setEmptyHeaderData(){
+        userHeaderView.desLab.text = "登录/注册"
+        userHeaderView.userHeaderView.image = UIImage.init(named: "icon_header_default")
+        userHeaderView.moneyLab.text = "我的余额：￥0"
+        
+    }
+    
     /// 个人信息
     @objc func onClickedMsg(){
         
         if userDefaults.bool(forKey: kIsLoginTagKey) {
             let vc = BPMyProfileVC()
+            vc.userInfoModel = userInfoModel
             navigationController?.pushViewController(vc, animated: true)
         }else{
             goLogin()
         }
+    }
+    /// 未登录时，点击登录
+    @objc func onClickedLogin(){
+        
+        if userDefaults.bool(forKey: kIsLoginTagKey) {
+            return
+        }
+        goLogin()
     }
     ///我的设置
     func goSetting(){

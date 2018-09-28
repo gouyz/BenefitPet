@@ -51,7 +51,7 @@ class BPMineHeaderView: UIView {
     }
     
     /// 背景
-    fileprivate lazy var bgView: UIView = {
+    lazy var bgView: UIView = {
         let view = UIView()
         view.backgroundColor = kBlueFontColor
         
