@@ -41,6 +41,26 @@
 		0A72AB4F2110373E0018DCCC /* BPSchoolCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A72AB4E2110373E0018DCCC /* BPSchoolCell.swift */; };
 		0A72AB51211040AE0018DCCC /* BPSchoolHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A72AB50211040AE0018DCCC /* BPSchoolHeaderView.swift */; };
 		0A72AB5321104EF20018DCCC /* BPMineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A72AB5221104EF20018DCCC /* BPMineHeaderView.swift */; };
+		0A74485C215F035D002DE6AB /* BPModifyNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A74485B215F035D002DE6AB /* BPModifyNameVC.swift */; };
+		0A74485E215F0838002DE6AB /* BPModifyHospitalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A74485D215F0838002DE6AB /* BPModifyHospitalVC.swift */; };
+		0A744860215F19AC002DE6AB /* BPWenZhenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A74485F215F19AC002DE6AB /* BPWenZhenModel.swift */; };
+		0A744862215F1FBF002DE6AB /* BPRiChengModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A744861215F1FBF002DE6AB /* BPRiChengModel.swift */; };
+		0A744864215F2427002DE6AB /* BPFollowPlanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A744863215F2427002DE6AB /* BPFollowPlanModel.swift */; };
+		0A744866215F2981002DE6AB /* BPFollowPlanDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A744865215F2981002DE6AB /* BPFollowPlanDetailVC.swift */; };
+		0A744868215F5AF9002DE6AB /* BArticlesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A744867215F5AF9002DE6AB /* BArticlesModel.swift */; };
+		0A74486A215F5BD3002DE6AB /* BPDynamicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A744869215F5BD3002DE6AB /* BPDynamicModel.swift */; };
+		0A74486C215F66FC002DE6AB /* BPArticleDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A74486B215F66FC002DE6AB /* BPArticleDetailVC.swift */; };
+		0A74486E215F71ED002DE6AB /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74486D215F71ED002DE6AB /* CoreTelephony.framework */; };
+		0A744870215F71F7002DE6AB /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74486F215F71F7002DE6AB /* CoreAudio.framework */; };
+		0A744872215F71FE002DE6AB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A744871215F71FE002DE6AB /* CoreGraphics.framework */; };
+		0A744874215F7207002DE6AB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A744873215F7207002DE6AB /* SystemConfiguration.framework */; };
+		0A744876215F7210002DE6AB /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A744875215F7210002DE6AB /* CFNetwork.framework */; };
+		0A744878215F721D002DE6AB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A744877215F721D002DE6AB /* Security.framework */; };
+		0A74487A215F722B002DE6AB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A744879215F722B002DE6AB /* AudioToolbox.framework */; };
+		0A74487C215F7369002DE6AB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74487B215F7369002DE6AB /* MobileCoreServices.framework */; };
+		0A74487E215F738C002DE6AB /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74487D215F738C002DE6AB /* libz.tbd */; };
+		0A744880215F739B002DE6AB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74487F215F739B002DE6AB /* libsqlite3.0.tbd */; };
+		0A744882215F73A9002DE6AB /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A744881215F73A8002DE6AB /* libresolv.tbd */; };
 		0A75179821269C650002553A /* BPAddZhenLiaoRecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A75179721269C650002553A /* BPAddZhenLiaoRecordVC.swift */; };
 		0A75179A2126B0480002553A /* BPWenZhenListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7517992126B0480002553A /* BPWenZhenListVC.swift */; };
 		0A75179C2126B54A0002553A /* BPRiChengPlanManagerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A75179B2126B54A0002553A /* BPRiChengPlanManagerVC.swift */; };
@@ -247,6 +267,26 @@
 		0A72AB4E2110373E0018DCCC /* BPSchoolCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolCell.swift; sourceTree = "<group>"; };
 		0A72AB50211040AE0018DCCC /* BPSchoolHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolHeaderView.swift; sourceTree = "<group>"; };
 		0A72AB5221104EF20018DCCC /* BPMineHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPMineHeaderView.swift; sourceTree = "<group>"; };
+		0A74485B215F035D002DE6AB /* BPModifyNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifyNameVC.swift; sourceTree = "<group>"; };
+		0A74485D215F0838002DE6AB /* BPModifyHospitalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifyHospitalVC.swift; sourceTree = "<group>"; };
+		0A74485F215F19AC002DE6AB /* BPWenZhenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPWenZhenModel.swift; sourceTree = "<group>"; };
+		0A744861215F1FBF002DE6AB /* BPRiChengModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPRiChengModel.swift; sourceTree = "<group>"; };
+		0A744863215F2427002DE6AB /* BPFollowPlanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPFollowPlanModel.swift; sourceTree = "<group>"; };
+		0A744865215F2981002DE6AB /* BPFollowPlanDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPFollowPlanDetailVC.swift; sourceTree = "<group>"; };
+		0A744867215F5AF9002DE6AB /* BArticlesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BArticlesModel.swift; sourceTree = "<group>"; };
+		0A744869215F5BD3002DE6AB /* BPDynamicModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPDynamicModel.swift; sourceTree = "<group>"; };
+		0A74486B215F66FC002DE6AB /* BPArticleDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPArticleDetailVC.swift; sourceTree = "<group>"; };
+		0A74486D215F71ED002DE6AB /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		0A74486F215F71F7002DE6AB /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		0A744871215F71FE002DE6AB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0A744873215F7207002DE6AB /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0A744875215F7210002DE6AB /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		0A744877215F721D002DE6AB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0A744879215F722B002DE6AB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0A74487B215F7369002DE6AB /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		0A74487D215F738C002DE6AB /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		0A74487F215F739B002DE6AB /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		0A744881215F73A8002DE6AB /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		0A75179721269C650002553A /* BPAddZhenLiaoRecordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPAddZhenLiaoRecordVC.swift; sourceTree = "<group>"; };
 		0A7517992126B0480002553A /* BPWenZhenListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPWenZhenListVC.swift; sourceTree = "<group>"; };
 		0A75179B2126B54A0002553A /* BPRiChengPlanManagerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPRiChengPlanManagerVC.swift; sourceTree = "<group>"; };
@@ -421,6 +461,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A744882215F73A9002DE6AB /* libresolv.tbd in Frameworks */,
+				0A744880215F739B002DE6AB /* libsqlite3.0.tbd in Frameworks */,
+				0A74487E215F738C002DE6AB /* libz.tbd in Frameworks */,
+				0A74487C215F7369002DE6AB /* MobileCoreServices.framework in Frameworks */,
+				0A744878215F721D002DE6AB /* Security.framework in Frameworks */,
+				0A74487A215F722B002DE6AB /* AudioToolbox.framework in Frameworks */,
+				0A744876215F7210002DE6AB /* CFNetwork.framework in Frameworks */,
+				0A744874215F7207002DE6AB /* SystemConfiguration.framework in Frameworks */,
+				0A744872215F71FE002DE6AB /* CoreGraphics.framework in Frameworks */,
+				0A744870215F71F7002DE6AB /* CoreAudio.framework in Frameworks */,
+				0A74486E215F71ED002DE6AB /* CoreTelephony.framework in Frameworks */,
 				6AEB13D79EC6971ECD618D75 /* Pods_BenefitPet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -530,6 +581,7 @@
 				0A86151D215B805300775DAD /* BPHomeBannerModel.swift */,
 				0A7533EF215CB95D004ADCBC /* BPHomeModel.swift */,
 				0A64D006215E6F000045F14F /* BPYuYueModel.swift */,
+				0A744861215F1FBF002DE6AB /* BPRiChengModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -619,6 +671,8 @@
 			isa = PBXGroup;
 			children = (
 				0A954C9D2117F18F002772A0 /* BPHuanZheMenuModel.swift */,
+				0A74485F215F19AC002DE6AB /* BPWenZhenModel.swift */,
+				0A744863215F2427002DE6AB /* BPFollowPlanModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -646,6 +700,7 @@
 				0A75179F2126B9580002553A /* BPHuanZheFollowPlanVC.swift */,
 				0A7517A12126BBE10002553A /* BPEditHuanZheInfoVC.swift */,
 				0A7517A32126C0590002553A /* BPGroupManagerVC.swift */,
+				0A744865215F2981002DE6AB /* BPFollowPlanDetailVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -683,6 +738,8 @@
 		0A838897210AB3EB009ECF96 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0A744867215F5AF9002DE6AB /* BArticlesModel.swift */,
+				0A744869215F5BD3002DE6AB /* BPDynamicModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -703,6 +760,9 @@
 				0A78AFF92123B9F8006672CF /* BPCashRecordVC.swift */,
 				0A78AFFD2123BFB9006672CF /* BPMyBankVC.swift */,
 				0A78B0012123C99F006672CF /* BPAddBankCardVC.swift */,
+				0A74485B215F035D002DE6AB /* BPModifyNameVC.swift */,
+				0A74485D215F0838002DE6AB /* BPModifyHospitalVC.swift */,
+				0A74486B215F66FC002DE6AB /* BPArticleDetailVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1052,6 +1112,17 @@
 		85B2F077AE44B2F05C0AFB48 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A744881215F73A8002DE6AB /* libresolv.tbd */,
+				0A74487F215F739B002DE6AB /* libsqlite3.0.tbd */,
+				0A74487D215F738C002DE6AB /* libz.tbd */,
+				0A74487B215F7369002DE6AB /* MobileCoreServices.framework */,
+				0A744879215F722B002DE6AB /* AudioToolbox.framework */,
+				0A744877215F721D002DE6AB /* Security.framework */,
+				0A744875215F7210002DE6AB /* CFNetwork.framework */,
+				0A744873215F7207002DE6AB /* SystemConfiguration.framework */,
+				0A744871215F71FE002DE6AB /* CoreGraphics.framework */,
+				0A74486F215F71F7002DE6AB /* CoreAudio.framework */,
+				0A74486D215F71ED002DE6AB /* CoreTelephony.framework */,
 				BD87CF69C9715C712ABD2BD1 /* Pods_BenefitPet.framework */,
 			);
 			name = Frameworks;
@@ -1271,6 +1342,7 @@
 				0A814311211BC99700529C74 /* BPWenZhenTableView.swift in Sources */,
 				0A8388F8210AB3EB009ECF96 /* LHSBaseModel.swift in Sources */,
 				0A9BB52F2133E9B6002ED5C7 /* BPMayKnowPersonVC.swift in Sources */,
+				0A74486C215F66FC002DE6AB /* BPArticleDetailVC.swift in Sources */,
 				0A838912210AB3EC009ECF96 /* GYZUIColor+Extension.swift in Sources */,
 				0A838905210AB3EC009ECF96 /* GYZBaseNavigationVC.swift in Sources */,
 				0A954CAD21183F0C002772A0 /* BPHuanZheGroupCell.swift in Sources */,
@@ -1281,10 +1353,14 @@
 				0A83891B210AB3EC009ECF96 /* HXTagsView.m in Sources */,
 				0A83892C210AB3EC009ECF96 /* GYZActionSheet.swift in Sources */,
 				0A64D007215E6F000045F14F /* BPYuYueModel.swift in Sources */,
+				0A74485C215F035D002DE6AB /* BPModifyNameVC.swift in Sources */,
 				0A83891C210AB3EC009ECF96 /* HXTagsCell.m in Sources */,
 				0A7B6F0621256263005EBCF0 /* BPZhenLiaoRecordInfoCell.swift in Sources */,
 				0A96492E2119280200BE7DC3 /* BPEditGroupVC.swift in Sources */,
+				0A744862215F1FBF002DE6AB /* BPRiChengModel.swift in Sources */,
+				0A744866215F2981002DE6AB /* BPFollowPlanDetailVC.swift in Sources */,
 				0AEAD62A211D737A0076C1C2 /* BPBenefitPetCertificateVC.swift in Sources */,
+				0A744860215F19AC002DE6AB /* BPWenZhenModel.swift in Sources */,
 				0A7168B7212FB8D400125444 /* BPApplyFriendsVC.swift in Sources */,
 				0A723764211143C4006E0E04 /* BPOnLineOrderVC.swift in Sources */,
 				0A714DF8212D04510016BAB1 /* BPStudyVideoCell.swift in Sources */,
@@ -1308,8 +1384,10 @@
 				0A72AB4F2110373E0018DCCC /* BPSchoolCell.swift in Sources */,
 				0A954C982117D135002772A0 /* BPRiChengCell.swift in Sources */,
 				0A72AB5321104EF20018DCCC /* BPMineHeaderView.swift in Sources */,
+				0A74486A215F5BD3002DE6AB /* BPDynamicModel.swift in Sources */,
 				0A838931210AB3EC009ECF96 /* ScrollSegmentView.swift in Sources */,
 				0A92C7D32122707100FFEB94 /* GYZPhotoView.swift in Sources */,
+				0A744864215F2427002DE6AB /* BPFollowPlanModel.swift in Sources */,
 				0A838920210AB3EC009ECF96 /* ZCycleViewCell.swift in Sources */,
 				0A814317211BCEBC00529C74 /* BPImgHeaderView.swift in Sources */,
 				0A78AFF62123AF8C006672CF /* BPCashVC.swift in Sources */,
@@ -1350,6 +1428,7 @@
 				0A9BB53D2133EB65002ED5C7 /* ToolBarView.swift in Sources */,
 				0A838906210AB3EC009ECF96 /* GYZBaseVC.swift in Sources */,
 				0A838929210AB3EC009ECF96 /* GYZScanQrcodeVC.swift in Sources */,
+				0A74485E215F0838002DE6AB /* BPModifyHospitalVC.swift in Sources */,
 				0A714DF6212CFC7A0016BAB1 /* BPStudyHeaderView.swift in Sources */,
 				0A838853210AA2DF009ECF96 /* ViewController.swift in Sources */,
 				0A838930210AB3EC009ECF96 /* ScrollPageView.swift in Sources */,
@@ -1420,6 +1499,7 @@
 				0A303514212E8D4600B55AAE /* BPFriendsEmptyView.swift in Sources */,
 				0A838934210AB3EC009ECF96 /* GYZUpdateVersionTool.swift in Sources */,
 				0A838938210AB3EC009ECF96 /* GYZThrowLineTool.swift in Sources */,
+				0A744868215F5AF9002DE6AB /* BArticlesModel.swift in Sources */,
 				0A909978210EFA0A00C225AA /* BPWorkingHeaderView.swift in Sources */,
 				0A78AFFA2123B9F8006672CF /* BPCashRecordVC.swift in Sources */,
 				0A7B6F0221255C61005EBCF0 /* BPChatMessageVC.swift in Sources */,
@@ -1597,8 +1677,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

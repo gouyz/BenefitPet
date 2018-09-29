@@ -7,20 +7,24 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let wenZhenTableDetailCell = "wenZhenTableDetailCell"
 
 class BPWenZhenTableDetailVC: GYZBaseVC {
+    
+    var wenZhenModel: BPWenZhenModel?
+    var dataList: [BPWenZhenModel] = [BPWenZhenModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "宠物日常护理问诊表"
+        self.navigationItem.title = wenZhenModel?.question
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        
+        requestWenZhenDetailDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -38,6 +42,55 @@ class BPWenZhenTableDetailVC: GYZBaseVC {
         
         return table
     }()
+    
+    ///获取问诊详情数据
+    func requestWenZhenDetailDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("doctorindex/question",parameters: ["id": (wenZhenModel?.id)!],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPWenZhenModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.tableView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无问诊信息")
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.requestWenZhenDetailDatas()
+                weakSelf?.hiddenEmptyView()
+            })
+        })
+    }
 }
 
 extension BPWenZhenTableDetailVC: UITableViewDelegate,UITableViewDataSource{
@@ -47,12 +100,16 @@ extension BPWenZhenTableDetailVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 6
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: wenZhenTableDetailCell) as! BPWenZhenTableDetailCell
+        
+        let model = dataList[indexPath.row]
+        cell.sortLab.text = "\(indexPath.row + 1)"
+        cell.nameLab.text = model.question
         
         cell.selectionStyle = .none
         return cell
@@ -67,9 +124,6 @@ extension BPWenZhenTableDetailVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        //        if indexPath.row == 0 {// 患者黑名单
-        //            goBlackList()
-        //        }
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

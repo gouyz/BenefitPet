@@ -9,6 +9,16 @@
 import UIKit
 
 class BPRiChengCell: UITableViewCell {
+    
+    /// 填充数据
+    var dataModel : BPRiChengModel?{
+        didSet{
+            if let model = dataModel {
+                
+                
+            }
+        }
+    }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,7 +39,7 @@ class BPRiChengCell: UITableViewCell {
         contentView.addSubview(lineView2)
         contentView.addSubview(contentLab)
         contentView.addSubview(nameLab)
-        contentView.addSubview(rightIconView)
+//        contentView.addSubview(rightIconView)
         
         dateLab.snp.makeConstraints { (make) in
             make.left.equalTo(kMargin)
@@ -64,15 +74,15 @@ class BPRiChengCell: UITableViewCell {
             make.left.equalTo(circleView.snp.right).offset(5)
         }
         nameLab.snp.makeConstraints { (make) in
-            make.right.equalTo(rightIconView.snp.left).offset(-5)
+            make.right.equalTo(-kMargin)
             make.top.bottom.equalTo(contentLab)
             make.width.equalTo(80)
         }
-        rightIconView.snp.makeConstraints { (make) in
-            make.centerY.equalTo(contentView)
-            make.right.equalTo(-kMargin)
-            make.size.equalTo(CGSize.init(width: 7, height: 12))
-        }
+//        rightIconView.snp.makeConstraints { (make) in
+//            make.centerY.equalTo(contentView)
+//            make.right.equalTo(-kMargin)
+//            make.size.equalTo(CGSize.init(width: 7, height: 12))
+//        }
     }
     /// date
     lazy var dateLab : UILabel = {
@@ -134,6 +144,6 @@ class BPRiChengCell: UITableViewCell {
         return lab
     }()
     /// 右侧箭头图标
-    lazy var rightIconView: UIImageView = UIImageView.init(image: UIImage.init(named: "icon_right_arrow"))
+//    lazy var rightIconView: UIImageView = UIImageView.init(image: UIImage.init(named: "icon_right_arrow"))
     
 }

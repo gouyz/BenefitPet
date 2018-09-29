@@ -108,6 +108,27 @@ class BPMyProfileVC: GYZBaseVC {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    /// 修改姓名
+    func goModifyName(){
+        let vc = BPModifyNameVC()
+        vc.name = (userInfoModel?.name)!
+        vc.resultBlock = {[weak self] (name) in
+            self?.userInfoModel?.name = name
+            self?.tableView.reloadData()
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    /// 修改医院
+    func goModifyHospital(){
+        let vc = BPModifyHospitalVC()
+        vc.name = (userInfoModel?.hospital)!
+        vc.resultBlock = {[weak self] (name) in
+            self?.userInfoModel?.hospital = name
+            self?.tableView.reloadData()
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     /// 选择头像
     func selectHeaderImg(){
         
@@ -182,12 +203,10 @@ extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
                 cell.nameLab.text = "姓名"
                 cell.desLab.isHidden = false
                 cell.desLab.text = userInfoModel?.name
-                cell.rightIconView.isHidden = true
             }else if indexPath.row == 1{
                 cell.nameLab.text = "医院"
                 cell.desLab.isHidden = false
                 cell.desLab.text = userInfoModel?.hospital
-                cell.rightIconView.isHidden = true
             }else if indexPath.row == 2{
                 cell.nameLab.text = "职业兽医资格证"
                 cell.desLab.isHidden = false
@@ -236,6 +255,10 @@ extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
                 goBenefitPetCertificate()
             }else if indexPath.row == 4{/// 毕业院校
                 goUniversity()
+            }else if indexPath.row == 0{/// 修改姓名
+                goModifyName()
+            }else if indexPath.row == 1{/// 修改医院
+                goModifyHospital()
             }
         }
     }

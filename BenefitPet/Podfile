@@ -22,4 +22,6 @@ pod 'BMPlayer'  # 基于AVPlayer封装的视频播放器  https://github.com/Bri
 #pod 'JPush'  #极光推送
 pod 'WechatOpenSDK' #微信SDK
 
+pod 'JMessage' #极光IM
+
 end

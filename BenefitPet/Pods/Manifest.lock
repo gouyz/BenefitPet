@@ -14,6 +14,9 @@ PODS:
   - DKImagePickerController/Camera (3.8.1)
   - DKImagePickerController/ImageManager (3.8.1)
   - IQKeyboardManagerSwift (5.0.6)
+  - JCore (1.1.6)
+  - JMessage (3.3.0):
+    - JCore (~> 1.1.1)
   - Kingfisher (4.2.0)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.15)
@@ -31,6 +34,7 @@ DEPENDENCIES:
   - Cosmos (~> 12.0.1)
   - DKImagePickerController
   - IQKeyboardManagerSwift (~> 5.0.6)
+  - JMessage
   - Kingfisher (~> 4.2.0)
   - MBProgressHUD (~> 1.0.0)
   - MJRefresh
@@ -46,6 +50,8 @@ SPEC REPOS:
     - Cosmos
     - DKImagePickerController
     - IQKeyboardManagerSwift
+    - JCore
+    - JMessage
     - Kingfisher
     - MBProgressHUD
     - MJRefresh
@@ -61,6 +67,8 @@ SPEC CHECKSUMS:
   Cosmos: 4a9f57998a08788a1062c7b8eefbc62d2b590f39
   DKImagePickerController: 51ad6ee2ba05414bb741db54a72cd7f4fb178e34
   IQKeyboardManagerSwift: 02bfbb0dff71c66d0ab77d80d25dfce0c3717735
+  JCore: 18fc8725124f26e55625eaf224659b3a999dcf63
+  JMessage: a3cb40117796058fbdd8831777db7e09d7da37d8
   Kingfisher: 9ee7e788d8ba07c3f21ce0d43f33cec310a4f781
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: 9af70f5f9327a2cf87f0fb5929f35fcc2fa638ea
@@ -70,6 +78,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   WechatOpenSDK: 0ee07a8d492299d3e47372a33da5af26524a7576
 
-PODFILE CHECKSUM: 911c4ddac84c4dfe489f99a5fbbc13496eee95ce
+PODFILE CHECKSUM: c3fa27fbe1544bfb1907628ef89b4f5d93cb0f2e
 
 COCOAPODS: 1.5.3

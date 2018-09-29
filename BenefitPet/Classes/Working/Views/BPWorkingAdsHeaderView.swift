@@ -152,7 +152,7 @@ class BPWorkingAdsHeaderView: UIView {
     lazy var userNameLab : UILabel = {
         
         let lab = UILabel()
-        lab.font = k15Font
+        lab.font = k13Font
         lab.textColor = kBlackFontColor
         lab.textAlignment = .center
         lab.text = "玛丽"

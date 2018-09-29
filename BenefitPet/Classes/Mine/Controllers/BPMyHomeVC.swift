@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let myHomeArticleCell = "myHomeArticleCell"
 private let myHomeDongTaiCell = "myHomeDongTaiCell"
@@ -15,11 +16,16 @@ class BPMyHomeVC: GYZBaseVC {
     
     /// 是否显示文章
     var isArticle: Bool = true
+    /// 文章data
+    var articleList: [BArticlesModel] = [BArticlesModel]()
+    /// 动态data
+    var dynamicList: [BPDynamicModel] = [BPDynamicModel]()
+    var userInfoModel: LHSUserInfoModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "玛丽线上工作室"
+        self.navigationItem.title = "\((userInfoModel?.name)!)线上工作室"
         
         setUpUI()
         
@@ -29,6 +35,8 @@ class BPMyHomeVC: GYZBaseVC {
         dongTaiBtn.set(image: UIImage.init(named: "icon_dongtai_selected"), title: "我的动态", titlePosition: .bottom, additionalSpacing: 5, state: .selected)
         
         articleBtn.isSelected = true
+        
+        requestArticlesDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -129,8 +137,9 @@ class BPMyHomeVC: GYZBaseVC {
     
     /// 用户头像 图片
     lazy var userHeaderView: UIImageView = {
-        let imgView = UIImageView.init(image: UIImage.init(named: "icon_header_default"))
+        let imgView = UIImageView()
         imgView.cornerRadius = 30
+        imgView.kf.setImage(with: URL.init(string: (userInfoModel?.head)!), placeholder: UIImage.init(named: "icon_header_default"), options: nil, progressBlock: nil, completionHandler: nil)
         
         return imgView
     }()
@@ -138,7 +147,7 @@ class BPMyHomeVC: GYZBaseVC {
         let lab = UILabel()
         lab.font = k15Font
         lab.textColor = kWhiteColor
-        lab.text = "玛丽 主任医师|全科"
+        lab.text = "\((userInfoModel?.name)!) \((userInfoModel?.job_title)!)|\((userInfoModel?.major)!)"
         
         return lab
     }()
@@ -146,7 +155,7 @@ class BPMyHomeVC: GYZBaseVC {
         let lab = UILabel()
         lab.font = k12Font
         lab.textColor = kWhiteColor
-        lab.text = "益宠宠物医院"
+        lab.text = userInfoModel?.hospital
         
         return lab
     }()
@@ -165,7 +174,7 @@ class BPMyHomeVC: GYZBaseVC {
         lab.textColor = kRedFontColor
         lab.cornerRadius = 8
         lab.textAlignment = .center
-        lab.text = "LV8"
+        lab.text = "LV\((userInfoModel?.role)!)"
         
         return lab
     }()
@@ -213,6 +222,12 @@ class BPMyHomeVC: GYZBaseVC {
         table.register(GYZLabArrowCell.self, forCellReuseIdentifier: myHomeArticleCell)
         table.register(BPMyHomeDongTaiCell.self, forCellReuseIdentifier: myHomeDongTaiCell)
         
+        weak var weakSelf = self
+        ///添加下拉刷新
+        GYZTool.addPullRefresh(scorllView: table, pullRefreshCallBack: {
+            weakSelf?.refresh()
+        })
+        
         return table
     }()
     
@@ -222,19 +237,140 @@ class BPMyHomeVC: GYZBaseVC {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    
     /// 我的文章
     @objc func clickedArticleBtn(){
         articleBtn.isSelected = true
         dongTaiBtn.isSelected = false
         isArticle = true
-        tableView.reloadData()
+        if articleList.count > 0 {
+            tableView.reloadData()
+        }else{
+            requestArticlesDatas()
+        }
+        
     }
     /// 我的动态
     @objc func clickedDongTaiBtn(){
         articleBtn.isSelected = false
         dongTaiBtn.isSelected = true
         isArticle = false
-        tableView.reloadData()
+        if dynamicList.count > 0 {
+            tableView.reloadData()
+        }else{
+            requestDynamicDatas()
+        }
+    }
+    
+    func refresh(){
+        if isArticle {
+            articleList.removeAll()
+            tableView.reloadData()
+            requestArticlesDatas()
+        }else{
+            dynamicList.removeAll()
+            tableView.reloadData()
+            requestDynamicDatas()
+        }
+    }
+    /// 关闭上拉/下拉刷新
+    func closeRefresh(){
+        if tableView.mj_header.isRefreshing{//下拉刷新
+            GYZTool.endRefresh(scorllView: tableView)
+        }
+    }
+    
+    ///获取文章数据
+    func requestArticlesDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("doctor/doctor_article_title",parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            weakSelf?.closeRefresh()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BArticlesModel.init(dict: itemInfo)
+                    
+                    weakSelf?.articleList.append(model)
+                }
+                if weakSelf?.articleList.count > 0{
+                    weakSelf?.tableView.reloadData()
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            weakSelf?.closeRefresh()
+            GYZLog(error)
+            
+        })
+    }
+    
+    ///获取动态数据
+    func requestDynamicDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("doctor/doctor_mood_show",parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            weakSelf?.closeRefresh()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPDynamicModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dynamicList.append(model)
+                }
+                if weakSelf?.dynamicList.count > 0{
+                    weakSelf?.tableView.reloadData()
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            weakSelf?.closeRefresh()
+            GYZLog(error)
+            
+        })
+    }
+    /// 文章详情
+    func goArticleDetail(index:Int){
+        let vc = BPArticleDetailVC()
+        vc.id = articleList[index].id!
+        vc.articleTitle = articleList[index].title!
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -244,47 +380,30 @@ extension BPMyHomeVC: UITableViewDelegate,UITableViewDataSource{
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        if isArticle {
+            return articleList.count
+        }
+        return dynamicList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if isArticle {
             let cell = tableView.dequeueReusableCell(withIdentifier: myHomeArticleCell) as! GYZLabArrowCell
-            cell.nameLab.text = "宠物的日常正确喂养"
+            
+            let model = articleList[indexPath.row]
+            cell.nameLab.text = model.title
             
             cell.selectionStyle = .none
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: myHomeDongTaiCell) as! BPMyHomeDongTaiCell
             
-            cell.imgViews.imgWidth = kPhotosImgHeight4Processing
-            cell.imgViews.imgHight = kPhotosImgHeight4Processing
-            cell.imgViews.perRowItemCount = 3
+            let model = dynamicList[indexPath.row]
+            cell.dataModel = model
+            cell.userHeaderView.kf.setImage(with: URL.init(string: (userInfoModel?.head)!), placeholder: UIImage.init(named: "icon_header_default"), options: nil, progressBlock: nil, completionHandler: nil)
+            cell.nameLab.text = userInfoModel?.name
             
-            cell.imgViews.selectImgs = [UIImage.init(named: "icon_dongtai_default"),UIImage.init(named: "icon_dongtai_default"),UIImage.init(named: "icon_dongtai_default")] as? [UIImage]
-            
-            ///查看大图
-            cell.imgViews.onClickedImgDetailsBlock = {[weak self] (index,urls) in
-                
-                //            let browser = SKPhotoBrowser(photos: GYZTool.createWebPhotos(urls: urls))
-                //            browser.initializePageIndex(index)
-                //            //        browser.delegate = self
-                //
-                //            self?.present(browser, animated: true, completion: nil)
-            }
-            
-            /// 如果图片张数超出最大限制数，只取最大限制数的图片
-            //        var imgCount : Int = imgUrls.count
-            //        if imgCount > kMaxSelectCount {
-            //            imgCount = kMaxSelectCount
-            //        }
-            //        let rowIndex = ceil(CGFloat.init(imgCount) / 3.0)//向上取整
-            
-            //        cell.imgViews.isHidden = false
-            cell.imgViews.snp.updateConstraints({ (make) in
-                make.height.equalTo(cell.imgViews.imgHight)
-            })
             
             cell.selectionStyle = .none
             return cell
@@ -300,7 +419,9 @@ extension BPMyHomeVC: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if isArticle {
+            goArticleDetail(index: indexPath.row)
+        }
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

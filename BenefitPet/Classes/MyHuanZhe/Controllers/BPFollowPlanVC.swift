@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let followPlanCell = "followPlanCell"
 private let followPlanHeader = "followPlanHeader"
 
 class BPFollowPlanVC: GYZBaseVC {
+    
+    var dataList: [BPFollowPlanModel] = [BPFollowPlanModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,7 @@ class BPFollowPlanVC: GYZBaseVC {
             make.edges.equalTo(0)
         }
         tableView.tableHeaderView = headerView
+        requestFollowPlanDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -49,9 +53,56 @@ class BPFollowPlanVC: GYZBaseVC {
         
     }()
     
+    ///获取随访计划数据
+    func requestFollowPlanDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("doctorindex/doctor_Plan",parameters: nil,  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPFollowPlanModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.tableView.reloadData()
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.requestFollowPlanDatas()
+                weakSelf?.hiddenEmptyView()
+            })
+        })
+    }
+    
     /// 子随访计划
-    func goFollowPlanChild(){
+    func goFollowPlanChild(index: Int){
         let vc = BPFollowPlanChildVC()
+        vc.cId = dataList[index].id!
+        vc.planTitle = dataList[index].title!
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -63,14 +114,15 @@ extension BPFollowPlanVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 12
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: followPlanCell) as! GYZLabArrowCell
         
-        cell.nameLab.text = "就诊结束随访计划"
+        let model = dataList[indexPath.row]
+        cell.nameLab.text = model.title
         cell.nameLab.textColor = kHeightGaryFontColor
         
         cell.selectionStyle = .none
@@ -89,7 +141,7 @@ extension BPFollowPlanVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        goFollowPlanChild()
+        goFollowPlanChild(index: indexPath.row)
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

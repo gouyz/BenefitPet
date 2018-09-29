@@ -73,7 +73,7 @@ class BPYuYueListVC: GYZBaseVC {
         weak var weakSelf = self
         showLoadingView()
         
-        GYZNetWork.requestNetwork("doctorindex/yuyue_one",parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+        GYZNetWork.requestNetwork("doctorindex/yuyue_status",parameters: ["id": userDefaults.string(forKey: "userId") ?? "","status": status],  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             GYZLog(response)

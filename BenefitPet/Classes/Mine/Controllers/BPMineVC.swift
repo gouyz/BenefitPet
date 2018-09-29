@@ -147,8 +147,14 @@ class BPMineVC: GYZBaseVC {
     }
     ///个人主页
     func goMyHome(){
-        let vc = BPMyHomeVC()
-        navigationController?.pushViewController(vc, animated: true)
+        if userDefaults.bool(forKey: kIsLoginTagKey) {
+            let vc = BPMyHomeVC()
+            vc.userInfoModel = userInfoModel
+            navigationController?.pushViewController(vc, animated: true)
+        }else{
+            goLogin()
+        }
+        
     }
     ///提现
     func goMyCash(){

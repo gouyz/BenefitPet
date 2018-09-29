@@ -55,11 +55,11 @@ class BPPublishDynamicVC: GYZBaseVC {
         contentView.addSubview(contentTxtView)
         contentView.addSubview(addPhotosView)
         contentView.addSubview(lineView)
-        contentView.addSubview(bgView)
-        bgView.addSubview(desLab)
-        bgView.addSubview(huanZheLab)
-        bgView.addSubview(rightIconView)
-        contentView.addSubview(lineView1)
+//        contentView.addSubview(bgView)
+//        bgView.addSubview(desLab)
+//        bgView.addSubview(huanZheLab)
+//        bgView.addSubview(rightIconView)
+//        contentView.addSubview(lineView1)
         
         addPhotosView.delegate = self
         
@@ -91,35 +91,39 @@ class BPPublishDynamicVC: GYZBaseVC {
             make.left.right.equalTo(contentView)
             make.top.equalTo(addPhotosView.snp.bottom).offset(kMargin)
             make.height.equalTo(klineWidth)
-        }
-        bgView.snp.makeConstraints { (make) in
-            make.left.right.equalTo(contentView)
-            make.top.equalTo(lineView.snp.bottom)
-            make.height.equalTo(kTitleHeight)
-        }
-        desLab.snp.makeConstraints { (make) in
-            make.top.bottom.equalTo(bgView)
-            make.left.equalTo(kMargin)
-            make.width.equalTo(80)
-        }
-        huanZheLab.snp.makeConstraints { (make) in
-            make.top.height.equalTo(desLab)
-            make.right.equalTo(rightIconView.snp.left).offset(-kMargin)
-            make.left.equalTo(desLab.snp.right).offset(kMargin)
-        }
-        rightIconView.snp.makeConstraints { (make) in
-            make.centerY.equalTo(desLab)
-            make.right.equalTo(-kMargin)
-            make.size.equalTo(CGSize.init(width: 7, height: 12))
-        }
-        lineView1.snp.makeConstraints { (make) in
-            make.left.right.height.equalTo(klineWidth)
-            make.top.equalTo(bgView.snp.bottom)
             // 这个很重要，viewContainer中的最后一个控件一定要约束到bottom，并且要小于等于viewContainer的bottom
             // 否则的话，上面的控件会被强制拉伸变形
             // 最后的-10是边距，这个可以随意设置
             make.bottom.lessThanOrEqualTo(contentView).offset(-kMargin)
         }
+//        bgView.snp.makeConstraints { (make) in
+//            make.left.right.equalTo(contentView)
+//            make.top.equalTo(lineView.snp.bottom)
+//            make.height.equalTo(kTitleHeight)
+//        }
+//        desLab.snp.makeConstraints { (make) in
+//            make.top.bottom.equalTo(bgView)
+//            make.left.equalTo(kMargin)
+//            make.width.equalTo(80)
+//        }
+//        huanZheLab.snp.makeConstraints { (make) in
+//            make.top.height.equalTo(desLab)
+//            make.right.equalTo(rightIconView.snp.left).offset(-kMargin)
+//            make.left.equalTo(desLab.snp.right).offset(kMargin)
+//        }
+//        rightIconView.snp.makeConstraints { (make) in
+//            make.centerY.equalTo(desLab)
+//            make.right.equalTo(-kMargin)
+//            make.size.equalTo(CGSize.init(width: 7, height: 12))
+//        }
+//        lineView1.snp.makeConstraints { (make) in
+//            make.left.right.height.equalTo(klineWidth)
+//            make.top.equalTo(bgView.snp.bottom)
+//            // 这个很重要，viewContainer中的最后一个控件一定要约束到bottom，并且要小于等于viewContainer的bottom
+//            // 否则的话，上面的控件会被强制拉伸变形
+//            // 最后的-10是边距，这个可以随意设置
+//            make.bottom.lessThanOrEqualTo(contentView).offset(-kMargin)
+//        }
     }
     
     /// scrollView
@@ -144,40 +148,40 @@ class BPPublishDynamicVC: GYZBaseVC {
         
         return line
     }()
-    lazy var bgView : UIView = {
-        let bgView = UIView()
-        bgView.addOnClickListener(target: self, action: #selector(onClickedSelectedHuanZhe))
-        
-        return bgView
-    }()
-    
-    lazy var desLab : UILabel = {
-        let lab = UILabel()
-        lab.font = k15Font
-        lab.textColor = kBlackFontColor
-        lab.text = "提醒谁看"
-        
-        return lab
-    }()
-    /// 选择提醒的患者
-    lazy var huanZheLab : UILabel = {
-        let lab = UILabel()
-        lab.font = k13Font
-        lab.textColor = kBlueFontColor
-        lab.textAlignment = .right
-        lab.text = "所有患者"
-        
-        return lab
-    }()
-    /// 右侧箭头图标
-    lazy var rightIconView: UIImageView = UIImageView.init(image: UIImage.init(named: "icon_right_arrow"))
-    
-    lazy var lineView1: UIView = {
-        let line = UIView()
-        line.backgroundColor = kGrayLineColor
-        
-        return line
-    }()
+//    lazy var bgView : UIView = {
+//        let bgView = UIView()
+//        bgView.addOnClickListener(target: self, action: #selector(onClickedSelectedHuanZhe))
+//
+//        return bgView
+//    }()
+//
+//    lazy var desLab : UILabel = {
+//        let lab = UILabel()
+//        lab.font = k15Font
+//        lab.textColor = kBlackFontColor
+//        lab.text = "提醒谁看"
+//
+//        return lab
+//    }()
+//    /// 选择提醒的患者
+//    lazy var huanZheLab : UILabel = {
+//        let lab = UILabel()
+//        lab.font = k13Font
+//        lab.textColor = kBlueFontColor
+//        lab.textAlignment = .right
+//        lab.text = "所有患者"
+//
+//        return lab
+//    }()
+//    /// 右侧箭头图标
+//    lazy var rightIconView: UIImageView = UIImageView.init(image: UIImage.init(named: "icon_right_arrow"))
+//
+//    lazy var lineView1: UIView = {
+//        let line = UIView()
+//        line.backgroundColor = kGrayLineColor
+//
+//        return line
+//    }()
     
     ///打开相机
     func openCamera(){
@@ -232,14 +236,54 @@ class BPPublishDynamicVC: GYZBaseVC {
     /// 保存
     @objc func onClickRightBtn(){
         
+        if content.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入动态内容")
+             return
+        }
+        
+        requestPublicDynamic()
     }
     
     /// 提醒谁看
-    @objc func onClickedSelectedHuanZhe(){
-        let vc = BPSelectHuanZheVC()
-        navigationController?.pushViewController(vc, animated: true)
-    }
+//    @objc func onClickedSelectedHuanZhe(){
+//        let vc = BPSelectHuanZheVC()
+//        navigationController?.pushViewController(vc, animated: true)
+//    }
     
+    
+    /// 发布动态
+    func requestPublicDynamic(){
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        var imgParams: [ImageFileUploadParam] = [ImageFileUploadParam]()
+        if selectImgs.count > 0 {
+            for (index,img) in selectImgs.enumerated(){
+                let imgParam: ImageFileUploadParam = ImageFileUploadParam()
+                imgParam.name = "file[]"
+                imgParam.fileName = "dynamic\(index).jpg"
+                imgParam.mimeType = "image/jpg"
+                imgParam.data = UIImageJPEGRepresentation(img, 0.5)
+                imgParams.append(imgParam)
+            }
+        }
+        
+        GYZNetWork.uploadImageRequest("doctor/doctor_mood", parameters: ["id":userDefaults.string(forKey: "userId") ?? "","content":content], uploadParam: imgParams, success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            GYZLog(response)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
 }
 
 extension BPPublishDynamicVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate

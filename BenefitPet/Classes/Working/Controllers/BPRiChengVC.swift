@@ -12,6 +12,9 @@ private let riChengCell = "riChengCell"
 private let riChengHeader = "riChengHeader"
 
 class BPRiChengVC: GYZBaseVC {
+    
+    var dataList: [[BPRiChengModel]] = [[BPRiChengModel]]()
+    var titleList: [String] = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -9,11 +9,45 @@
 import UIKit
 
 class BPMyHomeDongTaiCell: UITableViewCell {
+    
+    /// 填充数据
+    var dataModel : BPDynamicModel?{
+        didSet{
+            if let model = dataModel {
+                
+                contentLab.text = model.content
+                
+                if model.imgUrls?.count > 0{
+                    imgViews.isHidden = false
+                    imgViews.selectImgUrls = model.imgUrls
+                    let rowIndex = ceil(CGFloat.init((imgViews.selectImgUrls?.count)!) / CGFloat.init(imgViews.perRowItemCount))//向上取整
+                    
+                    imgViews.snp.updateConstraints({ (make) in
+                        
+                        make.height.equalTo(imgViews.imgHight * rowIndex + kMargin * (rowIndex - 1))
+                    })
+                }else{
+                    imgViews.isHidden = true
+                    imgViews.snp.updateConstraints({ (make) in
+                        
+                        make.height.equalTo(0)
+                    })
+                }
+                
+                
+                timeLab.text = model.add_time?.dateFromTimeInterval()?.dateDesc
+            }
+        }
+    }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUI()
+        
+        imgViews.imgWidth = kPhotosImgHeight4Processing
+        imgViews.imgHight = kPhotosImgHeight4Processing
+        imgViews.perRowItemCount = 3
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -87,7 +121,6 @@ class BPMyHomeDongTaiCell: UITableViewCell {
         lab.font = k12Font
         lab.textColor = kBlackFontColor
         lab.numberOfLines = 0
-        lab.text = "聊聊什么是让孩子受益终身的行为习惯，聊聊什么是让孩子受益终身的行为习惯，聊聊什么是让孩子受益终身的行为习惯"
         
         return lab
     }()
