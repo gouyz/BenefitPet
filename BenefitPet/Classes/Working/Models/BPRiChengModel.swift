@@ -15,9 +15,9 @@ class BPRiChengModel: LHSBaseModel {
     /// 医生日程信息
     var richeng : String? = ""
     /// 患者姓名
-    var user : String? = ""
-    /// 医生id
-    var d_id : String? = ""
+    var nickname : String? = ""
+    /// 患者id
+    var u_id : String? = ""
     /// 日程日期 2018-11-11
     var date : String? = "0"
     /// 日程时间 17:00

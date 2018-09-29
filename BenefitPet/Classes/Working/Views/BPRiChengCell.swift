@@ -15,7 +15,13 @@ class BPRiChengCell: UITableViewCell {
         didSet{
             if let model = dataModel {
                 
+                if model.date?.count == 10{
+                    dateLab.text = (model.date?.subString(start: (model.date?.count)! - 2, length: 2))! + "日"
+                }
                 
+                timeLab.text = model.time
+                contentLab.text = model.richeng
+                nameLab.text = model.nickname
             }
         }
     }

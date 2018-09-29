@@ -92,6 +92,8 @@ class BPAddRiChengVC: GYZBaseVC {
         view.textFiled.textAlignment = .right
         view.desLab.text = "日期"
         view.textFiled.placeholder = "未填写"
+        view.textFiled.isEnabled = false
+        view.addOnClickListener(target: self, action: #selector(onClickedDate))
         
         return view
     }()
@@ -107,6 +109,8 @@ class BPAddRiChengVC: GYZBaseVC {
         view.textFiled.textAlignment = .right
         view.desLab.text = "时间"
         view.textFiled.placeholder = "未填写"
+        view.textFiled.isEnabled = false
+        view.addOnClickListener(target: self, action: #selector(onClickedTime))
         
         return view
     }()
@@ -160,5 +164,23 @@ class BPAddRiChengVC: GYZBaseVC {
     @objc func onClickedSelectedHuanZhe(){
         let vc = BPSelectHuanZheVC()
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    /// 选择日期
+    @objc func onClickedDate(){
+        UsefulPickerView.showDatePicker("选择日期") { [weak self](date) in
+    
+            self?.dateView.textFiled.text = date.dateToStringWithFormat(format: "yyyy-MM-dd")
+        }
+    }
+    /// 选择时间
+    @objc func onClickedTime(){
+        var dateStyle = DatePickerSetting()
+        dateStyle.dateMode = .time
+        UsefulPickerView.showDatePicker("选择时间", datePickerSetting: dateStyle) {[weak self](date) in
+            
+            self?.timeView.textFiled.text = date.dateToStringWithFormat(format: "HH: mm")
+            
+        }
     }
 }

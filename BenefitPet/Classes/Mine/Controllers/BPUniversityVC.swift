@@ -45,9 +45,11 @@ class BPUniversityVC: GYZBaseVC {
         view.addSubview(lineView2)
         view.addSubview(xueWeiFiled)
         view.addSubview(lineView3)
-        view.addSubview(startDateFiled)
+        view.addSubview(startDateView)
+        startDateView.addSubview(startDateFiled)
         view.addSubview(lineView4)
-        view.addSubview(endDateFiled)
+        view.addSubview(endDateView)
+        endDateView.addSubview(endDateFiled)
         view.addSubview(lineView5)
         
         nameFiled.snp.makeConstraints { (make) in
@@ -78,17 +80,23 @@ class BPUniversityVC: GYZBaseVC {
             make.left.right.height.equalTo(lineView1)
             make.top.equalTo(xueWeiFiled.snp.bottom)
         }
-        startDateFiled.snp.makeConstraints { (make) in
+        startDateView.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(nameFiled)
             make.top.equalTo(lineView3.snp.bottom)
+        }
+        startDateFiled.snp.makeConstraints { (make) in
+            make.edges.equalTo(0)
         }
         lineView4.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(lineView1)
             make.top.equalTo(startDateFiled.snp.bottom)
         }
-        endDateFiled.snp.makeConstraints { (make) in
+        endDateView.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(nameFiled)
             make.top.equalTo(lineView4.snp.bottom)
+        }
+        endDateFiled.snp.makeConstraints { (make) in
+            make.edges.equalTo(0)
         }
         lineView5.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(lineView1)
@@ -150,6 +158,14 @@ class BPUniversityVC: GYZBaseVC {
         line.backgroundColor = kGrayLineColor
         return line
     }()
+    
+    lazy var startDateView: UIView = {
+        let line = UIView()
+        line.tag = 101
+        line.addOnClickListener(target: self, action: #selector(onClickedDate(sender:)))
+        
+        return line
+    }()
     /// 入学时间
     lazy var startDateFiled : UITextField = {
         
@@ -157,8 +173,10 @@ class BPUniversityVC: GYZBaseVC {
         textFiled.font = k15Font
         textFiled.textColor = kBlackFontColor
         textFiled.clearButtonMode = .whileEditing
-        textFiled.placeholder = "请输入您的入学时间"
+        textFiled.placeholder = "请选择您的入学时间"
         textFiled.text = userInfoModel?.in_school_time
+        textFiled.isEnabled = false
+        
         
         return textFiled
     }()
@@ -168,6 +186,13 @@ class BPUniversityVC: GYZBaseVC {
         line.backgroundColor = kGrayLineColor
         return line
     }()
+    lazy var endDateView: UIView = {
+        let line = UIView()
+        line.tag = 102
+        line.addOnClickListener(target: self, action: #selector(onClickedDate(sender:)))
+        
+        return line
+    }()
     /// 毕业时间
     lazy var endDateFiled : UITextField = {
         
@@ -175,8 +200,9 @@ class BPUniversityVC: GYZBaseVC {
         textFiled.font = k15Font
         textFiled.textColor = kBlackFontColor
         textFiled.clearButtonMode = .whileEditing
-        textFiled.placeholder = "请输入您的毕业时间"
+        textFiled.placeholder = "请选择您的毕业时间"
         textFiled.text = userInfoModel?.le_school_time
+        textFiled.isEnabled = false
         
         return textFiled
     }()
@@ -202,11 +228,11 @@ class BPUniversityVC: GYZBaseVC {
             return
         }
         if startDateFiled.text!.isEmpty {
-            MBProgressHUD.showAutoDismissHUD(message: "请输入您的入学时间")
+            MBProgressHUD.showAutoDismissHUD(message: "请选择您的入学时间")
             return
         }
         if endDateFiled.text!.isEmpty {
-            MBProgressHUD.showAutoDismissHUD(message: "请输入您的毕业时间")
+            MBProgressHUD.showAutoDismissHUD(message: "请选择您的毕业时间")
             return
         }
         requestModifySchool()
@@ -236,5 +262,19 @@ class BPUniversityVC: GYZBaseVC {
             weakSelf?.hud?.hide(animated: true)
             GYZLog(error)
         })
+    }
+    
+    /// 选择日期
+    @objc func onClickedDate(sender: UITapGestureRecognizer){
+        
+        let tag: Int = (sender.view?.tag)!
+        UsefulPickerView.showDatePicker("选择日期") { [weak self](date) in
+            let dateStr = date.dateToStringWithFormat(format: "yyyy-MM")
+            if tag == 101{
+                self?.startDateFiled.text = dateStr
+            }else{
+                self?.endDateFiled.text = dateStr
+            }
+        }
     }
 }

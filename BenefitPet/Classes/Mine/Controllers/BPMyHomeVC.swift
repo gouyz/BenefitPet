@@ -21,6 +21,8 @@ class BPMyHomeVC: GYZBaseVC {
     /// 动态data
     var dynamicList: [BPDynamicModel] = [BPDynamicModel]()
     var userInfoModel: LHSUserInfoModel?
+    var currArticlePage : Int = 1
+    var currDynanicPage : Int = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -227,6 +229,10 @@ class BPMyHomeVC: GYZBaseVC {
         GYZTool.addPullRefresh(scorllView: table, pullRefreshCallBack: {
             weakSelf?.refresh()
         })
+        ///添加上拉加载更多
+        GYZTool.addLoadMore(scorllView: table, loadMoreCallBack: {
+            weakSelf?.loadMore()
+        })
         
         return table
     }()
@@ -262,14 +268,28 @@ class BPMyHomeVC: GYZBaseVC {
         }
     }
     
+    
+    // MARK: - 上拉加载更多/下拉刷新
     func refresh(){
         if isArticle {
+            currArticlePage = 1
             articleList.removeAll()
             tableView.reloadData()
             requestArticlesDatas()
         }else{
+            currDynanicPage = 1
             dynamicList.removeAll()
             tableView.reloadData()
+            requestDynamicDatas()
+        }
+    }
+    /// 上拉加载更多
+    func loadMore(){
+        if isArticle {
+            currArticlePage += 1
+            requestArticlesDatas()
+        }else{
+            currDynanicPage += 1
             requestDynamicDatas()
         }
     }
@@ -277,6 +297,8 @@ class BPMyHomeVC: GYZBaseVC {
     func closeRefresh(){
         if tableView.mj_header.isRefreshing{//下拉刷新
             GYZTool.endRefresh(scorllView: tableView)
+        }else if tableView.mj_footer.isRefreshing{//上拉加载更多
+            GYZTool.endLoadMore(scorllView: tableView)
         }
     }
     
@@ -290,7 +312,7 @@ class BPMyHomeVC: GYZBaseVC {
         weak var weakSelf = self
         showLoadingView()
         
-        GYZNetWork.requestNetwork("doctor/doctor_article_title",parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+        GYZNetWork.requestNetwork("doctor/doctor_article_title",parameters: ["id": userDefaults.string(forKey: "userId") ?? "","page": currArticlePage],  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             weakSelf?.closeRefresh()
@@ -333,7 +355,7 @@ class BPMyHomeVC: GYZBaseVC {
         weak var weakSelf = self
         showLoadingView()
         
-        GYZNetWork.requestNetwork("doctor/doctor_mood_show",parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+        GYZNetWork.requestNetwork("doctor/doctor_mood_show",parameters: ["id": userDefaults.string(forKey: "userId") ?? "","page": currDynanicPage],  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             weakSelf?.closeRefresh()
