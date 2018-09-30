@@ -169,6 +169,8 @@
 		0A83894A210AF4AB009ECF96 /* BPLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A838949210AF4AB009ECF96 /* BPLoginVC.swift */; };
 		0A83894C210B0432009ECF96 /* BPRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83894B210B0432009ECF96 /* BPRegisterVC.swift */; };
 		0A86151E215B805300775DAD /* BPHomeBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A86151D215B805300775DAD /* BPHomeBannerModel.swift */; };
+		0A878ACB2160659100DFE075 /* JCVerificationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A878AB22160659100DFE075 /* JCVerificationInfo.swift */; };
+		0A878AD42160659100DFE075 /* JCVerificationInfoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A878ABD2160659100DFE075 /* JCVerificationInfoDB.swift */; };
 		0A8CDF90212BA46F0032E6C8 /* BPBenifitUniversityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8CDF8F212BA46F0032E6C8 /* BPBenifitUniversityVC.swift */; };
 		0A8CDF92212BFC660032E6C8 /* BPBenefitUniversityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8CDF91212BFC660032E6C8 /* BPBenefitUniversityCell.swift */; };
 		0A8CDF94212C00C80032E6C8 /* BPAddClassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8CDF93212C00C80032E6C8 /* BPAddClassVC.swift */; };
@@ -408,6 +410,8 @@
 		0A838949210AF4AB009ECF96 /* BPLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPLoginVC.swift; sourceTree = "<group>"; };
 		0A83894B210B0432009ECF96 /* BPRegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPRegisterVC.swift; sourceTree = "<group>"; };
 		0A86151D215B805300775DAD /* BPHomeBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHomeBannerModel.swift; sourceTree = "<group>"; };
+		0A878AB22160659100DFE075 /* JCVerificationInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCVerificationInfo.swift; sourceTree = "<group>"; };
+		0A878ABD2160659100DFE075 /* JCVerificationInfoDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCVerificationInfoDB.swift; sourceTree = "<group>"; };
 		0A8CDF8F212BA46F0032E6C8 /* BPBenifitUniversityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPBenifitUniversityVC.swift; sourceTree = "<group>"; };
 		0A8CDF91212BFC660032E6C8 /* BPBenefitUniversityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPBenefitUniversityCell.swift; sourceTree = "<group>"; };
 		0A8CDF93212C00C80032E6C8 /* BPAddClassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPAddClassVC.swift; sourceTree = "<group>"; };
@@ -915,6 +919,7 @@
 		0A8388BD210AB3EB009ECF96 /* 3rdLib */ = {
 			isa = PBXGroup;
 			children = (
+				0A878AB02160659100DFE075 /* JChat */,
 				0A9BB5302133EB64002ED5C7 /* PickerView */,
 				0A8388BE210AB3EB009ECF96 /* TagsView */,
 				0A8388C9210AB3EB009ECF96 /* ZCycleView */,
@@ -1074,6 +1079,31 @@
 				0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		0A878AB02160659100DFE075 /* JChat */ = {
+			isa = PBXGroup;
+			children = (
+				0A878AB12160659100DFE075 /* Model */,
+				0A878ABC2160659100DFE075 /* DB */,
+			);
+			path = JChat;
+			sourceTree = "<group>";
+		};
+		0A878AB12160659100DFE075 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0A878AB22160659100DFE075 /* JCVerificationInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0A878ABC2160659100DFE075 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				0A878ABD2160659100DFE075 /* JCVerificationInfoDB.swift */,
+			);
+			path = DB;
 			sourceTree = "<group>";
 		};
 		0A954C9F2117F202002772A0 /* SourceDB */ = {
@@ -1278,6 +1308,7 @@
 				"${BUILT_PRODUCTS_DIR}/BMPlayer/BMPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
+				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
@@ -1293,6 +1324,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BMPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
@@ -1425,6 +1457,7 @@
 				0A714DFC212D3DFE0016BAB1 /* BPArticlesVC.swift in Sources */,
 				0A838911210AB3EC009ECF96 /* GYZString+Extension.swift in Sources */,
 				0A72376C211191B4006E0E04 /* BPBlackListVC.swift in Sources */,
+				0A878AD42160659100DFE075 /* JCVerificationInfoDB.swift in Sources */,
 				0A9BB53D2133EB65002ED5C7 /* ToolBarView.swift in Sources */,
 				0A838906210AB3EC009ECF96 /* GYZBaseVC.swift in Sources */,
 				0A838929210AB3EC009ECF96 /* GYZScanQrcodeVC.swift in Sources */,
@@ -1459,6 +1492,7 @@
 				0A9649382119940A00BE7DC3 /* BPSelectHuanZheCell.swift in Sources */,
 				0A838936210AB3EC009ECF96 /* GYZOpenCameraPhotosTool.swift in Sources */,
 				0A9649362119729A00BE7DC3 /* BPSelectHuanZheVC.swift in Sources */,
+				0A878ACB2160659100DFE075 /* JCVerificationInfo.swift in Sources */,
 				0A83891D210AB3EC009ECF96 /* HXTagAttribute.m in Sources */,
 				0A838910210AB3EC009ECF96 /* MBProgressHUD+Extension.swift in Sources */,
 				0A838914210AB3EC009ECF96 /* GYZDate+Extension.swift in Sources */,

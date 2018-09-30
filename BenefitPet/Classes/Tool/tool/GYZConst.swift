@@ -109,7 +109,22 @@ let APPID = "1387703257"
 let kJPushAppKey = "62f70fe9bed6d366b2c740a8"
 /// 微信APPID
 let kWeChatAppID = "wx91a992eb1ae1737e"
-
+/// 极光IM AppKey
+let kJChatAppKey = "f51b939c0390a680cd24f9ec"
+//  极光IM 定义
+let kCurrentUserName = "kJCCurrentUserName"
+let kCurrentUserPassword = "kCurrentUserPassword"
+let kUpdateConversation = "kUpdateConversation"
+let kUpdateFriendInfo = "kUpdateFriendInfo"
+let kUpdateGroupInfo = "kUpdateGroupInfo"
+let kLastUserName = "kLastUserName"
+let kLastUserAvator = "kLastUserAvator"
+let kUpdateFriendList = "kUpdateFriendList"
+let kUpdateVerification = "kUpdateVerification"
+let kDeleteAllMessage = "kDeleteAllMessage"
+let kReloadAllMessage = "kReloadAllMessage"
+let kUnreadInvitationCount = "kUnreadInvitationCount"
+let kUpdateFileMessage = "kUpdateFileMessage"
 
 /// 无网络提示
 let kNoNetWork = "当前网络不可用，请检查网络情况"

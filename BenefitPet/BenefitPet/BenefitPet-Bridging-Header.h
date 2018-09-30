@@ -29,3 +29,5 @@
 
 /// 微信支付
 #import "WXApi.h"
+
+#import <JMessage/JMessage.h>

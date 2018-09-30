@@ -196,6 +196,10 @@ class BPLoginVC: GYZBaseVC {
                 userDefaults.set(true, forKey: kIsLoginTagKey)//是否登录标识
                 userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
                 userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
+                let userName: String = data["name"].stringValue.isEmpty ? data["plone"].stringValue : data["name"].stringValue
+                
+                weakSelf?.userLogin(userName: userName, password: data["password"].stringValue)
+                
                 KeyWindow.rootViewController = GYZMainTabBarVC()
             }else{
                 MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
@@ -205,5 +209,31 @@ class BPLoginVC: GYZBaseVC {
             weakSelf?.hud?.hide(animated: true)
             GYZLog(error)
         })
+    }
+    
+    /// 极光IM登录
+    private func userLogin(userName: String, password: String) {
+        JMSGUser.login(withUsername: userName, password: password) { (result, error) in
+            
+            if error == nil {
+                if error == nil {
+                    userDefaults.set(userName, forKey: kLastUserName)
+                    JMSGUser.myInfo().thumbAvatarData({ (data, id, error) in
+                        if let data = data {
+                            let imageData = NSKeyedArchiver.archivedData(withRootObject: data)
+                            userDefaults.set(imageData, forKey: kLastUserAvator)
+                        } else {
+                            userDefaults.removeObject(forKey: kLastUserAvator)
+                        }
+                    })
+                    
+                    userDefaults.set(userName, forKey: kCurrentUserName)
+                    userDefaults.set(password, forKey: kCurrentUserPassword)
+                }
+                
+            } else {
+                //                MBProgressHUD.showAutoDismissHUD(message: "极光IM登录失败")
+            }
+        }
     }
 }

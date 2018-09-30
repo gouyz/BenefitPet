@@ -157,6 +157,7 @@ class BPMyProfileVC: GYZBaseVC {
             GYZLog(response)
             if response["status"].intValue == kQuestSuccessTag{//请求成功
                 
+                weakSelf?.uploadImage()
                 weakSelf?.tableView.reloadData()
                 
             }
@@ -165,6 +166,20 @@ class BPMyProfileVC: GYZBaseVC {
             weakSelf?.hud?.hide(animated: true)
             GYZLog(error)
         })
+    }
+    /// 极光IM 修改头像
+    private func uploadImage() {
+        if let image = selectUserImg {
+            let imageData = UIImageJPEGRepresentation(image, 0.5)
+            JMSGUser.updateMyInfo(withParameter: imageData!, userFieldType: .fieldsAvatar, completionHandler: { (result, error) in
+                if error == nil {
+                    let avatorData = NSKeyedArchiver.archivedData(withRootObject: imageData!)
+                    userDefaults.set(avatorData, forKey: kLastUserAvator)
+                }
+            })
+        } else {
+            userDefaults.removeObject(forKey: kLastUserAvator)
+        }
     }
 }
 

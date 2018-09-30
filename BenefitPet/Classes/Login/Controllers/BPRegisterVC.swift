@@ -287,6 +287,16 @@ class BPRegisterVC: GYZBaseVC {
                 userDefaults.set(true, forKey: kIsLoginTagKey)//是否登录标识
                 userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
                 userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
+                /// 极光IM 注册
+                JMSGUser.register(withUsername: data["plone"].stringValue, password: data["password"].stringValue) { (result, error) in
+                    let _ = DispatchQueue.main.async {
+                       
+                        if error == nil {
+                            weakSelf?.userLogin(withUsername: data["plone"].stringValue, password: data["password"].stringValue)
+                        }
+                    }
+                }
+                
                 KeyWindow.rootViewController = GYZMainTabBarVC()
             }else{
                 MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
@@ -296,6 +306,19 @@ class BPRegisterVC: GYZBaseVC {
             weakSelf?.hud?.hide(animated: true)
             GYZLog(error)
         })
+    }
+    /// 极光IM登录
+    private func userLogin(withUsername: String, password: String) {
+        JMSGUser.login(withUsername: withUsername, password: password) { (result, error) in
+            
+            if error == nil {
+                userDefaults.set(withUsername, forKey: kLastUserName)
+                userDefaults.set(withUsername, forKey: kCurrentUserName)
+                
+            } else {
+//                MBProgressHUD.showAutoDismissHUD(message: "极光IM登录失败")
+            }
+        }
     }
     
     /// 隐藏键盘

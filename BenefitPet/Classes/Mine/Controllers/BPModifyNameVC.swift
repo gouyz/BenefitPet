@@ -119,6 +119,7 @@ class BPModifyNameVC: GYZBaseVC {
                 if weakSelf?.resultBlock != nil{
                     weakSelf?.resultBlock!((weakSelf?.contentField.text)!)
                 }
+                weakSelf?.setupNickname()
                 weakSelf?.clickedBackBtn()
             }
             
@@ -126,5 +127,16 @@ class BPModifyNameVC: GYZBaseVC {
             weakSelf?.hud?.hide(animated: true)
             GYZLog(error)
         })
+    }
+    /// 极光IM 更新昵称
+    private func setupNickname() {
+        weak var weakSelf = self
+        JMSGUser.updateMyInfo(withParameter: contentField.text!, userFieldType: .fieldsNickname) { (resultObject, error) -> Void in
+            if error == nil {
+                userDefaults.set((weakSelf?.contentField.text)!, forKey: kCurrentUserName)
+            } else {
+                print("error:\(String(describing: error?.localizedDescription))")
+            }
+        }
     }
 }
