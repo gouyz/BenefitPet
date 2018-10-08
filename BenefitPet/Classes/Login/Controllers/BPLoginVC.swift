@@ -196,9 +196,9 @@ class BPLoginVC: GYZBaseVC {
                 userDefaults.set(true, forKey: kIsLoginTagKey)//是否登录标识
                 userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
                 userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
-                let userName: String = data["name"].stringValue.isEmpty ? data["plone"].stringValue : data["name"].stringValue
+                let userName: String = "yichong" + data["id"].stringValue
                 
-                weakSelf?.userLogin(userName: userName, password: data["password"].stringValue)
+                weakSelf?.userLogin(userName: userName, password:"111111")
                 
                 KeyWindow.rootViewController = GYZMainTabBarVC()
             }else{
@@ -232,7 +232,7 @@ class BPLoginVC: GYZBaseVC {
                 }
                 
             } else {
-                //                MBProgressHUD.showAutoDismissHUD(message: "极光IM登录失败")
+                MBProgressHUD.showAutoDismissHUD(message: "\(String.errorAlert(error! as NSError))")
             }
         }
     }

@@ -287,12 +287,16 @@ class BPRegisterVC: GYZBaseVC {
                 userDefaults.set(true, forKey: kIsLoginTagKey)//是否登录标识
                 userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
                 userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
+                
+                let userName: String = "yichong" + data["id"].stringValue
+                let info: JMSGUserInfo = JMSGUserInfo()
+                info.nickname = data["plone"].stringValue
                 /// 极光IM 注册
-                JMSGUser.register(withUsername: data["plone"].stringValue, password: data["password"].stringValue) { (result, error) in
+                JMSGUser.register(withUsername: userName, password: "111111", userInfo: info) { (result, error) in
                     let _ = DispatchQueue.main.async {
                        
                         if error == nil {
-                            weakSelf?.userLogin(withUsername: data["plone"].stringValue, password: data["password"].stringValue)
+                            weakSelf?.userLogin(withUsername: userName, password: "111111")
                         }
                     }
                 }
