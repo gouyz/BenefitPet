@@ -31,3 +31,4 @@
 #import "WXApi.h"
 
 #import <JMessage/JMessage.h>
+#import "KILabel.h"

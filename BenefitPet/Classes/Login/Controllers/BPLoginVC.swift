@@ -196,7 +196,7 @@ class BPLoginVC: GYZBaseVC {
                 userDefaults.set(true, forKey: kIsLoginTagKey)//是否登录标识
                 userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
                 userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
-                let userName: String = "yichong" + data["id"].stringValue
+                let userName: String = data["jg_id"].stringValue
                 
                 weakSelf?.userLogin(userName: userName, password:"111111")
                 

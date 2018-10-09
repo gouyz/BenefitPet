@@ -288,7 +288,7 @@ class BPRegisterVC: GYZBaseVC {
                 userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
                 userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
                 
-                let userName: String = "yichong" + data["id"].stringValue
+                let userName: String = data["jg_id"].stringValue
                 let info: JMSGUserInfo = JMSGUserInfo()
                 info.nickname = data["plone"].stringValue
                 /// 极光IM 注册

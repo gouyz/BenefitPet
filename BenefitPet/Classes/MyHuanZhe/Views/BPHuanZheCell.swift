@@ -9,6 +9,48 @@
 import UIKit
 
 class BPHuanZheCell: UITableViewCell {
+    
+    /// 填充数据
+    var dataModel : JMSGConversation?{
+        didSet{
+            if let model = dataModel {
+                
+                if let latestMessage = model.latestMessage {
+                    let time = latestMessage.timestamp.intValue / 1000
+                    let date = Date(timeIntervalSince1970: TimeInterval(time))
+                    dateLab.text = date.dateDesc
+                } else {
+                    dateLab.text = ""
+                }
+                contentLab.text = model.latestMessageContentText()
+                
+                let user = model.target as? JMSGUser
+                nameLab.text = user?.displayName() ?? ""
+                user?.thumbAvatarData { (data, username, error) in
+                    guard let imageData = data else {
+                        
+                        return
+                    }
+                    let image = UIImage(data: imageData)
+                    self.iconView.image = image
+                }
+                
+                var text = ""
+                if model.unreadCount != nil && (model.unreadCount?.intValue)! > 0 {
+                    
+                    if (model.unreadCount?.intValue)! > 99 {
+                        text = "99+"
+                    } else {
+                        text = "\(model.unreadCount!)"
+                    }
+                    iconView.badgeView.text = text
+                    iconView.showBadge(animated: false)
+                }else{
+                    iconView.clearBadge(animated: false)
+                }
+            }
+        }
+    }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,7 +83,7 @@ class BPHuanZheCell: UITableViewCell {
             make.height.equalTo(20)
         }
         noteLab.snp.makeConstraints { (make) in
-            make.right.equalTo(-kMargin)
+            make.right.equalTo(-20)
             make.top.height.equalTo(nameLab)
             make.width.equalTo(100)
         }
@@ -64,7 +106,7 @@ class BPHuanZheCell: UITableViewCell {
     lazy var iconView: UIImageView = {
         
         let imgView = UIImageView()
-        imgView.cornerRadius = 20
+//        imgView.cornerRadius = 20
         imgView.image = UIImage.init(named: "icon_header_default")
         
         return imgView
@@ -86,7 +128,7 @@ class BPHuanZheCell: UITableViewCell {
         lab.font = k12Font
         lab.textColor = kHeightGaryFontColor
         lab.textAlignment = .right
-        lab.text = "(备注：消化不良)"
+        lab.text = ""
         
         return lab
     }()

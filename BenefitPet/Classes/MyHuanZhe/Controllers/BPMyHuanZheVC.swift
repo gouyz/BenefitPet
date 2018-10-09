@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JMessage
 
 private let huanZheMenuCell = "huanZheMenuCell"
 private let huanZheCell = "huanZheCell"
@@ -16,6 +17,7 @@ class BPMyHuanZheVC: GYZBaseVC {
     
     /// 功能menu
     var mFuncModels: [BPHuanZheMenuModel] = [BPHuanZheMenuModel]()
+    var datasList: [JMSGConversation] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,8 @@ class BPMyHuanZheVC: GYZBaseVC {
         }
         
         tableView.tableHeaderView = searchView
+        
+        getConversations()
     }
     
     override func didReceiveMemoryWarning() {
@@ -91,6 +95,47 @@ class BPMyHuanZheVC: GYZBaseVC {
         let vc = BPChatManagerVC()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func getConversations() {
+        JMSGConversation.allConversations {[weak self] (result, error) in
+            guard let conversatios = result else {
+                return
+            }
+            self?.datasList = conversatios as! [JMSGConversation]
+            self?.datasList = (self?.sortConverstaions((self?.datasList)!))!
+            self?.tableView.reloadData()
+            
+            self?.updateBadge()
+        }
+    }
+    fileprivate func sortConverstaions(_ convs: [JMSGConversation]) -> [JMSGConversation] {
+        var stickyConvs: [JMSGConversation] = []
+        var allConvs: [JMSGConversation] = []
+        for index in 0..<convs.count {
+            let conv = convs[index]
+            if conv.ex.isSticky {
+                stickyConvs.append(conv)
+            } else {
+                allConvs.append(conv)
+            }
+        }
+        
+        stickyConvs = stickyConvs.sorted(by: { (c1, c2) -> Bool in
+            c1.ex.stickyTime > c2.ex.stickyTime
+        })
+        
+        allConvs.insert(contentsOf: stickyConvs, at: 0)
+        return allConvs
+    }
+    
+    func updateBadge() {
+        let count = datasList.unreadCount
+        if count > 99 {
+            navigationController?.tabBarItem.badgeValue = "99+"
+        } else {
+            navigationController?.tabBarItem.badgeValue = count == 0 ? nil : "\(count)"
+        }
+    }
 }
 
 extension BPMyHuanZheVC: UITableViewDelegate,UITableViewDataSource{
@@ -102,7 +147,7 @@ extension BPMyHuanZheVC: UITableViewDelegate,UITableViewDataSource{
         if section == 0 {
             return 1
         }
-        return 8
+        return datasList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -121,6 +166,7 @@ extension BPMyHuanZheVC: UITableViewDelegate,UITableViewDataSource{
             
             let cell = tableView.dequeueReusableCell(withIdentifier: huanZheCell) as! BPHuanZheCell
             
+            cell.dataModel = datasList[indexPath.row]
             cell.selectionStyle = .none
             return cell
         }
@@ -145,6 +191,13 @@ extension BPMyHuanZheVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.section == 1 {// 患者消息
+            let conversation = datasList[indexPath.row]
+            conversation.clearUnreadCount()
+            guard let cell = tableView.cellForRow(at: indexPath) as? BPHuanZheCell else {
+                return
+            }
+            cell.dataModel = conversation
+            updateBadge()
             goChatVC()
         }
     }

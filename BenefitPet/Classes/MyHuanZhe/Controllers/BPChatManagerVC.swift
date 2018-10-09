@@ -10,6 +10,7 @@ import UIKit
 
 class BPChatManagerVC: GYZBaseVC {
     
+    var conversation: JMSGConversation
     var headerTitle: String = "欢欢"
     
     let titleArr : [String] = ["患者聊天","同步诊疗记录"]
@@ -38,6 +39,7 @@ class BPChatManagerVC: GYZBaseVC {
     func setChildVcs() -> [UIViewController] {
         
         let chatVC = BPChatMessageVC()
+        chatVC.conversation = conversation
         
         let recordVC = BPZhenLiaoRecordVC()
         
