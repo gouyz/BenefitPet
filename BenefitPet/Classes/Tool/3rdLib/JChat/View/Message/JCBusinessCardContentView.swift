@@ -52,7 +52,7 @@ class JCBusinessCardContentView: UIView, JCMessageContentViewType {
                     if let data = data {
                         self.imageView.image = UIImage(data: data)
                     } else {
-                        self.imageView.image = UIImage.loadImage("com_icon_user_40")
+                        self.imageView.image = UIImage.init(named: "com_icon_user_40")
                     }
                 })
             })
@@ -70,20 +70,20 @@ class JCBusinessCardContentView: UIView, JCMessageContentViewType {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 12, y: 13.5, width: 40, height: 40))
-        imageView.image = UIImage.loadImage("com_icon_user_40")
+        imageView.image = UIImage.init(named: "com_icon_user_40")
         return imageView
     }()
     private lazy var line: UILabel = {
         let line = UILabel()
         line.frame = CGRect(x: 10, y: 66, width: 180, height: 1)
-        line.layer.backgroundColor = UIColor(netHex: 0xE8E8E8).cgColor
+        line.layer.backgroundColor = UIColor.ColorHex("0xE8E8E8").cgColor
         return line
     }()
     private lazy var userNameLabel: UILabel = {
         let userNameLabel = UILabel()
         userNameLabel.frame = CGRect(x: 62, y: 37, width: 126, height: 20)
         userNameLabel.font = UIFont.systemFont(ofSize: 14)
-        userNameLabel.textColor = UIColor(netHex: 0x999999)
+        userNameLabel.textColor = UIColor.ColorHex("0x999999")
         return userNameLabel
     }()
     private lazy var nickNameLabel: UILabel = {
@@ -97,7 +97,7 @@ class JCBusinessCardContentView: UIView, JCMessageContentViewType {
         let tipsLabel = UILabel()
         tipsLabel.frame = CGRect(x: 12, y: 69.5, width: 100, height: 14)
         tipsLabel.font = UIFont.systemFont(ofSize: 10)
-        tipsLabel.textColor = UIColor(netHex: 0x989898)
+        tipsLabel.textColor = UIColor.ColorHex("0x989898")
         tipsLabel.text = "个人名片"
         return tipsLabel
     }()
@@ -118,7 +118,7 @@ class JCBusinessCardContentView: UIView, JCMessageContentViewType {
         addGestureRecognizer(tap)
     }
     
-    func _clickCell() {
+    @objc func _clickCell() {
         _delegate?.message?(message: _message, user: _user, businessCardName: _userName!, businessCardAppKey: _appKey!)
     }
 

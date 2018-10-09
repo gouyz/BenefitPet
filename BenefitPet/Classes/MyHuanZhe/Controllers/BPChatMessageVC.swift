@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPChatMessageVC: GYZBaseVC {
     
-    var conversation: JMSGConversation
+    var conversation: JMSGConversation?
 
     
-    var chatViewLayout: JCChatViewLayout = .init()
+    var chatViewLayout: JCChatViewLayout = JCChatViewLayout.init()
     var chatView: JCChatView!
     fileprivate lazy var reminds: [JCRemind] = []
     
@@ -43,10 +44,6 @@ class BPChatMessageVC: GYZBaseVC {
         //        toolbar.delegate = self
         //        toolbar.text = draft
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -55,7 +52,7 @@ class BPChatMessageVC: GYZBaseVC {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let group = conversation.target as? JMSGGroup {
+        if let group = conversation?.target as? JMSGGroup {
             self.navigationItem.title = group.displayName()
         }
     }
@@ -81,26 +78,26 @@ class BPChatMessageVC: GYZBaseVC {
         NotificationCenter.default.addObserver(self, selector: #selector(_updateFileMessage(_:)), name: NSNotification.Name(rawValue: kUpdateFileMessage), object: nil)
     }
     
-    func _updateFileMessage(_ notification: Notification) {
+    @objc func _updateFileMessage(_ notification: Notification) {
         let userInfo = notification.userInfo
         let msgId = userInfo?[kUpdateFileMessage] as! String
-        let message = conversation.message(withMessageId: msgId)!
-        let content = message.content as! JMSGFileContent
+        let message = conversation?.message(withMessageId: msgId)!
+        let content = message?.content as! JMSGFileContent
         let url = URL(fileURLWithPath: content.originMediaLocalPath ?? "")
         let data = try! Data(contentsOf: url)
-        updateMediaMessage(message, data: data)
+        updateMediaMessage(message!, data: data)
     }
     
     private func _updateTitle() {
-        if let group = conversation.target as? JMSGGroup {
+        if let group = conversation?.target as? JMSGGroup {
             title = group.displayName()
         } else {
-            title = conversation.title
+            title = conversation?.title
         }
     }
     
     
-    func _reloadMessage() {
+    @objc func _reloadMessage() {
         _removeAllMessage()
         messagePage = 0
         _loadMessage(messagePage)
@@ -109,23 +106,23 @@ class BPChatMessageVC: GYZBaseVC {
         }
     }
     
-    func _removeAllMessage() {
+    @objc func _removeAllMessage() {
         jMessageCount = 0
         messages.removeAll()
         chatView.removeAll()
     }
     fileprivate func _loadMessage(_ page: Int) {
         
-        let messages = conversation.messageArrayFromNewest(withOffset: NSNumber(value: jMessageCount), limit: NSNumber(value: 17))
-        if messages.count == 0 {
+        let messages = conversation?.messageArrayFromNewest(withOffset: NSNumber(value: jMessageCount), limit: NSNumber(value: 17))
+        if messages?.count == 0 {
             return
         }
         var msgs: [JCMessage] = []
-        for index in 0..<messages.count {
-            let message = messages[index]
+        for index in 0..<(messages?.count)! {
+            let message = messages![index]
             let msg = _parseMessage(message)
             msgs.insert(msg, at: 0)
-            if isNeedInsertTimeLine(message.timestamp.intValue) || index == messages.count - 1 {
+            if isNeedInsertTimeLine(message.timestamp.intValue) || index == (messages?.count)! - 1 {
                 let timeContent = JCMessageTimeLineContent(date: Date(timeIntervalSince1970: TimeInterval(message.timestamp.intValue / 1000)))
                 let m = JCMessage(content: timeContent)
                 m.options.showsTips = false
@@ -184,7 +181,7 @@ class BPChatMessageVC: GYZBaseVC {
         message.sender = currentUser
         message.options.alignment = .right
         message.options.state = .sending
-        if let group = conversation.target as? JMSGGroup {
+        if let group = conversation?.target as? JMSGGroup {
             message.targetType = .group
             message.unreadCount = group.memberArray().count - 1
         } else {
@@ -194,13 +191,13 @@ class BPChatMessageVC: GYZBaseVC {
         chatView.append(message)
         messages.append(message)
         chatView.scrollToLast(animated: false)
-        conversation.send(jmessage, optionalContent: JMSGOptionalContent.ex.default)
+        conversation?.send(jmessage, optionalContent: JMSGOptionalContent.ex.default)
     }
     
     func send(forText text: NSAttributedString) {
         let message = JCMessage(content: JCMessageTextContent(attributedText: text))
         let content = JMSGTextContent(text: text.string)
-        let msg = JMSGMessage.ex.createMessage(conversation, content, reminds)
+        let msg = JMSGMessage.ex.createMessage(conversation!, content, reminds)
         reminds.removeAll()
         send(message, msg)
     }
@@ -211,7 +208,7 @@ extension BPChatMessageVC: JMessageDelegate {
     
     fileprivate func updateMediaMessage(_ message: JMSGMessage, data: Data) {
         DispatchQueue.main.async {
-            if let index = self.messages.index(message) {
+            if let index = self.messages.index( message) {
                 let msg = self.messages[index]
                 switch(message.contentType) {
                 case .file:
@@ -268,7 +265,7 @@ extension BPChatMessageVC: JMessageDelegate {
             for index in indexs {
                 var m = messages[index.row]
                 if !m.msgId.isEmpty {
-                    m = _parseMessage(conversation.message(withMessageId: m.msgId)!, false)
+                    m = _parseMessage((conversation?.message(withMessageId: m.msgId)!)!, false)
                     chatView.update(m, at: index.row)
                 }
             }
@@ -278,7 +275,7 @@ extension BPChatMessageVC: JMessageDelegate {
         messages.append(message)
         chatView.append(message)
         updateUnread([message])
-        conversation.clearUnreadCount()
+        conversation?.clearUnreadCount()
         if !chatView.isRoll {
             chatView.scrollToLast(animated: true)
         }
@@ -289,10 +286,10 @@ extension BPChatMessageVC: JMessageDelegate {
         if let error = error as NSError? {
             if error.code == 803009 {
                 
-                MBProgressHUD_JChat.show(text: "发送失败，消息中包含敏感词", view: view, 2.0)
+                MBProgressHUD.showAutoDismissHUD(message: "发送失败，消息中包含敏感词")
             }
             if error.code == 803005 {
-                MBProgressHUD_JChat.show(text: "您已不是群成员", view: view, 2.0)
+                MBProgressHUD.showAutoDismissHUD(message: "您已不是群成员")
             }
         }
         if let index = messages.index(message) {
@@ -333,6 +330,160 @@ extension BPChatMessageVC: JMessageDelegate {
                 let msg = messages[index]
                 msg.unreadCount = message.getUnreadCount()
                 chatView.update(msg, at: index)
+            }
+        }
+    }
+}
+
+// MARK: - JCMessageDelegate
+extension BPChatMessageVC: JCMessageDelegate {
+    
+    func message(message: JCMessageType, videoData data: Data?) {
+//        if let data = data {
+//            JCVideoManager.playVideo(data: data, currentViewController: self)
+//        }
+    }
+    
+    func message(message: JCMessageType, location address: String?, lat: Double, lon: Double) {
+//        let vc = JCAddMapViewController()
+//        vc.isOnlyShowMap = true
+//        vc.lat = lat
+//        vc.lon = lon
+//        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func message(message: JCMessageType, image: UIImage?) {
+//        let browserImageVC = JCImageBrowserViewController()
+//        browserImageVC.messages = messages
+//        browserImageVC.conversation = conversation
+//        browserImageVC.currentMessage = message
+//        present(browserImageVC, animated: true) {
+//            self.toolbar.isHidden = true
+//        }
+    }
+    
+    func message(message: JCMessageType, fileData data: Data?, fileName: String?, fileType: String?) {
+        
+    }
+    
+    func message(message: JCMessageType, user: JMSGUser?, businessCardName: String, businessCardAppKey: String) {
+//        if let user = user {
+//            let vc = JCUserInfoViewController()
+//            vc.user = user
+//            navigationController?.pushViewController(vc, animated: true)
+//        }
+    }
+    
+    func clickTips(message: JCMessageType) {
+        currentMessage = message
+//        let alertView = UIAlertView(title: "重新发送", message: "是否重新发送该消息？", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "发送")
+//        alertView.show()
+    }
+    
+    func tapAvatarView(message: JCMessageType) {
+//        toolbar.resignFirstResponder()
+//        if message.options.alignment == .right {
+//            navigationController?.pushViewController(JCMyInfoViewController(), animated: true)
+//        } else {
+//            let vc = JCUserInfoViewController()
+//            vc.user = message.sender
+//            navigationController?.pushViewController(vc, animated: true)
+//        }
+    }
+    
+    func longTapAvatarView(message: JCMessageType) {
+//        if !isGroup || message.options.alignment == .right {
+//            return
+//        }
+//        toolbar.becomeFirstResponder()
+//        if let user = message.sender {
+//            toolbar.text.append("@")
+//            handleAt(toolbar, NSMakeRange(toolbar.text.length - 1, 0), user, false, user.displayName().length)
+//        }
+    }
+    
+    func tapUnreadTips(message: JCMessageType) {
+//        let vc = UnreadListViewController()
+//        let msg = conversation.message(withMessageId: message.msgId)
+//        vc.message = msg
+//        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension BPChatMessageVC: JCChatViewDelegate {
+    func refershChatView( chatView: JCChatView) {
+        messagePage += 1
+        _loadMessage(messagePage)
+        chatView.stopRefresh()
+    }
+    
+    func deleteMessage(message: JCMessageType) {
+        conversation?.deleteMessage(withMessageId: message.msgId)
+        if let index = messages.index(message) {
+            jMessageCount -= 1
+            messages.remove(at: index)
+            if let message = messages.last {
+                if message.content is JCMessageTimeLineContent {
+                    messages.removeLast()
+                    chatView.remove(at: messages.count)
+                }
+            }
+        }
+    }
+    
+    func forwardMessage(message: JCMessageType) {
+//        if let message = conversation.message(withMessageId: message.msgId) {
+//            let vc = JCForwardViewController()
+//            vc.message = message
+//            let nav = JCNavigationController(rootViewController: vc)
+//            self.present(nav, animated: true, completion: {
+//                self.toolbar.isHidden = true
+//            })
+//        }
+    }
+    
+    func withdrawMessage(message: JCMessageType) {
+        guard let message = conversation?.message(withMessageId: message.msgId) else {
+            return
+        }
+        JMSGMessage.retractMessage(message, completionHandler: { (result, error) in
+            if error == nil {
+                if let index = self.messages.index(message) {
+                    let msg = self._parseMessage((self.conversation?.message(withMessageId: message.msgId)!)!, false)
+                    self.messages[index] = msg
+                    self.chatView.update(msg, at: index)
+                }
+            } else {
+                MBProgressHUD.showAutoDismissHUD(message: "发送时间过长，不能撤回")
+            }
+        })
+    }
+    
+    func indexPathsForVisibleItems(chatView: JCChatView, items: [IndexPath]) {
+        for item in items {
+            if item.row <= minIndex {
+                var msgs: [JCMessage] = []
+                for index in item.row...minIndex  {
+                    msgs.append(messages[index])
+                }
+                updateUnread(msgs)
+                minIndex = item.row
+            }
+        }
+    }
+    
+    fileprivate func updateUnread(_ messages: [JCMessage]) {
+        for message in messages {
+            if message.options.alignment != .left {
+                continue
+            }
+            if let msg = conversation?.message(withMessageId: message.msgId) {
+                if msg.isHaveRead {
+                    continue
+                }
+                msg.setMessageHaveRead({ _,_  in
+                    
+                })
             }
         }
     }

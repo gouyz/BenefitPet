@@ -46,7 +46,7 @@ open class JCMessageAvatarView: UIImageView, JCMessageContentViewType {
     }
     
     private var message: JCMessageType!
-    private lazy var userDefaultIcon = UIImage.loadImage("com_icon_user_36")
+    private lazy var userDefaultIcon = UIImage.init(named: "com_icon_user_36")
     
     private func _commonInit() {
         image = userDefaultIcon
@@ -61,11 +61,11 @@ open class JCMessageAvatarView: UIImageView, JCMessageContentViewType {
         addGestureRecognizer(longTapGesture)
     }
     
-    func _tapHandler(sender:UITapGestureRecognizer) {
+    @objc func _tapHandler(sender:UITapGestureRecognizer) {
         delegate?.tapAvatarView?(message: message)
     }
 
-    func _longTap(_ gestureRecognizer: UILongPressGestureRecognizer)  {
+    @objc func _longTap(_ gestureRecognizer: UILongPressGestureRecognizer)  {
         if gestureRecognizer.state == .began {
             delegate?.longTapAvatarView?(message: message)
         }

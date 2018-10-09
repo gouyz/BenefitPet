@@ -84,8 +84,8 @@ open class JCMessageTimeLineContent: NSObject, JCMessageContentType {
     open func sizeThatFits(_ size: CGSize) -> CGSize {
         
         let attr = NSMutableAttributedString(string: text, attributes: [
-            NSFontAttributeName: UIFont.systemFont(ofSize: 12),
-            NSForegroundColorAttributeName: UIColor.white,
+            .font: UIFont.systemFont(ofSize: 12),
+            .foregroundColor: UIColor.white,
             ])
         
         return CGSize(width: attr.size().width + 11, height: 18)

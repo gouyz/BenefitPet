@@ -46,7 +46,7 @@ open class JCMessageTipsView: UIView, JCMessageContentViewType {
             unreadCountTips.isHidden = false
             if message.unreadCount > 0 {
                 unreadCountTips.isEnabled = true
-                unreadCountTips.setTitleColor(UIColor(netHex: 0x2DD0CF), for: .normal)
+                unreadCountTips.setTitleColor(UIColor.ColorHex("0x2DD0CF"), for: .normal)
                 if message.targetType == .single {
                     unreadCountTips.isEnabled = false
                     unreadCountTips.setTitle("未读", for: .normal)
@@ -55,7 +55,7 @@ open class JCMessageTipsView: UIView, JCMessageContentViewType {
                 }
             } else {
                 unreadCountTips.isEnabled = false
-                unreadCountTips.setTitleColor(UIColor(netHex: 0x999999), for: .normal)
+                unreadCountTips.setTitleColor(UIColor.ColorHex("0x999999"), for: .normal)
                 if message.targetType == .single {
                     unreadCountTips.setTitle("已读", for: .normal)
                 } else {
@@ -75,7 +75,7 @@ open class JCMessageTipsView: UIView, JCMessageContentViewType {
         return activityView
     }()
     private lazy var errorInfoView: UIImageView = {
-        let image = UIImage.loadImage("com_icon_send_error")
+        let image = UIImage.init(named: "com_icon_send_error")
         let errorInfoView = UIImageView(frame: CGRect(x: 100 - 21, y: 0, width: 21, height: 21))
         errorInfoView.isUserInteractionEnabled = true
         errorInfoView.image = image
@@ -87,7 +87,7 @@ open class JCMessageTipsView: UIView, JCMessageContentViewType {
         unreadCountTips.addTarget(self, action: #selector(_clickUnreadCount), for: .touchUpInside)
         unreadCountTips.setTitle("未读", for: .normal)
         unreadCountTips.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        unreadCountTips.setTitleColor(UIColor(netHex: 0x2DD0CF), for: .normal)
+        unreadCountTips.setTitleColor(UIColor.ColorHex("0x2DD0CF"), for: .normal)
         unreadCountTips.isHidden = true
         unreadCountTips.contentHorizontalAlignment = .right
         return unreadCountTips
@@ -104,11 +104,11 @@ open class JCMessageTipsView: UIView, JCMessageContentViewType {
         #endif
     }
     
-    func _clickUnreadCount() {
+    @objc func _clickUnreadCount() {
         delegate?.tapUnreadTips?(message: message)
     }
     
-    func _tapHandler(sender: UITapGestureRecognizer) {
+    @objc func _tapHandler(sender: UITapGestureRecognizer) {
         delegate?.clickTips?(message: message)
     }
 }
