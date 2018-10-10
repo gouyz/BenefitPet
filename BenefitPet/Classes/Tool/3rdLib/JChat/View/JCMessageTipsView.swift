@@ -46,7 +46,7 @@ open class JCMessageTipsView: UIView, JCMessageContentViewType {
             unreadCountTips.isHidden = false
             if message.unreadCount > 0 {
                 unreadCountTips.isEnabled = true
-                unreadCountTips.setTitleColor(UIColor.ColorHex("0x2DD0CF"), for: .normal)
+                unreadCountTips.setTitleColor(UIColor.ColorHex("#2DD0CF"), for: .normal)
                 if message.targetType == .single {
                     unreadCountTips.isEnabled = false
                     unreadCountTips.setTitle("未读", for: .normal)
@@ -55,7 +55,7 @@ open class JCMessageTipsView: UIView, JCMessageContentViewType {
                 }
             } else {
                 unreadCountTips.isEnabled = false
-                unreadCountTips.setTitleColor(UIColor.ColorHex("0x999999"), for: .normal)
+                unreadCountTips.setTitleColor(UIColor.ColorHex("#999999"), for: .normal)
                 if message.targetType == .single {
                     unreadCountTips.setTitle("已读", for: .normal)
                 } else {
@@ -87,7 +87,7 @@ open class JCMessageTipsView: UIView, JCMessageContentViewType {
         unreadCountTips.addTarget(self, action: #selector(_clickUnreadCount), for: .touchUpInside)
         unreadCountTips.setTitle("未读", for: .normal)
         unreadCountTips.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        unreadCountTips.setTitleColor(UIColor.ColorHex("0x2DD0CF"), for: .normal)
+        unreadCountTips.setTitleColor(UIColor.ColorHex("#2DD0CF"), for: .normal)
         unreadCountTips.isHidden = true
         unreadCountTips.contentHorizontalAlignment = .right
         return unreadCountTips

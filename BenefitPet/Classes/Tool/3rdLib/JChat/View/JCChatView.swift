@@ -151,7 +151,7 @@ var isWait = false
     
     private func _commonInit() {
         
-        backgroundColor = UIColor.ColorHex("0xe8edf3")
+        backgroundColor = UIColor.ColorHex("#e8edf3")
         let header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(_onPullToFresh))
         header?.stateLabel.isHidden = true
         _chatContainerView.mj_header = header
@@ -159,7 +159,7 @@ var isWait = false
         _chatContainerView.allowsMultipleSelection = false
         _chatContainerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         _chatContainerView.keyboardDismissMode = .onDrag
-        _chatContainerView.backgroundColor = UIColor.ColorHex("0xE8EDF3")
+        _chatContainerView.backgroundColor = UIColor.ColorHex("#E8EDF3")
         _chatContainerView.dataSource = self
         _chatContainerView.delegate = self
         

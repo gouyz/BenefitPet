@@ -66,7 +66,6 @@ class BPChatMessageVC: GYZBaseVC {
     
     private func _init() {
         myAvator = UIImage.getMyAvator()
-        _updateTitle()
         view.backgroundColor = .white
         JMessage.add(self, with: conversation)
         
@@ -100,14 +99,6 @@ class BPChatMessageVC: GYZBaseVC {
         let url = URL(fileURLWithPath: content.originMediaLocalPath ?? "")
         let data = try! Data(contentsOf: url)
         updateMediaMessage(message!, data: data)
-    }
-    
-    private func _updateTitle() {
-        if let group = conversation?.target as? JMSGGroup {
-            title = group.displayName()
-        } else {
-            title = conversation?.title
-        }
     }
     
     

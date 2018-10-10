@@ -74,7 +74,7 @@ class JCSelectMemberCell: UITableViewCell {
         
         selectIconView.image = image
         
-        usernameLabel.textColor = UIColor.ColorHex("0x2c2c2c")
+        usernameLabel.textColor = UIColor.ColorHex("#2c2c2c")
         usernameLabel.font = UIFont.systemFont(ofSize: 14)
         
         contentView.addSubview(selectIconView)

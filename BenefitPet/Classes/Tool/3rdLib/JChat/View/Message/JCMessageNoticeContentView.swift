@@ -30,10 +30,10 @@ open class JCMessageNoticeContentView: UILabel, JCMessageContentViewType {
     private func _commonInit() {
         layer.cornerRadius = 2.5
         layer.borderWidth = 1.0
-        layer.borderColor = UIColor.ColorHex("0xD7DCE2").cgColor
+        layer.borderColor = UIColor.ColorHex("#D7DCE2").cgColor
         layer.masksToBounds = true
         font = UIFont.systemFont(ofSize: 12)
-        backgroundColor = UIColor.ColorHex("0xD7DCE2")
+        backgroundColor = UIColor.ColorHex("#D7DCE2")
         textColor = .white
         textAlignment = .center
         numberOfLines = 0

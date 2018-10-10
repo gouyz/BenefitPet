@@ -27,6 +27,6 @@ open class JCMessageCardView: UILabel, JCMessageContentViewType {
     
     private func _commonInit() {
         font = UIFont.systemFont(ofSize: 14)
-        textColor = UIColor.ColorHex("0xB3B3B3")
+        textColor = UIColor.ColorHex("#B3B3B3")
     }
 }

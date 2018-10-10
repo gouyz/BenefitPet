@@ -22,7 +22,7 @@ class ImageFileHeader: UICollectionReusableView {
 
     private func _init(){
         titleLabel = UILabel(frame: CGRect(x: 16.5, y: 0, width: self.width, height: self.height))
-        titleLabel.textColor = UIColor.ColorHex("0x808080")
+        titleLabel.textColor = UIColor.ColorHex("#808080")
         titleLabel.font = UIFont.systemFont(ofSize: 13)
         addSubview(titleLabel)
     }

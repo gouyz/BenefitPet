@@ -48,7 +48,7 @@ class JCSingleSettingCell: UITableViewCell {
         let nickname = UILabel()
         nickname.font = UIFont.systemFont(ofSize: 12)
         nickname.textAlignment = .center
-        nickname.textColor = UIColor.ColorHex("0x2C2C2C")
+        nickname.textColor = UIColor.ColorHex("#2C2C2C")
         return nickname
     }()
     

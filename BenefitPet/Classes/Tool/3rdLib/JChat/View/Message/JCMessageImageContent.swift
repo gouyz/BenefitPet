@@ -23,7 +23,7 @@ open class JCMessageImageContent: NSObject, JCMessageContentType {
     
     open func sizeThatFits(_ size: CGSize) -> CGSize {
         if image == nil {
-             image = UIImage.createImage(color: UIColor.ColorHex("0xCDD0D1"), size: imageSize ?? CGSize(width: 160, height: 160))
+            image = UIImage.createImage(color: UIColor.ColorHex("#CDD0D1"), size: imageSize ?? CGSize(width: 160, height: 160))
         }
         let size = imageSize ?? (image?.size)!
         let scale = min(min(160, size.width) / size.width, min(160, size.height) / size.height)

@@ -27,8 +27,8 @@ class JCTableViewCell: UITableViewCell {
     private lazy var line: UILabel = UILabel()
     
     private func _init() {
-        line.backgroundColor = UIColor.ColorHex("0xE8E8E8")
-        line.layer.backgroundColor = UIColor.ColorHex("0xE8E8E8").cgColor
+        line.backgroundColor = UIColor.ColorHex("#E8E8E8")
+        line.layer.backgroundColor = UIColor.ColorHex("#E8E8E8").cgColor
         
         addSubview(line)
         
