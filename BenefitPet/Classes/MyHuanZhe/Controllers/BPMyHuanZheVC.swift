@@ -91,8 +91,9 @@ class BPMyHuanZheVC: GYZBaseVC {
         navigationController?.pushViewController(controller, animated: true)
     }
     /// 患者聊天、同步诊疗记录
-    func goChatVC(){
+    func goChatVC(conversation: JMSGConversation){
         let vc = BPChatManagerVC()
+        vc.conversation = conversation
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -198,7 +199,7 @@ extension BPMyHuanZheVC: UITableViewDelegate,UITableViewDataSource{
             }
             cell.dataModel = conversation
             updateBadge()
-            goChatVC()
+            goChatVC(conversation: conversation)
         }
     }
     ///MARK : UITableViewDelegate

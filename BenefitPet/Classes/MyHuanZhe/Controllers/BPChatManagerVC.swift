@@ -11,7 +11,6 @@ import UIKit
 class BPChatManagerVC: GYZBaseVC {
     
     var conversation: JMSGConversation?
-    var headerTitle: String = "欢欢"
     
     let titleArr : [String] = ["患者聊天","同步诊疗记录"]
 
@@ -22,7 +21,8 @@ class BPChatManagerVC: GYZBaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = headerTitle
+        let user = conversation?.target as? JMSGUser
+        self.navigationItem.title = user?.displayName() ?? ""
         setScrollView()
         
         if currIndex > 0 {

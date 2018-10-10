@@ -15,7 +15,7 @@ class BPChatMessageVC: GYZBaseVC {
 
     
     var chatViewLayout: JCChatViewLayout = JCChatViewLayout.init()
-    var chatView: JCChatView!
+    
     fileprivate lazy var reminds: [JCRemind] = []
     
     fileprivate var myAvator: UIImage?
@@ -34,32 +34,35 @@ class BPChatMessageVC: GYZBaseVC {
         _init()
     }
     
-    override func loadView() {
-        super.loadView()
-        let frame = CGRect(x: 0, y: kTitleAndStateHeight, width: self.view.width, height: self.view.height - kTitleAndStateHeight)
-        chatView = JCChatView(frame: frame, chatViewLayout: chatViewLayout)
-        chatView.delegate = self
-        chatView.messageDelegate = self
-        //        toolbar.translatesAutoresizingMaskIntoConstraints = false
-        //        toolbar.delegate = self
-        //        toolbar.text = draft
-    }
+//    override func loadView() {
+//        super.loadView()
+//        let frame = CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height)
+//        chatView = JCChatView(frame: frame, chatViewLayout: chatViewLayout)
+//        chatView.delegate = self
+//        chatView.messageDelegate = self
+//        //        toolbar.translatesAutoresizingMaskIntoConstraints = false
+//        //        toolbar.delegate = self
+//        //        toolbar.text = draft
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if let group = conversation?.target as? JMSGGroup {
-            self.navigationItem.title = group.displayName()
-        }
-    }
     
     deinit {
         JMessage.remove(self, with: conversation)
     }
+    lazy var chatView: JCChatView = {
+        let chatview = JCChatView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height - 160 - kTitleHeight - kTitleAndStateHeight), chatViewLayout: chatViewLayout)
+        chatview.delegate = self
+        chatview.messageDelegate = self
+        
+        return chatview
+    }()
+    ///
+    lazy var bottomView: BPChatBottomView = BPChatBottomView.init(frame: CGRect.init(x: 0, y: chatView.bottomY, width: kScreenWidth, height: 160))
     
     private func _init() {
         myAvator = UIImage.getMyAvator()
@@ -72,10 +75,21 @@ class BPChatMessageVC: GYZBaseVC {
 //        tap.delegate = self
 //        chatView.addGestureRecognizer(tap)
         view.addSubview(chatView)
+        view.addSubview(bottomView)
+        
+        bottomView.sendBtn.addTarget(self, action: #selector(onClickedSend), for: .touchUpInside)
         
         NotificationCenter.default.addObserver(self, selector: #selector(_removeAllMessage), name: NSNotification.Name(rawValue: kDeleteAllMessage), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(_reloadMessage), name: NSNotification.Name(rawValue: kReloadAllMessage), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(_updateFileMessage(_:)), name: NSNotification.Name(rawValue: kUpdateFileMessage), object: nil)
+    }
+    /// 发送
+    @objc func onClickedSend(){
+        bottomView.conmentField.resignFirstResponder()
+        if !(bottomView.conmentField.text?.isEmpty)! {
+            send(forText: bottomView.conmentField.text!)
+            bottomView.conmentField.text = ""
+        }
     }
     
     @objc func _updateFileMessage(_ notification: Notification) {
@@ -194,9 +208,9 @@ class BPChatMessageVC: GYZBaseVC {
         conversation?.send(jmessage, optionalContent: JMSGOptionalContent.ex.default)
     }
     
-    func send(forText text: NSAttributedString) {
-        let message = JCMessage(content: JCMessageTextContent(attributedText: text))
-        let content = JMSGTextContent(text: text.string)
+    func send(forText text: String) {
+        let message = JCMessage(content: JCMessageTextContent.init(text: text))
+        let content = JMSGTextContent(text: text)
         let msg = JMSGMessage.ex.createMessage(conversation!, content, reminds)
         reminds.removeAll()
         send(message, msg)
@@ -212,17 +226,7 @@ extension BPChatMessageVC: JMessageDelegate {
                 let msg = self.messages[index]
                 switch(message.contentType) {
                 case .file:
-                    if message.ex.isShortVideo {
-                        let videoContent = msg.content as! JCMessageVideoContent
-                        videoContent.data = data
-                        videoContent.delegate = self
-                        msg.content = videoContent
-                    } else {
-                        let fileContent = msg.content as! JCMessageFileContent
-                        fileContent.data = data
-                        fileContent.delegate = self
-                        msg.content = fileContent
-                    }
+                    break
                 case .image:
                     let imageContent = msg.content as! JCMessageImageContent
                     let image = UIImage(data: data)

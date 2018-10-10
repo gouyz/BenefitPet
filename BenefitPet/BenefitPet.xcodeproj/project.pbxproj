@@ -16,6 +16,8 @@
 		0A303518212EA01D00B55AAE /* BPModifySchoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */; };
 		0A30351A212EA30200B55AAE /* BPTongShiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303519212EA30200B55AAE /* BPTongShiVC.swift */; };
 		0A64D007215E6F000045F14F /* BPYuYueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64D006215E6F000045F14F /* BPYuYueModel.swift */; };
+		0A6D51BC216D81B9008B7CF0 /* Array+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D51BB216D81B9008B7CF0 /* Array+JChat.swift */; };
+		0A6D51BE216D88B0008B7CF0 /* BPChatBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D51BD216D88B0008B7CF0 /* BPChatBottomView.swift */; };
 		0A714DF4212CF1160016BAB1 /* BPStudyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A714DF3212CF1160016BAB1 /* BPStudyVC.swift */; };
 		0A714DF6212CFC7A0016BAB1 /* BPStudyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A714DF5212CFC7A0016BAB1 /* BPStudyHeaderView.swift */; };
 		0A714DF8212D04510016BAB1 /* BPStudyVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A714DF7212D04510016BAB1 /* BPStudyVideoCell.swift */; };
@@ -283,6 +285,8 @@
 		0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifySchoolVC.swift; sourceTree = "<group>"; };
 		0A303519212EA30200B55AAE /* BPTongShiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPTongShiVC.swift; sourceTree = "<group>"; };
 		0A64D006215E6F000045F14F /* BPYuYueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPYuYueModel.swift; sourceTree = "<group>"; };
+		0A6D51BB216D81B9008B7CF0 /* Array+JChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+JChat.swift"; sourceTree = "<group>"; };
+		0A6D51BD216D88B0008B7CF0 /* BPChatBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPChatBottomView.swift; sourceTree = "<group>"; };
 		0A714DF3212CF1160016BAB1 /* BPStudyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPStudyVC.swift; sourceTree = "<group>"; };
 		0A714DF5212CFC7A0016BAB1 /* BPStudyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPStudyHeaderView.swift; sourceTree = "<group>"; };
 		0A714DF7212D04510016BAB1 /* BPStudyVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPStudyVideoCell.swift; sourceTree = "<group>"; };
@@ -596,6 +600,7 @@
 		0A761CD2216C8C2A00FDA645 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				0A6D51BB216D81B9008B7CF0 /* Array+JChat.swift */,
 				0A157A56216CF3830082FAC6 /* Date+JChat.swift */,
 				0AB026D6216CA91700455EA3 /* UIImage+JChat.swift */,
 				0AB026D4216CA6B300455EA3 /* NSLayoutConstraint+JChat.swift */,
@@ -817,6 +822,7 @@
 				0A72AB48210FEAEC0018DCCC /* GYZCommonIconArrowCell.swift */,
 				0A954CA82118394A002772A0 /* GYZFuncModelView.swift */,
 				0A814312211BCB9200529C74 /* GYZLabArrowCell.swift */,
+				0A6D51BD216D88B0008B7CF0 /* BPChatBottomView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1630,6 +1636,7 @@
 				0A838900210AB3EB009ECF96 /* GYZImgAndTxtBtnView.swift in Sources */,
 				0A714E06212D8BC20016BAB1 /* BPMyTeamHeaderView.swift in Sources */,
 				0A954CA92118394A002772A0 /* GYZFuncModelView.swift in Sources */,
+				0A6D51BE216D88B0008B7CF0 /* BPChatBottomView.swift in Sources */,
 				0A303510212E4D1800B55AAE /* BPAllFriendsVC.swift in Sources */,
 				0A7B6F0021255948005EBCF0 /* BPChatManagerVC.swift in Sources */,
 				0A72376621114475006E0E04 /* BPOnLineOrderCell.swift in Sources */,
@@ -1654,6 +1661,7 @@
 				0A92C7D121226E7200FFEB94 /* BPMyHomeDongTaiCell.swift in Sources */,
 				0A714DF4212CF1160016BAB1 /* BPStudyVC.swift in Sources */,
 				0A761D27216CA17500FDA645 /* JCMessageTimeLineContentView.swift in Sources */,
+				0A6D51BC216D81B9008B7CF0 /* Array+JChat.swift in Sources */,
 				0A714DFC212D3DFE0016BAB1 /* BPArticlesVC.swift in Sources */,
 				0A838911210AB3EC009ECF96 /* GYZString+Extension.swift in Sources */,
 				0A72376C211191B4006E0E04 /* BPBlackListVC.swift in Sources */,
