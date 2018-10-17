@@ -77,6 +77,10 @@ class BPChatMessageVC: GYZBaseVC {
         view.addSubview(bottomView)
         
         bottomView.sendBtn.addTarget(self, action: #selector(onClickedSend), for: .touchUpInside)
+        bottomView.onClickedOperatorBlock = { [weak self] (index) in
+            
+            self?.bottomOperator(index: index)
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(_removeAllMessage), name: NSNotification.Name(rawValue: kDeleteAllMessage), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(_reloadMessage), name: NSNotification.Name(rawValue: kReloadAllMessage), object: nil)
@@ -88,6 +92,21 @@ class BPChatMessageVC: GYZBaseVC {
         if !(bottomView.conmentField.text?.isEmpty)! {
             send(forText: bottomView.conmentField.text!)
             bottomView.conmentField.text = ""
+        }
+    }
+    /// 底部操作
+    func bottomOperator(index: Int){
+        switch index {
+        case 101:// 小贴士
+            break
+        case 102:// 问诊表
+            break
+        case 103:// 随访计划
+            break
+        case 104:// 日程提醒
+            break
+        default:
+            break
         }
     }
     

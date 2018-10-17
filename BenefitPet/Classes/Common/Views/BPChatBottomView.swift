@@ -9,6 +9,11 @@
 import UIKit
 
 class BPChatBottomView: UIView {
+    
+    /// 点击操作
+    var onClickedOperatorBlock: ((_ index: Int) -> Void)?
+    
+    
     // MARK: 生命周期方法
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -91,6 +96,8 @@ class BPChatBottomView: UIView {
         let btn = UIButton.init(type: .custom)
         btn.titleLabel?.font = k12Font
         btn.setTitleColor(kBlackFontColor, for: .normal)
+        btn.tag = 101
+        btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
         
         return btn
     }()
@@ -99,6 +106,8 @@ class BPChatBottomView: UIView {
         let btn = UIButton.init(type: .custom)
         btn.titleLabel?.font = k12Font
         btn.setTitleColor(kBlackFontColor, for: .normal)
+        btn.tag = 102
+        btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
         
         return btn
     }()
@@ -107,6 +116,8 @@ class BPChatBottomView: UIView {
         let btn = UIButton.init(type: .custom)
         btn.titleLabel?.font = k12Font
         btn.setTitleColor(kBlackFontColor, for: .normal)
+        btn.tag = 103
+        btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
         
         return btn
     }()
@@ -115,7 +126,15 @@ class BPChatBottomView: UIView {
         let btn = UIButton.init(type: .custom)
         btn.titleLabel?.font = k12Font
         btn.setTitleColor(kBlackFontColor, for: .normal)
+        btn.tag = 104
+        btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
         
         return btn
     }()
+    
+    @objc func onClickedOperator(btn: UIButton){
+        if onClickedOperatorBlock != nil {
+            onClickedOperatorBlock!(btn.tag)
+        }
+    }
 }

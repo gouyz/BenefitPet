@@ -15,6 +15,7 @@
 		0A303516212E957200B55AAE /* BPSchoolFriendsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */; };
 		0A303518212EA01D00B55AAE /* BPModifySchoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */; };
 		0A30351A212EA30200B55AAE /* BPTongShiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303519212EA30200B55AAE /* BPTongShiVC.swift */; };
+		0A487A4B2177803800352EAF /* BPHuanZheGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */; };
 		0A64D007215E6F000045F14F /* BPYuYueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64D006215E6F000045F14F /* BPYuYueModel.swift */; };
 		0A6D51BC216D81B9008B7CF0 /* Array+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D51BB216D81B9008B7CF0 /* Array+JChat.swift */; };
 		0A6D51BE216D88B0008B7CF0 /* BPChatBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D51BD216D88B0008B7CF0 /* BPChatBottomView.swift */; };
@@ -284,6 +285,7 @@
 		0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolFriendsCell.swift; sourceTree = "<group>"; };
 		0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifySchoolVC.swift; sourceTree = "<group>"; };
 		0A303519212EA30200B55AAE /* BPTongShiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPTongShiVC.swift; sourceTree = "<group>"; };
+		0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHuanZheGroupModel.swift; sourceTree = "<group>"; };
 		0A64D006215E6F000045F14F /* BPYuYueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPYuYueModel.swift; sourceTree = "<group>"; };
 		0A6D51BB216D81B9008B7CF0 /* Array+JChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+JChat.swift"; sourceTree = "<group>"; };
 		0A6D51BD216D88B0008B7CF0 /* BPChatBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPChatBottomView.swift; sourceTree = "<group>"; };
@@ -843,6 +845,7 @@
 				0A954C9D2117F18F002772A0 /* BPHuanZheMenuModel.swift */,
 				0A74485F215F19AC002DE6AB /* BPWenZhenModel.swift */,
 				0A744863215F2427002DE6AB /* BPFollowPlanModel.swift */,
+				0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1633,6 +1636,7 @@
 				0A7168B5212F960600125444 /* GYZAddressBookManager.swift in Sources */,
 				0A954C9C2117DA4A002772A0 /* BPAddRiChengVC.swift in Sources */,
 				0A83890D210AB3EC009ECF96 /* ETNavBarTransparent.swift in Sources */,
+				0A487A4B2177803800352EAF /* BPHuanZheGroupModel.swift in Sources */,
 				0A838900210AB3EB009ECF96 /* GYZImgAndTxtBtnView.swift in Sources */,
 				0A714E06212D8BC20016BAB1 /* BPMyTeamHeaderView.swift in Sources */,
 				0A954CA92118394A002772A0 /* GYZFuncModelView.swift in Sources */,

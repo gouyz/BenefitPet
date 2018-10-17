@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let huanZheGroupCell = "huanZheGroupCell"
 
 class BPHuanZheGroupVC: GYZBaseVC {
+    
+    var dataList: [BPHuanZheGroupModel] = [BPHuanZheGroupModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +24,7 @@ class BPHuanZheGroupVC: GYZBaseVC {
             make.edges.equalTo(0)
         }
         
+        requestGroupDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -44,6 +48,47 @@ class BPHuanZheGroupVC: GYZBaseVC {
         vc.isEdit = isEdit
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    ///获取分组数据
+    func requestGroupDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("patient/show_group",parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPHuanZheGroupModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.tableView.reloadData()
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+        })
+    }
 }
 extension BPHuanZheGroupVC: UITableViewDelegate,UITableViewDataSource{
     
@@ -54,7 +99,7 @@ extension BPHuanZheGroupVC: UITableViewDelegate,UITableViewDataSource{
         if section == 0 {
             return 1
         }
-        return 8
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,7 +109,9 @@ extension BPHuanZheGroupVC: UITableViewDelegate,UITableViewDataSource{
         if indexPath.section == 0 {
             cell.nameLab.text = "添加新分组"
         }else{
-            cell.nameLab.text = "门诊（8）"
+            
+            let model = dataList[indexPath.row]
+            cell.nameLab.text = "\(model.name!)（\(model.num!)）"
         }
         
         cell.selectionStyle = .none
