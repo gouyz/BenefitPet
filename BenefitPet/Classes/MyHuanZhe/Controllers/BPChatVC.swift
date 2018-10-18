@@ -1,18 +1,18 @@
 //
-//  BPChatMessageVC.swift
+//  BPChatVC.swift
 //  BenefitPet
-//  患者聊天
-//  Created by gouyz on 2018/8/16.
+//  既往问诊聊天
+//  Created by gouyz on 2018/10/18.
 //  Copyright © 2018年 gyz. All rights reserved.
 //
 
 import UIKit
 import MBProgressHUD
 
-class BPChatMessageVC: GYZBaseVC {
-    
-    var conversation: JMSGConversation?
+class BPChatVC: GYZBaseVC {
 
+    var conversation: JMSGConversation?
+    
     
     var chatViewLayout: JCChatViewLayout = JCChatViewLayout.init()
     
@@ -31,20 +31,12 @@ class BPChatMessageVC: GYZBaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let user = conversation?.target as? JMSGUser
+        self.navigationItem.title = user?.displayName() ?? ""
+        
         _init()
     }
     
-//    override func loadView() {
-//        super.loadView()
-//        let frame = CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height)
-//        chatView = JCChatView(frame: frame, chatViewLayout: chatViewLayout)
-//        chatView.delegate = self
-//        chatView.messageDelegate = self
-//        //        toolbar.translatesAutoresizingMaskIntoConstraints = false
-//        //        toolbar.delegate = self
-//        //        toolbar.text = draft
-//    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -55,7 +47,7 @@ class BPChatMessageVC: GYZBaseVC {
         JMessage.remove(self, with: conversation)
     }
     lazy var chatView: JCChatView = {
-        let chatview = JCChatView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height - 160 - kTitleHeight - kTitleAndStateHeight), chatViewLayout: chatViewLayout)
+        let chatview = JCChatView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height - 160), chatViewLayout: chatViewLayout)
         chatview.delegate = self
         chatview.messageDelegate = self
         
@@ -70,9 +62,9 @@ class BPChatMessageVC: GYZBaseVC {
         JMessage.add(self, with: conversation)
         
         _loadMessage(messagePage)
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(_tapView))
-//        tap.delegate = self
-//        chatView.addGestureRecognizer(tap)
+        //        let tap = UITapGestureRecognizer(target: self, action: #selector(_tapView))
+        //        tap.delegate = self
+        //        chatView.addGestureRecognizer(tap)
         view.addSubview(chatView)
         view.addSubview(bottomView)
         
@@ -249,7 +241,7 @@ class BPChatMessageVC: GYZBaseVC {
 }
 
 //MARK: - JMSGMessage Delegate
-extension BPChatMessageVC: JMessageDelegate {
+extension BPChatVC: JMessageDelegate {
     
     fileprivate func updateMediaMessage(_ message: JMSGMessage, data: Data) {
         DispatchQueue.main.async {
@@ -273,19 +265,19 @@ extension BPChatMessageVC: JMessageDelegate {
         }
     }
     
-//    func _updateBadge() {
-//        JMSGConversation.allConversations { (result, error) in
-//            guard let conversations = result as? [JMSGConversation] else {
-//                return
-//            }
-//            let count = conversations.unreadCount
-//            if count == 0 {
-//                self.leftButton.setTitle("会话", for: .normal)
-//            } else {
-//                self.leftButton.setTitle("会话(\(count))", for: .normal)
-//            }
-//        }
-//    }
+    //    func _updateBadge() {
+    //        JMSGConversation.allConversations { (result, error) in
+    //            guard let conversations = result as? [JMSGConversation] else {
+    //                return
+    //            }
+    //            let count = conversations.unreadCount
+    //            if count == 0 {
+    //                self.leftButton.setTitle("会话", for: .normal)
+    //            } else {
+    //                self.leftButton.setTitle("会话(\(count))", for: .normal)
+    //            }
+    //        }
+    //    }
     
     func onReceive(_ message: JMSGMessage!, error: Error!) {
         if error != nil {
@@ -314,7 +306,7 @@ extension BPChatMessageVC: JMessageDelegate {
         if !chatView.isRoll {
             chatView.scrollToLast(animated: true)
         }
-//        _updateBadge()
+        //        _updateBadge()
     }
     
     func onSendMessageResponse(_ message: JMSGMessage!, error: Error!) {
@@ -356,7 +348,7 @@ extension BPChatMessageVC: JMessageDelegate {
                 chatView.scrollToLast(animated: true)
             }
         }
-//        _updateBadge()
+        //        _updateBadge()
     }
     
     func onReceive(_ receiptEvent: JMSGMessageReceiptStatusChangeEvent!) {
@@ -371,30 +363,30 @@ extension BPChatMessageVC: JMessageDelegate {
 }
 
 // MARK: - JCMessageDelegate
-extension BPChatMessageVC: JCMessageDelegate {
+extension BPChatVC: JCMessageDelegate {
     
     func message(message: JCMessageType, videoData data: Data?) {
-//        if let data = data {
-//            JCVideoManager.playVideo(data: data, currentViewController: self)
-//        }
+        //        if let data = data {
+        //            JCVideoManager.playVideo(data: data, currentViewController: self)
+        //        }
     }
     
     func message(message: JCMessageType, location address: String?, lat: Double, lon: Double) {
-//        let vc = JCAddMapViewController()
-//        vc.isOnlyShowMap = true
-//        vc.lat = lat
-//        vc.lon = lon
-//        navigationController?.pushViewController(vc, animated: true)
+        //        let vc = JCAddMapViewController()
+        //        vc.isOnlyShowMap = true
+        //        vc.lat = lat
+        //        vc.lon = lon
+        //        navigationController?.pushViewController(vc, animated: true)
     }
     
     func message(message: JCMessageType, image: UIImage?) {
-//        let browserImageVC = JCImageBrowserViewController()
-//        browserImageVC.messages = messages
-//        browserImageVC.conversation = conversation
-//        browserImageVC.currentMessage = message
-//        present(browserImageVC, animated: true) {
-//            self.toolbar.isHidden = true
-//        }
+        //        let browserImageVC = JCImageBrowserViewController()
+        //        browserImageVC.messages = messages
+        //        browserImageVC.conversation = conversation
+        //        browserImageVC.currentMessage = message
+        //        present(browserImageVC, animated: true) {
+        //            self.toolbar.isHidden = true
+        //        }
     }
     
     func message(message: JCMessageType, fileData data: Data?, fileName: String?, fileType: String?) {
@@ -402,50 +394,50 @@ extension BPChatMessageVC: JCMessageDelegate {
     }
     
     func message(message: JCMessageType, user: JMSGUser?, businessCardName: String, businessCardAppKey: String) {
-//        if let user = user {
-//            let vc = JCUserInfoViewController()
-//            vc.user = user
-//            navigationController?.pushViewController(vc, animated: true)
-//        }
+        //        if let user = user {
+        //            let vc = JCUserInfoViewController()
+        //            vc.user = user
+        //            navigationController?.pushViewController(vc, animated: true)
+        //        }
     }
     
     func clickTips(message: JCMessageType) {
         currentMessage = message
-//        let alertView = UIAlertView(title: "重新发送", message: "是否重新发送该消息？", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "发送")
-//        alertView.show()
+        //        let alertView = UIAlertView(title: "重新发送", message: "是否重新发送该消息？", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "发送")
+        //        alertView.show()
     }
     
     func tapAvatarView(message: JCMessageType) {
-//        toolbar.resignFirstResponder()
-//        if message.options.alignment == .right {
-//            navigationController?.pushViewController(JCMyInfoViewController(), animated: true)
-//        } else {
-//            let vc = JCUserInfoViewController()
-//            vc.user = message.sender
-//            navigationController?.pushViewController(vc, animated: true)
-//        }
+        //        toolbar.resignFirstResponder()
+        //        if message.options.alignment == .right {
+        //            navigationController?.pushViewController(JCMyInfoViewController(), animated: true)
+        //        } else {
+        //            let vc = JCUserInfoViewController()
+        //            vc.user = message.sender
+        //            navigationController?.pushViewController(vc, animated: true)
+        //        }
     }
     
     func longTapAvatarView(message: JCMessageType) {
-//        if !isGroup || message.options.alignment == .right {
-//            return
-//        }
-//        toolbar.becomeFirstResponder()
-//        if let user = message.sender {
-//            toolbar.text.append("@")
-//            handleAt(toolbar, NSMakeRange(toolbar.text.length - 1, 0), user, false, user.displayName().length)
-//        }
+        //        if !isGroup || message.options.alignment == .right {
+        //            return
+        //        }
+        //        toolbar.becomeFirstResponder()
+        //        if let user = message.sender {
+        //            toolbar.text.append("@")
+        //            handleAt(toolbar, NSMakeRange(toolbar.text.length - 1, 0), user, false, user.displayName().length)
+        //        }
     }
     
     func tapUnreadTips(message: JCMessageType) {
-//        let vc = UnreadListViewController()
-//        let msg = conversation.message(withMessageId: message.msgId)
-//        vc.message = msg
-//        navigationController?.pushViewController(vc, animated: true)
+        //        let vc = UnreadListViewController()
+        //        let msg = conversation.message(withMessageId: message.msgId)
+        //        vc.message = msg
+        //        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension BPChatMessageVC: JCChatViewDelegate {
+extension BPChatVC: JCChatViewDelegate {
     func refershChatView( chatView: JCChatView) {
         messagePage += 1
         _loadMessage(messagePage)
@@ -467,14 +459,14 @@ extension BPChatMessageVC: JCChatViewDelegate {
     }
     
     func forwardMessage(message: JCMessageType) {
-//        if let message = conversation.message(withMessageId: message.msgId) {
-//            let vc = JCForwardViewController()
-//            vc.message = message
-//            let nav = JCNavigationController(rootViewController: vc)
-//            self.present(nav, animated: true, completion: {
-//                self.toolbar.isHidden = true
-//            })
-//        }
+        //        if let message = conversation.message(withMessageId: message.msgId) {
+        //            let vc = JCForwardViewController()
+        //            vc.message = message
+        //            let nav = JCNavigationController(rootViewController: vc)
+        //            self.present(nav, animated: true, completion: {
+        //                self.toolbar.isHidden = true
+        //            })
+        //        }
     }
     
     func withdrawMessage(message: JCMessageType) {

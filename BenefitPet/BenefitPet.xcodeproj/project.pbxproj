@@ -120,6 +120,7 @@
 		0A7B6F0421255CC6005EBCF0 /* BPZhenLiaoRecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B6F0321255CC5005EBCF0 /* BPZhenLiaoRecordVC.swift */; };
 		0A7B6F0621256263005EBCF0 /* BPZhenLiaoRecordInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B6F0521256263005EBCF0 /* BPZhenLiaoRecordInfoCell.swift */; };
 		0A7B6F0821256875005EBCF0 /* BPZhenLiaoRecordEmptyFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B6F0721256875005EBCF0 /* BPZhenLiaoRecordEmptyFooterView.swift */; };
+		0A8002B42178355500DF1550 /* BPChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8002B32178355500DF1550 /* BPChatVC.swift */; };
 		0A814311211BC99700529C74 /* BPWenZhenTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A814310211BC99700529C74 /* BPWenZhenTableView.swift */; };
 		0A814313211BCB9200529C74 /* GYZLabArrowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A814312211BCB9200529C74 /* GYZLabArrowCell.swift */; };
 		0A814315211BCCF900529C74 /* BPWenZhenTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A814314211BCCF900529C74 /* BPWenZhenTableHeaderView.swift */; };
@@ -390,6 +391,7 @@
 		0A7B6F0321255CC5005EBCF0 /* BPZhenLiaoRecordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPZhenLiaoRecordVC.swift; sourceTree = "<group>"; };
 		0A7B6F0521256263005EBCF0 /* BPZhenLiaoRecordInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPZhenLiaoRecordInfoCell.swift; sourceTree = "<group>"; };
 		0A7B6F0721256875005EBCF0 /* BPZhenLiaoRecordEmptyFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPZhenLiaoRecordEmptyFooterView.swift; sourceTree = "<group>"; };
+		0A8002B32178355500DF1550 /* BPChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPChatVC.swift; sourceTree = "<group>"; };
 		0A814310211BC99700529C74 /* BPWenZhenTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPWenZhenTableView.swift; sourceTree = "<group>"; };
 		0A814312211BCB9200529C74 /* GYZLabArrowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GYZLabArrowCell.swift; sourceTree = "<group>"; };
 		0A814314211BCCF900529C74 /* BPWenZhenTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPWenZhenTableHeaderView.swift; sourceTree = "<group>"; };
@@ -874,6 +876,7 @@
 				0A7517A12126BBE10002553A /* BPEditHuanZheInfoVC.swift */,
 				0A7517A32126C0590002553A /* BPGroupManagerVC.swift */,
 				0A744865215F2981002DE6AB /* BPFollowPlanDetailVC.swift */,
+				0A8002B32178355500DF1550 /* BPChatVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1720,6 +1723,7 @@
 				0A954C9E2117F18F002772A0 /* BPHuanZheMenuModel.swift in Sources */,
 				0A838901210AB3EB009ECF96 /* GYZBottomSendView.swift in Sources */,
 				0A838948210AF3AD009ECF96 /* GYZLoginInputView.swift in Sources */,
+				0A8002B42178355500DF1550 /* BPChatVC.swift in Sources */,
 				0A8CDF90212BA46F0032E6C8 /* BPBenifitUniversityVC.swift in Sources */,
 				0A761D32216CA17500FDA645 /* JCMessageTextContentView.swift in Sources */,
 				0AEAD632211D80870076C1C2 /* BPMyHomeVC.swift in Sources */,

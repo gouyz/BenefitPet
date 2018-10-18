@@ -85,6 +85,13 @@ class BPPastWenZhenVC: GYZBaseVC {
         allConvs.insert(contentsOf: stickyConvs, at: 0)
         return allConvs
     }
+    
+    /// 患者聊天
+    func goChatVC(conversation: JMSGConversation){
+        let vc = BPChatVC()
+        vc.conversation = conversation
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPPastWenZhenVC: UITableViewDelegate,UITableViewDataSource{
@@ -116,9 +123,7 @@ extension BPPastWenZhenVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        //        if indexPath.row == 0 {// 患者黑名单
-        //            goBlackList()
-        //        }
+        goChatVC(conversation: datasList[indexPath.row])
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
