@@ -19,4 +19,30 @@ class BPHuanZheGroupModel: LHSBaseModel {
     var d_id : String? = ""
     /// 人数
     var num : String? = ""
+    /// 分组患者list
+    var patientList: [BPHuanZheModel] = [BPHuanZheModel]()
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        if key == "patient_list"{
+            guard let datas = value as? [[String : Any]] else { return }
+            for dict in datas {
+                let model = BPHuanZheModel(dict: dict)
+                patientList.append(model)
+            }
+        }else {
+            super.setValue(value, forKey: key)
+        }
+    }
+}
+
+@objcMembers
+class BPHuanZheModel: LHSBaseModel {
+    /// id
+    var id : String? = ""
+    /// 分组名称
+    var nickname : String? = ""
+    /// 头像
+    var head : String? = ""
+    /// 极光id
+    var jg_id : String? = ""
 }

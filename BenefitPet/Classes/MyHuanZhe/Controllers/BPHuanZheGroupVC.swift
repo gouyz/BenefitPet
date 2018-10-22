@@ -43,9 +43,18 @@ class BPHuanZheGroupVC: GYZBaseVC {
         return table
     }()
     /// 编辑分组
-    func goEditVC(isEdit : Bool){
+    func goEditVC(isEdit : Bool,index: Int){
         let vc = BPEditGroupVC()
         vc.isEdit = isEdit
+        if isEdit {
+            let model = dataList[index]
+            vc.groupId = model.id!
+            vc.groupName = model.name!
+        }
+        vc.resultBlock = { [weak self] () in
+            self?.requestGroupDatas()
+            
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -67,6 +76,7 @@ class BPHuanZheGroupVC: GYZBaseVC {
             if response["status"].intValue == kQuestSuccessTag{//请求成功
                 
                 guard let data = response["data"].array else { return }
+                weakSelf?.dataList.removeAll()
                 
                 for item in data{
                     guard let itemInfo = item.dictionaryObject else { return }
@@ -74,9 +84,7 @@ class BPHuanZheGroupVC: GYZBaseVC {
                     
                     weakSelf?.dataList.append(model)
                 }
-                if weakSelf?.dataList.count > 0{
-                    weakSelf?.tableView.reloadData()
-                }
+                weakSelf?.tableView.reloadData()
                 
             }else{
                 MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
@@ -128,9 +136,9 @@ extension BPHuanZheGroupVC: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {//添加分组
-            goEditVC(isEdit: false)
+            goEditVC(isEdit: false, index: 0)
         }else{// 编辑分组
-            goEditVC(isEdit: true)
+            goEditVC(isEdit: true, index: indexPath.row)
         }
     }
     ///MARK : UITableViewDelegate
