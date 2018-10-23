@@ -8,6 +8,7 @@
 
 import UIKit
 import JMessage
+import Kingfisher
 
 class JCSelectMemberCell: UITableViewCell {
 
@@ -59,12 +60,23 @@ class JCSelectMemberCell: UITableViewCell {
     public func bindDate(_ user : JMSGUser) {
         title = user.displayName()
         icon = UIImage.init(named:"com_icon_user_36")
-        user.thumbAvatarData({ (data, name, error) in
-            if data != nil {
-                let image = UIImage(data: data!)
-                self.icon = image
+//        user.thumbAvatarData({ (data, name, error) in
+//            if data != nil {
+//                let image = UIImage(data: data!)
+//                self.icon = image
+//            }
+//        })
+        if user.extras != nil && (user.extras?.keys.contains("userAvatra"))!{
+            let url: String = user.extras!["userAvatra"] as! String
+            avatorView.kf.setImage(with: URL.init(string: url), placeholder: UIImage.init(named: "com_icon_user_36"), options: nil, progressBlock: nil, completionHandler: nil)
+        }else{
+            user.thumbAvatarData { (data, username, error) in
+                if data != nil {
+                    let image = UIImage(data: data!)
+                    self.icon = image
+                }
             }
-        })
+        }
     }
     
     //MARK: - private func

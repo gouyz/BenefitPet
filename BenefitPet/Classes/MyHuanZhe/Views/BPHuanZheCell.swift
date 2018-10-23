@@ -25,15 +25,20 @@ class BPHuanZheCell: UITableViewCell {
                 contentLab.text = model.latestMessageContentText()
                 
                 let user = model.target as? JMSGUser
-                nameLab.text = user?.displayName() ?? ""
-                user?.thumbAvatarData { (data, username, error) in
-                    guard let imageData = data else {
-                        
-                        return
+                if user?.extras != nil && (user?.extras?.keys.contains("userAvatra"))!{
+                    let url: String = user?.extras!["userAvatra"] as! String
+                    iconView.kf.setImage(with: URL.init(string: url), placeholder: UIImage.init(named: "icon_header_default"), options: nil, progressBlock: nil, completionHandler: nil)
+                }else{
+                    user?.thumbAvatarData { (data, username, error) in
+                        guard let imageData = data else {
+                            
+                            return
+                        }
+                        let image = UIImage(data: imageData)
+                        self.iconView.image = image
                     }
-                    let image = UIImage(data: imageData)
-                    self.iconView.image = image
                 }
+                nameLab.text = user?.displayName() ?? ""
                 
                 var text = ""
                 if model.unreadCount != nil && (model.unreadCount?.intValue)! > 0 {

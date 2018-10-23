@@ -39,6 +39,7 @@ class BPMyHuanZheVC: GYZBaseVC {
         }
         
         tableView.tableHeaderView = searchView
+        JMessage.add(self, with: nil)
         
         getConversations()
     }
@@ -46,6 +47,15 @@ class BPMyHuanZheVC: GYZBaseVC {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        getConversations()
+    }
+    
+    deinit {
+        JMessage.remove(self, with: nil)
     }
     
     lazy var tableView : UITableView = {
@@ -219,4 +229,32 @@ extension BPMyHuanZheVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.00001
     }
+}
+
+extension BPMyHuanZheVC: JMessageDelegate {
+    
+    func onReceive(_ message: JMSGMessage!, error: Error!) {
+        getConversations()
+    }
+    
+    func onConversationChanged(_ conversation: JMSGConversation!) {
+        getConversations()
+    }
+    
+    func onGroupInfoChanged(_ group: JMSGGroup!) {
+        getConversations()
+    }
+    
+    func onSyncRoamingMessageConversation(_ conversation: JMSGConversation!) {
+        getConversations()
+    }
+    
+    func onSyncOfflineMessageConversation(_ conversation: JMSGConversation!, offlineMessages: [JMSGMessage]!) {
+        getConversations()
+    }
+    
+    func onReceive(_ retractEvent: JMSGMessageRetractEvent!) {
+        getConversations()
+    }
+    
 }

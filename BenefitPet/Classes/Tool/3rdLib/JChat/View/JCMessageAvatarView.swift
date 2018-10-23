@@ -36,13 +36,20 @@ open class JCMessageAvatarView: UIImageView, JCMessageContentViewType {
             return
         }
         weak var weakSelf = self
-        message.sender?.thumbAvatarData({ (data, id, error) in
-            if let data = data {
-                weakSelf?.image = UIImage(data: data)
-            } else {
-                self.image = self.userDefaultIcon
-            }
-        })
+        
+        if message.sender?.extras != nil && (message.sender?.extras?.keys.contains("userAvatra"))!{
+            let url: String = message.sender?.extras!["userAvatra"] as! String
+            self.kf.setImage(with: URL.init(string: url), placeholder: UIImage.init(named: "com_icon_user_36"), options: nil, progressBlock: nil, completionHandler: nil)
+        }else{
+            message.sender?.thumbAvatarData({ (data, id, error) in
+                if let data = data {
+                    weakSelf?.image = UIImage(data: data)
+                } else {
+                    self.image = self.userDefaultIcon
+                }
+            })
+        }
+        
     }
     
     private var message: JCMessageType!
