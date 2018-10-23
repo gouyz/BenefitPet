@@ -34,7 +34,7 @@ class GYZMainTabBarVC: UITabBarController {
     
     // 添加子控件
     fileprivate func addViewController(_ childController: UIViewController, title: String,normalImgName: String) {
-        let nav = GYZBaseNavigationVC(rootViewController:childController)
+        let nav = GYZBaseNavigationVC.init(rootViewController: childController)
         addChildViewController(nav)
         childController.tabBarItem.title = title
 //        childController.tabBarItem.imageInsets = UIEdgeInsets.init(top: 5, left: 0, bottom: -5, right: 0)

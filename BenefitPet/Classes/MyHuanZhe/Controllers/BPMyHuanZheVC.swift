@@ -41,7 +41,7 @@ class BPMyHuanZheVC: GYZBaseVC {
         tableView.tableHeaderView = searchView
         JMessage.add(self, with: nil)
         
-        getConversations()
+//        getConversations()
     }
     
     override func didReceiveMemoryWarning() {

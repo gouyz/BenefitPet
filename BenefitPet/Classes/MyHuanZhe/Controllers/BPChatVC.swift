@@ -12,7 +12,8 @@ import MBProgressHUD
 class BPChatVC: GYZBaseVC {
 
     var conversation: JMSGConversation?
-    
+    /// 用户极光id
+    var userJgId: String = ""
     
     var chatViewLayout: JCChatViewLayout = JCChatViewLayout.init()
     
@@ -31,6 +32,8 @@ class BPChatVC: GYZBaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        conversation = JMSGConversation.singleConversation(withUsername: userJgId)
         let user = conversation?.target as? JMSGUser
         self.navigationItem.title = user?.displayName() ?? ""
         
@@ -151,7 +154,7 @@ class BPChatVC: GYZBaseVC {
     fileprivate func _loadMessage(_ page: Int) {
         
         let messages = conversation?.messageArrayFromNewest(withOffset: NSNumber(value: jMessageCount), limit: NSNumber(value: 17))
-        if messages?.count == 0 {
+        if messages == nil || messages?.count == 0 {
             return
         }
         var msgs: [JCMessage] = []

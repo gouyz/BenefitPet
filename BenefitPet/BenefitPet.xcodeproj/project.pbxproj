@@ -16,6 +16,8 @@
 		0A303518212EA01D00B55AAE /* BPModifySchoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */; };
 		0A30351A212EA30200B55AAE /* BPTongShiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303519212EA30200B55AAE /* BPTongShiVC.swift */; };
 		0A487A4B2177803800352EAF /* BPHuanZheGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */; };
+		0A4C4219217F431E000A3998 /* BPPastWenZhenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C4218217F431E000A3998 /* BPPastWenZhenModel.swift */; };
+		0A4C421B217F4524000A3998 /* BPPastWenZhenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C421A217F4524000A3998 /* BPPastWenZhenCell.swift */; };
 		0A64D007215E6F000045F14F /* BPYuYueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64D006215E6F000045F14F /* BPYuYueModel.swift */; };
 		0A6D51BC216D81B9008B7CF0 /* Array+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D51BB216D81B9008B7CF0 /* Array+JChat.swift */; };
 		0A6D51BE216D88B0008B7CF0 /* BPChatBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D51BD216D88B0008B7CF0 /* BPChatBottomView.swift */; };
@@ -287,6 +289,9 @@
 		0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifySchoolVC.swift; sourceTree = "<group>"; };
 		0A303519212EA30200B55AAE /* BPTongShiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPTongShiVC.swift; sourceTree = "<group>"; };
 		0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHuanZheGroupModel.swift; sourceTree = "<group>"; };
+		0A4C4218217F431E000A3998 /* BPPastWenZhenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPPastWenZhenModel.swift; sourceTree = "<group>"; };
+		0A4C421A217F4524000A3998 /* BPPastWenZhenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPPastWenZhenCell.swift; sourceTree = "<group>"; };
+		0A4C421C217F5590000A3998 /* BenefitPet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BenefitPet.entitlements; sourceTree = "<group>"; };
 		0A64D006215E6F000045F14F /* BPYuYueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPYuYueModel.swift; sourceTree = "<group>"; };
 		0A6D51BB216D81B9008B7CF0 /* Array+JChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+JChat.swift"; sourceTree = "<group>"; };
 		0A6D51BD216D88B0008B7CF0 /* BPChatBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPChatBottomView.swift; sourceTree = "<group>"; };
@@ -692,6 +697,7 @@
 		0A83884F210AA2DF009ECF96 /* BenefitPet */ = {
 			isa = PBXGroup;
 			children = (
+				0A4C421C217F5590000A3998 /* BenefitPet.entitlements */,
 				0A838850210AA2DF009ECF96 /* AppDelegate.swift */,
 				0A838852210AA2DF009ECF96 /* ViewController.swift */,
 				0A838854210AA2DF009ECF96 /* Main.storyboard */,
@@ -848,6 +854,7 @@
 				0A74485F215F19AC002DE6AB /* BPWenZhenModel.swift */,
 				0A744863215F2427002DE6AB /* BPFollowPlanModel.swift */,
 				0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */,
+				0A4C4218217F431E000A3998 /* BPPastWenZhenModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -897,6 +904,7 @@
 				0A81431C211BDC1C00529C74 /* BPWenZhenTableDetailCell.swift */,
 				0A7B6F0521256263005EBCF0 /* BPZhenLiaoRecordInfoCell.swift */,
 				0A7B6F0721256875005EBCF0 /* BPZhenLiaoRecordEmptyFooterView.swift */,
+				0A4C421A217F4524000A3998 /* BPPastWenZhenCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1417,6 +1425,11 @@
 					0A83884C210AA2DE009ECF96 = {
 						CreatedOnToolsVersion = 9.3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					0A838860210AA2E1009ECF96 = {
 						CreatedOnToolsVersion = 9.3;
@@ -1594,7 +1607,9 @@
 				0A723764211143C4006E0E04 /* BPOnLineOrderVC.swift in Sources */,
 				0A761D1E216CA17500FDA645 /* ImageFileCell.swift in Sources */,
 				0A714DF8212D04510016BAB1 /* BPStudyVideoCell.swift in Sources */,
+				0A4C421B217F4524000A3998 /* BPPastWenZhenCell.swift in Sources */,
 				0A761D22216CA17500FDA645 /* JCMessageImageContent.swift in Sources */,
+				0A4C4219217F431E000A3998 /* BPPastWenZhenModel.swift in Sources */,
 				0AB026D3216CA5E800455EA3 /* JCTableViewCell.swift in Sources */,
 				0A814313211BCB9200529C74 /* GYZLabArrowCell.swift in Sources */,
 				0A761D2D216CA17500FDA645 /* JACMessageImageContentView.swift in Sources */,
@@ -1865,9 +1880,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yangzhou Yichong Pet Medical Information Consultation Co., Ltd (VZNN4BNFG5)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = VZNN4BNFG5;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1925,9 +1941,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yangzhou Yichong Pet Medical Information Consultation Co., Ltd (VZNN4BNFG5)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = VZNN4BNFG5;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1951,8 +1968,11 @@
 			baseConfigurationReference = ADF5A23F411FF81B44220B89 /* Pods-BenefitPet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BenefitPet/BenefitPet.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yangzhou Yichong Pet Medical Information Consultation Co., Ltd (VZNN4BNFG5)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FPA9N9SK5A;
+				DEVELOPMENT_TEAM = VZNN4BNFG5;
 				INFOPLIST_FILE = BenefitPet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1969,8 +1989,11 @@
 			baseConfigurationReference = F867796A38468BAABB1EDD15 /* Pods-BenefitPet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BenefitPet/BenefitPet.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yangzhou Yichong Pet Medical Information Consultation Co., Ltd (VZNN4BNFG5)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FPA9N9SK5A;
+				DEVELOPMENT_TEAM = VZNN4BNFG5;
 				INFOPLIST_FILE = BenefitPet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

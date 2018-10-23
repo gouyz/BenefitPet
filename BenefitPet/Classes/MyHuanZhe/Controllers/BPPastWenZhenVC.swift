@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import JMessage
+import MBProgressHUD
 
 private let pastWenZhenCell = "pastWenZhenCell"
 
 class BPPastWenZhenVC: GYZBaseVC {
     
-    var datasList: [JMSGConversation] = []
+    var dataList: [BPPastWenZhenModel] = [BPPastWenZhenModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class BPPastWenZhenVC: GYZBaseVC {
             make.edges.equalTo(0)
         }
         
-        getConversations()
+        requestDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -39,57 +39,63 @@ class BPPastWenZhenVC: GYZBaseVC {
         table.delegate = self
         table.separatorStyle = .none
         
-        table.register(BPHuanZheCell.self, forCellReuseIdentifier: pastWenZhenCell)
+        table.register(BPPastWenZhenCell.self, forCellReuseIdentifier: pastWenZhenCell)
         
         return table
     }()
     
-    func getConversations() {
+    ///获取数据
+    func requestDatas(){
+        
         if !GYZTool.checkNetWork() {
             return
         }
         
+        weak var weakSelf = self
         showLoadingView()
         
-        JMSGConversation.allConversations {[weak self] (result, error) in
+        GYZNetWork.requestNetwork("patient/jiwang_list",parameters: ["d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
             
-            self?.hiddenLoadingView()
-            guard let conversatios = result else {
-                ///显示空页面
-                self?.showEmptyView(content: "暂无问诊信息")
-                return
-            }
-            self?.datasList = conversatios as! [JMSGConversation]
-            self?.datasList = (self?.sortConverstaions((self?.datasList)!))!
-            self?.tableView.reloadData()
-            self?.hiddenEmptyView()
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
             
-        }
-    }
-    fileprivate func sortConverstaions(_ convs: [JMSGConversation]) -> [JMSGConversation] {
-        var stickyConvs: [JMSGConversation] = []
-        var allConvs: [JMSGConversation] = []
-        for index in 0..<convs.count {
-            let conv = convs[index]
-            if conv.ex.isSticky {
-                stickyConvs.append(conv)
-            } else {
-                allConvs.append(conv)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPPastWenZhenModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.tableView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无问诊信息")
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
             }
-        }
-        
-        stickyConvs = stickyConvs.sorted(by: { (c1, c2) -> Bool in
-            c1.ex.stickyTime > c2.ex.stickyTime
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.requestDatas()
+                weakSelf?.hiddenEmptyView()
+            })
         })
-        
-        allConvs.insert(contentsOf: stickyConvs, at: 0)
-        return allConvs
     }
     
     /// 患者聊天
-    func goChatVC(conversation: JMSGConversation){
+    func goChatVC(userId: String){
         let vc = BPChatVC()
-        vc.conversation = conversation
+        vc.userJgId = userId
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -101,14 +107,14 @@ extension BPPastWenZhenVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return datasList.count
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: pastWenZhenCell) as! BPHuanZheCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: pastWenZhenCell) as! BPPastWenZhenCell
         
-        cell.dataModel = datasList[indexPath.row]
+        cell.dataModel = dataList[indexPath.row]
         
         cell.selectionStyle = .none
         return cell
@@ -123,7 +129,7 @@ extension BPPastWenZhenVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        goChatVC(conversation: datasList[indexPath.row])
+        goChatVC(userId: dataList[indexPath.row].u_jg_id!)
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

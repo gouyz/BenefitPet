@@ -23,7 +23,7 @@ class GYZBaseNavigationVC: UINavigationController ,UIGestureRecognizerDelegate {
         // 右滑返回代理
         self.interactivePopGestureRecognizer?.delegate = self
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
