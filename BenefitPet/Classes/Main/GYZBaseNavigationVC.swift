@@ -9,24 +9,43 @@
 import UIKit
 
 class GYZBaseNavigationVC: UINavigationController ,UIGestureRecognizerDelegate {
-
+    
+    //MARK: - life cycle
+    override init(rootViewController: UIViewController) {
+        super.init(rootViewController: rootViewController)
+        _init()
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        _init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: - private func
+    private func _init() {
         /// 设置导航栏标题
         let navBar = UINavigationBar.appearance()
         navBar.tintColor = kBlackColor
         navBar.barTintColor = kNavBarColor
         navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: kBlackColor, NSAttributedStringKey.font: k18Font]
         ///去除Bar的模糊效果，默认为true
-//        navBar.isTranslucent = false
+        //        navBar.isTranslucent = false
         // 右滑返回代理
         self.interactivePopGestureRecognizer?.delegate = self
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {

@@ -187,7 +187,7 @@ class BPLoginVC: GYZBaseVC {
         
         GYZNetWork.requestNetwork("doctor/login", parameters: ["plone":phoneInputView.textFiled.text!,"password": pwdInputView.textFiled.text!],  success: { (response) in
             
-            weakSelf?.hud?.hide(animated: true)
+//            weakSelf?.hud?.hide(animated: true)
             //            GYZLog(response)
             if response["status"].intValue == kQuestSuccessTag{//请求成功
                 
@@ -200,8 +200,9 @@ class BPLoginVC: GYZBaseVC {
                 
                 weakSelf?.userLogin(userName: userName, password:"111111")
                 
-                KeyWindow.rootViewController = GYZMainTabBarVC()
+//                KeyWindow.rootViewController = GYZMainTabBarVC()
             }else{
+                weakSelf?.hud?.hide(animated: true)
                 MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
             }
             
@@ -213,25 +214,25 @@ class BPLoginVC: GYZBaseVC {
     
     /// 极光IM登录
     private func userLogin(userName: String, password: String) {
+        weak var weakSelf = self
+        
         JMSGUser.login(withUsername: userName, password: password) { (result, error) in
-            
+            weakSelf?.hud?.hide(animated: true)
             if error == nil {
-                if error == nil {
-                    userDefaults.set(userName, forKey: kLastUserName)
-                    JMSGUser.myInfo().thumbAvatarData({ (data, id, error) in
-                        if let data = data {
-                            let imageData = NSKeyedArchiver.archivedData(withRootObject: data)
-                            userDefaults.set(imageData, forKey: kLastUserAvator)
-                        } else {
-                            userDefaults.removeObject(forKey: kLastUserAvator)
-                        }
-                    })
-                    
-                    userDefaults.set(userName, forKey: kCurrentUserName)
-                    userDefaults.set(password, forKey: kCurrentUserPassword)
-                }
+                userDefaults.set(userName, forKey: kLastUserName)
+                JMSGUser.myInfo().thumbAvatarData({ (data, id, error) in
+                    if let data = data {
+                        let imageData = NSKeyedArchiver.archivedData(withRootObject: data)
+                        userDefaults.set(imageData, forKey: kLastUserAvator)
+                    } else {
+                        userDefaults.removeObject(forKey: kLastUserAvator)
+                    }
+                })
                 
-            } else {
+                userDefaults.set(userName, forKey: kCurrentUserName)
+                userDefaults.set(password, forKey: kCurrentUserPassword)
+                KeyWindow.rootViewController = GYZMainTabBarVC()
+            }else {
                 MBProgressHUD.showAutoDismissHUD(message: "\(String.errorAlert(error! as NSError))")
             }
         }
