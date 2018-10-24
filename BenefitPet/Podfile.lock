@@ -17,9 +17,9 @@ PODS:
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
   - IQKeyboardManagerSwift (5.0.6)
-  - JCore (1.1.6)
-  - JMessage (3.3.0):
-    - JCore (~> 1.1.1)
+  - JCore (1.2.5)
+  - JMessage (3.7.0):
+    - JCore (~> 1.0)
   - Kingfisher (4.2.0)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.15)
@@ -29,7 +29,7 @@ PODS:
   - SKPhotoBrowser (4.1.1)
   - SnapKit (4.0.0)
   - SwiftyJSON (3.1.4)
-  - WechatOpenSDK (1.8.0)
+  - WechatOpenSDK (1.8.3)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5.1)
@@ -73,8 +73,8 @@ SPEC CHECKSUMS:
   DKImagePickerController: 51ad6ee2ba05414bb741db54a72cd7f4fb178e34
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   IQKeyboardManagerSwift: 02bfbb0dff71c66d0ab77d80d25dfce0c3717735
-  JCore: 18fc8725124f26e55625eaf224659b3a999dcf63
-  JMessage: a3cb40117796058fbdd8831777db7e09d7da37d8
+  JCore: 14706de2640b25fb77dbd02332696491407f37c9
+  JMessage: 90c194ca878a1724694da320aad4867b489276e9
   Kingfisher: 9ee7e788d8ba07c3f21ce0d43f33cec310a4f781
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: 9af70f5f9327a2cf87f0fb5929f35fcc2fa638ea
@@ -82,7 +82,7 @@ SPEC CHECKSUMS:
   SKPhotoBrowser: aa02de50f56d80fac23f543e40847af6b360e4b3
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  WechatOpenSDK: 0ee07a8d492299d3e47372a33da5af26524a7576
+  WechatOpenSDK: 3117412f8aafde4758cac1e8d20b93c67cafcfef
 
 PODFILE CHECKSUM: 6773f5a5c58d5f77679ed55cc172f7e54aeae3f3
 

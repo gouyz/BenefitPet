@@ -12,6 +12,7 @@
 #import <Foundation/Foundation.h>
 #import <JMessage/JMSGConstants.h>
 #import <JMessage/JMSGUser.h>
+#import <JMessage/JMSGGroup.h>
 
 @class JMSGMessage;
 @class JMSGAbstractContent;
@@ -73,6 +74,15 @@ JMSG_ASSUME_NONNULL_BEGIN
 + (JMSGConversation * JMSG_NULLABLE)groupConversationWithGroupId:(NSString *)groupId;
 
 /*!
+ * @abstract 获取聊天室会话
+ *
+ * @param roomId 聊天室 ID
+ *
+ * @discussion 如果会话还不存在，则返回 nil
+ */
++ (JMSGConversation * JMSG_NULLABLE)chatRoomConversationWithRoomId:(NSString *)roomId;
+
+/*!
  * @abstract 创建单聊会话
  *
  * @param username 单聊对象 username
@@ -106,6 +116,19 @@ JMSG_ASSUME_NONNULL_BEGIN
                          completionHandler:(JMSGCompletionHandler JMSG_NULLABLE)handler;
 
 /*!
+ * @abstract 创建聊天室会话
+ *
+ * @param roomId  聊天室 ID。
+ * @param handler 结果回调。正常返回时 resultObject 类型为 JMSGConversation。
+ *
+ * @discussion 如果会话已经存在，则直接返回。如果不存在则创建。
+ * 创建会话时如果发现该 roomId 的信息本地还没有，则需要从服务器端上拉取。
+ * 如果从服务器上获取 roomId 的信息不存在或者失败，则创建会话失败。
+ */
++ (void)createChatRoomConversationWithRoomId:(NSString *)roomId
+                           completionHandler:(JMSGCompletionHandler JMSG_NULLABLE)handler;
+
+/*!
  * @abstract 删除单聊会话
  *
  * @param username 单聊用户名
@@ -130,13 +153,20 @@ JMSG_ASSUME_NONNULL_BEGIN
 + (BOOL)deleteGroupConversationWithGroupId:(NSString *)groupId;
 
 /*!
+ * @abstract 删除聊天室会话
+ *
+ * @param roomId  聊天室 ID
+ *
+ * @discussion 除了删除会话本身，还会删除该会话下所有的聊天消息。
+ */
++ (BOOL)deleteChatRoomConversationWithRoomId:(NSString *)roomId;
+
+/*!
  * @abstract 返回 conversation 列表（异步,已排序）
  *
  * @param handler 结果回调。正常返回时 resultObject 的类型为 NSArray，数组里成员的类型为 JMSGConversation
  *
- * @discussion 当前是返回所有的 conversation 列表，默认是已经排序。
- * 我们设计上充分考虑到性能问题，数据库无关联表查询，性能应该不会差。
- * 但考虑到潜在的性能问题可能，此接口还是异步返回
+ * @discussion 当前是返回所有的 conversation 列表，不包括聊天室会话，默认是已经排序。
  */
 + (void)allConversations:(JMSGCompletionHandler)handler;
 
@@ -145,14 +175,23 @@ JMSG_ASSUME_NONNULL_BEGIN
  *
  * @param handler 结果回调。正常返回时 resultObject 的类型为 NSArray，数组里成员的类型为 JMSGConversation
  *
- * @discussion 返回所有的 conversation 列表，返回是没有排序的列表。
+ * @discussion 返回所有的 conversation 列表，不包括聊天室会话，返回是没有排序的列表。
  */
 + (void)allUnsortedConversations:(JMSGCompletionHandler)handler;
 
 /*!
+ * @abstract 返回聊天室 conversation 列表（异步,已排序）
+ *
+ * @param handler 结果回调。正常返回时 resultObject 的类型为 NSArray，数组里成员的类型为 JMSGConversation
+ *
+ * @discussion 当前是返回所有的chatroom conversation 列表，不包括单聊和群聊会话，默认是已经排序。
+ */
++ (void)allChatRoomConversation:(JMSGCompletionHandler)handler;
+
+/*!
  * @abstract 获取当前所有会话的未读消息的总数
  *
- * @discussion 获取所有会话未读消息总数
+ * @discussion 获取所有会话未读消息总数，开启免打扰的会话未读数不会加入计数
  */
 + (NSNumber *)getAllUnreadCount;
 
@@ -190,7 +229,7 @@ JMSG_ASSUME_NONNULL_BEGIN
 ///--------------------------------------------------------
 
 /*!
- * @abstract 会话类型 - 单聊，群聊
+ * @abstract 会话类型 - 单聊，群聊，聊天室
  * @discussion 详细定义见 JMSGConversationType
  */
 @property(nonatomic, assign, readonly) JMSGConversationType conversationType;
@@ -198,12 +237,12 @@ JMSG_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 聊天对象
  *
- * @discussion 需要根据会话类型转型。单聊时转型为 JMSGUser，群聊时转型为 JMSGGroup
+ * @discussion 需要根据会话类型转型。单聊时转型为 JMSGUser，群聊时转型为 JMSGGroup，聊天时转型为 JMSGChatRoom
  *
  *    注意: 在会话列表上, 请不要使用此属性, 否则有性能问题. 只在进入聊天界面(单个会话) 时使用此属性.
  *
  * 进入会话(聊天界面)后, 访问会话对象的各种信息, 包括群聊的群组成员, 都应使用此属性,
- * 而没有必要再通过接口查询 UserInfo / GroupInfo.
+ * 而没有必要再通过接口查询 UserInfo / GroupInfo / ChatRoomInfo.
  */
 @property(nonatomic, strong, readonly) id target;
 
@@ -357,7 +396,7 @@ JMSG_ASSUME_NONNULL_BEGIN
  * @abstract 发送@人消息（已经创建好对象的）
  *
  * @param message 通过消息创建类接口，创建好的消息对象
- * @param at_list @对象的数组
+ * @param userList @对象的数组
  *
  * @discussion 发送消息的多个接口，都未在方法上直接提供回调。你应通过 JMSGMessageDelegate中的onReceiveMessage: error:方法来注册消息发送结果
  */
@@ -396,8 +435,23 @@ JMSG_ASSUME_NONNULL_BEGIN
                 duration:(NSNumber *)duration;
 
 /*!
+ * @abstract 发送视频消息
+ *
+ * @param videoData 视频消息数据
+ * @param thumbData 视频封面图片
+ * @param videoFormat 视频格式，如：mp4、mov
+ * @param duration  视频消息时长（秒）. 长度必须大于 0.
+ *
+ * @discussion 快捷发送消息接口。如果发送语音消息不需要附加 extra，则使用此接口更方便。
+ */
+- (void)sendVideoMessage:(NSData *)videoData
+               thumbData:(NSData *JMSG_NULLABLE)thumbData
+             videoFormat:(NSString *JMSG_NULLABLE)videoFormat
+                duration:(NSNumber *)duration;
+
+/*!
  * @abstract 发送文件消息
- * @param voiceData 文件消息数据
+ * @param fileData 文件消息数据
  * @param fileName 文件名
  * @discussion 快捷发送消息接口。如果发送文件消息不需要附加 extra，则使用此接口更方便。
  */
@@ -442,6 +496,7 @@ JMSG_ASSUME_NONNULL_BEGIN
  *
  *  2. 可用来快速实现一些在线场景下的辅助功能 ：输入状态提示、位置信息提示、开发者自定义等。
  *
+ *  3. 透传命令到达是，接收方通过 [JMSGEventDelegate onReceiveMessageTransparentEvent:] 方法监听
  */
 - (void)sendTransparentMessage:(NSString *JMSG_NONNULL)transparentText
              completionHandler:(JMSGCompletionHandler JMSG_NULLABLE)handler;
@@ -465,7 +520,7 @@ JMSG_ASSUME_NONNULL_BEGIN
 - (void)avatarData:(JMSGAsyncDataHandler)handler;
 
 /*!
- * @abstract 获取会话头像的本地路径(仅限单聊)
+ * @abstract 获取会话头像的本地路径
  *
  * @return 返回本地路，返回值只有在下载完成之后才有意义
  */

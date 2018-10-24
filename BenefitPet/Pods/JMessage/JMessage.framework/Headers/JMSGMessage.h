@@ -89,6 +89,17 @@ JMSG_ASSUME_NONNULL_BEGIN
                                        groupId:(NSString *)groupId;
 
 /*!
+ * @abstract 创建聊天室消息
+ *
+ * @param content 消息内容对象
+ * @param roomId  聊天室ID
+ *
+ * @discussion 不关心会话时的直接创建聊天消息的接口。一般建议使用 JMSGConversation -> createMessageWithContent:
+ */
++ (JMSGMessage *)createChatRoomMessageWithContent:(JMSGAbstractContent *)content
+                                       chatRoomId:(NSString *)roomId;
+
+/*!
  * @abstract 创建@人的群聊消息
  *
  * @param content 消息内容对象
@@ -366,7 +377,7 @@ JMSG_ASSUME_NONNULL_BEGIN
 
 
 /*!
- * 消息ID：这个ID是本地存数据库生成的ID，不是服务器端下发时的ID。
+ * 消息ID：这个 ID 是本地生成的ID，不是服务器端下发时的ID。
  */
 @property(nonatomic, strong, readonly) NSString *msgId;
 
@@ -611,6 +622,7 @@ JMSG_ASSUME_NONNULL_BEGIN
  * @param value   待更新的value,不能为null,类型只能为 NSNumber 和 NSString
  * @param key     待更新value对应的key,不能为null
  *
+ * @discussion 如果 message 中没有该 key 对应的 extra 值，则会插入该新值
  */
 - (BOOL)updateMessageExtraValue:(id)value forKey:(NSString *)key;
 
@@ -629,6 +641,15 @@ JMSG_ASSUME_NONNULL_BEGIN
  * @discussion 遵循 Message JSON 协议的定义。
  */
 - (NSString *)toJsonString;
+
+/*!
+ * @abstract JSON 字符串 转换为 消息对象。
+ *
+ * @discussion 遵循 Message JSON 协议的定义。失败时返回 nil
+ *
+ * #### 注意：尽量不要自己随意拼接 json 字符串去转换，容易导致创建的 message 无法正常发送
+ */
++ (JMSGMessage *JMSG_NULLABLE)fromJson:(NSString *JMSG_NONNULL)json;
 
 /*!
  * @abstract 对象比较

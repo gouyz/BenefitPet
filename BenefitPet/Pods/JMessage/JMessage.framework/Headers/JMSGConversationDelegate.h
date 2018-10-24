@@ -29,14 +29,6 @@
 - (void)onConversationChanged:(JMSGConversation *)conversation;
 
 /*!
- * @abstract 当前剩余的全局未读数
- *
- * @param newCount 变更后的数量
- */
-@optional
-- (void)onUnreadChanged:(NSUInteger)newCount;
-
-/*!
  * @abstract 同步离线消息、离线事件通知
  *
  * @param conversation    同步离线消息的会话
@@ -78,6 +70,28 @@
 @optional
 - (void)onSyncRoamingMessageConversation:(JMSGConversation *)conversation;
 
+/*!
+ * @abstract 接收聊天室消息
+ *
+ * @param conversation 聊天室会话
+ * @param messages      接收到的消息数组，元素是 JMSGMessage
+ *
+ * @discussion 注意：
+ *
+ * 接收聊天室的消息与单聊、群聊消息不同，聊天室消息都是通过这个代理方法来接收的。
+ *
+ * @since 3.4.0
+ */
+- (void)onReceiveChatRoomConversation:(JMSGConversation *)conversation
+                             messages:(NSArray JMSG_GENERIC(__kindof JMSGMessage *)*)messages;
 
+
+/*!
+ * @abstract 当前剩余的全局未读数
+ *
+ * @param newCount 变更后的数量
+ */
+@optional
+- (void)onUnreadChanged:(NSUInteger)newCount;
 @end
 

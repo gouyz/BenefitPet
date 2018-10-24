@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A010A832180A5A8006E25E1 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A010A822180A5A8006E25E1 /* libc++.tbd */; };
 		0A157A57216CF3830082FAC6 /* Date+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A157A56216CF3830082FAC6 /* Date+JChat.swift */; };
 		0A2FD85F211D6362000EE6CD /* BPShouYiCertificateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FD85E211D6362000EE6CD /* BPShouYiCertificateVC.swift */; };
 		0A303510212E4D1800B55AAE /* BPAllFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A30350F212E4D1800B55AAE /* BPAllFriendsVC.swift */; };
@@ -280,6 +281,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A010A822180A5A8006E25E1 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0A157A56216CF3830082FAC6 /* Date+JChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+JChat.swift"; sourceTree = "<group>"; };
 		0A2FD85E211D6362000EE6CD /* BPShouYiCertificateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPShouYiCertificateVC.swift; sourceTree = "<group>"; };
 		0A30350F212E4D1800B55AAE /* BPAllFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPAllFriendsVC.swift; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A010A832180A5A8006E25E1 /* libc++.tbd in Frameworks */,
 				0A744882215F73A9002DE6AB /* libresolv.tbd in Frameworks */,
 				0A744880215F739B002DE6AB /* libsqlite3.0.tbd in Frameworks */,
 				0A74487E215F738C002DE6AB /* libz.tbd in Frameworks */,
@@ -1337,6 +1340,7 @@
 		85B2F077AE44B2F05C0AFB48 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A010A822180A5A8006E25E1 /* libc++.tbd */,
 				0A744881215F73A8002DE6AB /* libresolv.tbd */,
 				0A74487F215F739B002DE6AB /* libsqlite3.0.tbd */,
 				0A74487D215F738C002DE6AB /* libz.tbd */,

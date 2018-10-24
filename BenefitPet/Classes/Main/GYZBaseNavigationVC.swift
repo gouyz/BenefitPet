@@ -43,7 +43,7 @@ class GYZBaseNavigationVC: UINavigationController ,UIGestureRecognizerDelegate {
         navBar.barTintColor = kNavBarColor
         navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: kBlackColor, NSAttributedStringKey.font: k18Font]
         ///去除Bar的模糊效果，默认为true
-        //        navBar.isTranslucent = false
+//                navBar.isTranslucent = false
         // 右滑返回代理
         self.interactivePopGestureRecognizer?.delegate = self
     }

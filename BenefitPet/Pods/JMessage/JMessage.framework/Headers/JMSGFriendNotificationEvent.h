@@ -13,6 +13,10 @@
 
 
 @interface JMSGFriendNotificationEvent : JMSGNotificationEvent
+
+/// 事件的 id
+@property(nonatomic, strong, readonly) NSString *JMSG_NULLABLE eventID;
+
 /*!
  * @abstract 获取事件发生的理由
  *
