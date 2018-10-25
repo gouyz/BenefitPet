@@ -70,6 +70,7 @@ class BPChatMessageVC: GYZBaseVC {
         JMessage.add(self, with: conversation)
         
         _loadMessage(messagePage)
+        goLastMessage()
 //        let tap = UITapGestureRecognizer(target: self, action: #selector(_tapView))
 //        tap.delegate = self
 //        chatView.addGestureRecognizer(tap)
@@ -85,6 +86,13 @@ class BPChatMessageVC: GYZBaseVC {
         NotificationCenter.default.addObserver(self, selector: #selector(_removeAllMessage), name: NSNotification.Name(rawValue: kDeleteAllMessage), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(_reloadMessage), name: NSNotification.Name(rawValue: kReloadAllMessage), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(_updateFileMessage(_:)), name: NSNotification.Name(rawValue: kUpdateFileMessage), object: nil)
+    }
+    
+    /// 定位最后一条
+    func goLastMessage(){
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+            self.chatView.scrollToLast(animated: false)
+        }
     }
     /// 发送
     @objc func onClickedSend(){
