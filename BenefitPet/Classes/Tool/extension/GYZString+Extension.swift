@@ -11,6 +11,10 @@ import UIKit
 
 extension String {
     
+    var htmlToString: String {
+        return  try! NSAttributedString.init(data: (self.data(using: .unicode, allowLossyConversion: true))!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil).string
+    }
+    
     /// 判断字符串是否为合法手机号 11位 13 14 15 16 17 18 19开头
     ///
     /// - returns: 合法返回true，反之false

@@ -17,8 +17,7 @@ class BPWorkingCell: UITableViewCell {
                 
                 categoryLab.text = model.title! + "》"
                 
-                let attrStr = try! NSMutableAttributedString.init(data: (model.content?.dealFuTextImgSize().data(using: .unicode, allowLossyConversion: true))!, options: [.documentType: NSAttributedString.DocumentType.html,
-                                                                                                                                                                        .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+                let attrStr = try! NSMutableAttributedString.init(data: (model.content?.dealFuTextImgSize().htmlToString.data(using: .unicode, allowLossyConversion: true))!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
                 
                 //调整行间距
                 let paragraphStye = NSMutableParagraphStyle()
@@ -28,6 +27,7 @@ class BPWorkingCell: UITableViewCell {
                 attrStr.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStye, range: rang)
                 
                 contentLab.attributedText = attrStr
+                contentImgView.kf.setImage(with: URL.init(string: model.img!), placeholder: UIImage.init(named: "icon_working_default"), options: nil, progressBlock: nil, completionHandler: nil)
                 
                 timeLab.text = model.add_time?.dateFromTimeInterval()?.dateDesc
             }
@@ -53,7 +53,7 @@ class BPWorkingCell: UITableViewCell {
         bgView.addSubview(categoryLab)
         bgView.addSubview(lineView)
         bgView.addSubview(contentLab)
-//        bgView.addSubview(contentImgView)
+        bgView.addSubview(contentImgView)
 //        bgView.addSubview(desLab)
         
         bgView.addSubview(sourceLab)
@@ -80,18 +80,18 @@ class BPWorkingCell: UITableViewCell {
             make.right.equalTo(-kMargin)
             make.top.equalTo(categoryLab.snp.bottom).offset(kMargin)
         }
-//        contentImgView.snp.makeConstraints { (make) in
-//            make.left.right.equalTo(contentLab)
-//            make.top.equalTo(contentLab.snp.bottom).offset(5)
-//            make.height.equalTo((kScreenWidth - kMargin * 2) * 0.24)
-//        }
+        contentImgView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(contentLab)
+            make.top.equalTo(contentLab.snp.bottom).offset(5)
+            make.height.equalTo((kScreenWidth - kMargin * 2) * 0.24)
+        }
 //        desLab.snp.makeConstraints { (make) in
 //            make.top.equalTo(contentLab.snp.bottom).offset(kMargin)
 //            make.left.right.equalTo(contentLab)
 //        }
         sourceLab.snp.makeConstraints { (make) in
             make.left.equalTo(contentLab)
-            make.top.equalTo(contentLab.snp.bottom).offset(kMargin)
+            make.top.equalTo(contentImgView.snp.bottom).offset(kMargin)
             make.right.equalTo(timeLab.snp.left).offset(-kMargin)
             make.height.equalTo(24)
             make.bottom.equalTo(-kMargin)
@@ -133,13 +133,12 @@ class BPWorkingCell: UITableViewCell {
     }()
     
     /// 图片
-//    lazy var contentImgView : UIImageView = {
-//        let imgView = UIImageView()
-//        imgView.image = UIImage.init(named: "icon_working_default")
-//        imgView.cornerRadius = kCornerRadius
-//
-//        return imgView
-//    }()
+    lazy var contentImgView : UIImageView = {
+        let imgView = UIImageView()
+        imgView.cornerRadius = kCornerRadius
+
+        return imgView
+    }()
     
     /// 描述
 //    lazy var desLab : UILabel = {

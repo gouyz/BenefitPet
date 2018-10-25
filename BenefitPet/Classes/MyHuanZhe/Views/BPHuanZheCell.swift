@@ -16,7 +16,7 @@ class BPHuanZheCell: UITableViewCell {
             if let model = dataModel {
                 
                 if let latestMessage = model.latestMessage {
-                    let time = latestMessage.timestamp.intValue / 1000
+                    let time = latestMessage.timestamp.int64Value / 1000
                     let date = Date(timeIntervalSince1970: TimeInterval(time))
                     dateLab.text = date.dateDesc
                 } else {

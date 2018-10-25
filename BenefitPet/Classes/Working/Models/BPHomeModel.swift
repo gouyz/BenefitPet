@@ -52,6 +52,8 @@ class BPHomeNewModel: LHSBaseModel {
     var title : String? = ""
     /// 内容
     var content : String? = ""
+    /// 图片
+    var img : String? = ""
     ///
     var status : String? = ""
     ///
