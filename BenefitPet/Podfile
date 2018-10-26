@@ -19,7 +19,7 @@ pod 'SKPhotoBrowser' #图片浏览器 https://github.com/suzuki-0000/SKPhotoBrow
 
 pod 'BMPlayer'  # 基于AVPlayer封装的视频播放器  https://github.com/BrikerMan/BMPlayer
 
-#pod 'JPush'  #极光推送
+pod 'JPush'  #极光推送
 pod 'WechatOpenSDK' #微信SDK
 
 pod 'JMessage' #极光IM

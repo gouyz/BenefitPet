@@ -29,8 +29,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         #if DEBUG
         JMessage.setupJMessage(launchOptions, appKey: kJChatAppKey, channel: nil, apsForProduction: false, category: nil, messageRoaming: true)
+//        JPUSHService.setup(withOption: launchOptions, appKey: kJChatAppKey, channel: "app store", apsForProduction: false)
         #else
         JMessage.setupJMessage(launchOptions, appKey: kJChatAppKey, channel: nil, apsForProduction: true, category: nil, messageRoaming: true)
+//        JPUSHService.setup(withOption: launchOptions, appKey: kJChatAppKey, channel: "app store", apsForProduction: true)
         #endif
         _setupJMessage()
         

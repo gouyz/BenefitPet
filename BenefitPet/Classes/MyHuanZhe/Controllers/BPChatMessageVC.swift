@@ -8,11 +8,11 @@
 
 import UIKit
 import MBProgressHUD
+import DKImagePickerController
 
 class BPChatMessageVC: GYZBaseVC {
     
     var conversation: JMSGConversation?
-
     
     var chatViewLayout: JCChatViewLayout = JCChatViewLayout.init()
     
@@ -55,14 +55,14 @@ class BPChatMessageVC: GYZBaseVC {
         JMessage.remove(self, with: conversation)
     }
     lazy var chatView: JCChatView = {
-        let chatview = JCChatView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height - 160 - kTitleHeight - kTitleAndStateHeight), chatViewLayout: chatViewLayout)
+        let chatview = JCChatView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height - 140 - kTitleHeight - kTitleAndStateHeight), chatViewLayout: chatViewLayout)
         chatview.delegate = self
         chatview.messageDelegate = self
         
         return chatview
     }()
     ///
-    lazy var bottomView: BPChatBottomView = BPChatBottomView.init(frame: CGRect.init(x: 0, y: chatView.bottomY, width: kScreenWidth, height: 160))
+    lazy var bottomView: BPChatBottomView = BPChatBottomView.init(frame: CGRect.init(x: 0, y: chatView.bottomY, width: kScreenWidth, height: 140))
     
     private func _init() {
         myAvator = UIImage.getMyAvator()
@@ -113,6 +113,8 @@ class BPChatMessageVC: GYZBaseVC {
             goFollowPlan()
         case 104:// 日程提醒
             goRiCheng()
+        case 105:// 图片
+            selectImg()
         default:
             break
         }
@@ -137,6 +139,17 @@ class BPChatMessageVC: GYZBaseVC {
     func goRiCheng(){
         let vc = BPRiChengVC()
         navigationController?.pushViewController(vc, animated: true)
+    }
+    //图片
+    func selectImg(){
+        GYZAlertViewTools.alertViewTools.showSheet(title: "选择照片", message: nil, cancleTitle: "取消", titleArray: ["拍照","从相册选取"], viewController: self) { [weak self](index) in
+            
+            if index == 0{//拍照
+                self?.openCamera()
+            }else if index == 1 {//从相册选取
+                self?.openPhotos()
+            }
+        }
     }
     
     @objc func _updateFileMessage(_ notification: Notification) {
@@ -222,7 +235,7 @@ class BPChatMessageVC: GYZBaseVC {
     // MARK: - send message
     func send(_ message: JCMessage, _ jmessage: JMSGMessage) {
         if isNeedInsertTimeLine(jmessage.timestamp.intValue) {
-            let timeContent = JCMessageTimeLineContent(date: Date(timeIntervalSince1970: TimeInterval(jmessage.timestamp.intValue / 1000)))
+            let timeContent = JCMessageTimeLineContent(date: Date(timeIntervalSince1970: TimeInterval(jmessage.timestamp.int64Value / 1000)))
             let m = JCMessage(content: timeContent)
             m.options.showsTips = false
             messages.append(m)
@@ -253,6 +266,20 @@ class BPChatMessageVC: GYZBaseVC {
         let msg = JMSGMessage.ex.createMessage(conversation!, content, reminds)
         reminds.removeAll()
         send(message, msg)
+    }
+    func send(forImage image: UIImage) {
+        let data = UIImageJPEGRepresentation(image, 1.0)!
+        let content = JMSGImageContent(imageData: data)
+        
+        let message = JMSGMessage.ex.createMessage(conversation!, content!, nil)
+        let imageContent = JCMessageImageContent()
+        imageContent.delegate = self
+        imageContent.image = image
+        content?.uploadHandler = {  (percent:Float, msgId:(String?)) -> Void in
+            imageContent.upload?(percent)
+        }
+        let msg = JCMessage(content: imageContent)
+        send(msg, message)
     }
 }
 
@@ -529,5 +556,70 @@ extension BPChatMessageVC: JCChatViewDelegate {
                 })
             }
         }
+    }
+}
+
+extension BPChatMessageVC: UIImagePickerControllerDelegate,UINavigationControllerDelegate
+{
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
+    {
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        guard let image = info[picker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage] as? UIImage else { return }
+        picker.dismiss(animated: true) { [weak self] in
+            
+            self?.send(forImage: image)
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController)
+    {
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        picker.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    ///打开相机
+    func openCamera(){
+        
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            MBProgressHUD.showAutoDismissHUD(message: "该设备无摄像头")
+            return
+        }
+        
+        GYZOpenCameraPhotosTool.shareTool.checkCameraPermission { (granted) in
+            if granted{
+                let photo = UIImagePickerController()
+                photo.delegate = self
+                photo.sourceType = .camera
+                photo.allowsEditing = true
+                self.present(photo, animated: true, completion: nil)
+            }else{
+                GYZOpenCameraPhotosTool.shareTool.showPermissionAlert(content: "请在iPhone的“设置-隐私”选项中，允许访问你的摄像头",controller : self)
+            }
+        }
+        
+    }
+    
+    ///打开相册
+    func openPhotos(){
+        
+        let pickerController = DKImagePickerController()
+        
+        weak var weakSelf = self
+        
+        pickerController.didSelectAssets = { (assets: [DKAsset]) in
+            
+            for item in assets {
+                item.fetchFullScreenImageWithCompleteBlock({ (image, info) in
+                    
+                    weakSelf?.send(forImage: image!)
+                    
+                })
+            }
+        }
+        
+        self.present(pickerController, animated: true) {}
     }
 }

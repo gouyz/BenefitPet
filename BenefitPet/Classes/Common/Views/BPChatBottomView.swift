@@ -32,36 +32,41 @@ class BPChatBottomView: UIView {
         addSubview(wenZhenBtn)
         addSubview(planBtn)
         addSubview(riChengBtn)
+        addSubview(IconBtn)
         
-        sendBtn.snp.makeConstraints { (make) in
-            make.right.equalTo(-20)
-            make.top.height.equalTo(conmentField)
-            make.width.equalTo(60)
-        }
         conmentField.snp.makeConstraints { (make) in
             make.left.equalTo(20)
             make.top.equalTo(20)
             make.height.equalTo(kTitleHeight)
             make.right.equalTo(sendBtn.snp.left).offset(-20)
         }
+        sendBtn.snp.makeConstraints { (make) in
+            make.right.equalTo(self).offset(-20)
+            make.top.height.equalTo(conmentField)
+            make.width.equalTo(60)
+        }
         
         tieShiBtn.snp.makeConstraints { (make) in
             make.left.equalTo(conmentField)
             make.top.equalTo(conmentField.snp.bottom).offset(kMargin)
-            make.width.equalTo(60)
-            make.height.equalTo(90)
+            make.width.equalTo(50)
+            make.height.equalTo(70)
         }
         
         wenZhenBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(tieShiBtn.snp.right).offset(20)
+            make.left.equalTo(tieShiBtn.snp.right).offset(kMargin)
             make.top.width.height.equalTo(tieShiBtn)
         }
         planBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(wenZhenBtn.snp.right).offset(20)
+            make.left.equalTo(wenZhenBtn.snp.right).offset(kMargin)
             make.top.width.height.equalTo(tieShiBtn)
         }
         riChengBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(planBtn.snp.right).offset(20)
+            make.left.equalTo(planBtn.snp.right).offset(kMargin)
+            make.top.width.height.equalTo(tieShiBtn)
+        }
+        IconBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(riChengBtn.snp.right).offset(kMargin)
             make.top.width.height.equalTo(tieShiBtn)
         }
         
@@ -70,6 +75,7 @@ class BPChatBottomView: UIView {
         planBtn.set(image: UIImage.init(named: "icon_chat_plan"), title: "随访计划", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
         
         riChengBtn.set(image: UIImage.init(named: "icon_chat_richeng"), title: "日程提醒", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
+        IconBtn.set(image: UIImage.init(named: "icon_chat_richeng"), title: "图片", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
     }
     lazy var conmentField: UITextField = {
         let txtField = UITextField()
@@ -94,7 +100,7 @@ class BPChatBottomView: UIView {
     /// 小贴士
     lazy var tieShiBtn : UIButton = {
         let btn = UIButton.init(type: .custom)
-        btn.titleLabel?.font = k12Font
+        btn.titleLabel?.font = k10Font
         btn.setTitleColor(kBlackFontColor, for: .normal)
         btn.tag = 101
         btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
@@ -104,7 +110,7 @@ class BPChatBottomView: UIView {
     /// 问诊表
     lazy var wenZhenBtn : UIButton = {
         let btn = UIButton.init(type: .custom)
-        btn.titleLabel?.font = k12Font
+        btn.titleLabel?.font = k10Font
         btn.setTitleColor(kBlackFontColor, for: .normal)
         btn.tag = 102
         btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
@@ -114,7 +120,7 @@ class BPChatBottomView: UIView {
     /// 随访计划
     lazy var planBtn : UIButton = {
         let btn = UIButton.init(type: .custom)
-        btn.titleLabel?.font = k12Font
+        btn.titleLabel?.font = k10Font
         btn.setTitleColor(kBlackFontColor, for: .normal)
         btn.tag = 103
         btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
@@ -124,9 +130,19 @@ class BPChatBottomView: UIView {
     /// 日程提醒
     lazy var riChengBtn : UIButton = {
         let btn = UIButton.init(type: .custom)
-        btn.titleLabel?.font = k12Font
+        btn.titleLabel?.font = k10Font
         btn.setTitleColor(kBlackFontColor, for: .normal)
         btn.tag = 104
+        btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
+        
+        return btn
+    }()
+    /// 图片
+    lazy var IconBtn : UIButton = {
+        let btn = UIButton.init(type: .custom)
+        btn.titleLabel?.font = k10Font
+        btn.setTitleColor(kBlackFontColor, for: .normal)
+        btn.tag = 105
         btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
         
         return btn
