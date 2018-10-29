@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let benifitUniversityCell = "benifitUniversityCell"
 
 class BPBenifitUniversityVC: GYZBaseVC {
+    
+    var dataList: [BPSchoolModel] = [BPSchoolModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +32,8 @@ class BPBenifitUniversityVC: GYZBaseVC {
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
+        
+        requestClassDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,6 +56,60 @@ class BPBenifitUniversityVC: GYZBaseVC {
         let vc = BPAddClassVC()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    ///获取培训班数据
+    func requestClassDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("school/school_college",  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                weakSelf?.dataList.removeAll()
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPSchoolModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.tableView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无培训班信息")
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.requestClassDatas()
+                weakSelf?.hiddenEmptyView()
+            })
+        })
+    }
+    /// 加入培训班
+    @objc func onClickedAdd(sender: UITapGestureRecognizer){
+        
+    }
 }
 
 extension BPBenifitUniversityVC: UITableViewDelegate,UITableViewDataSource{
@@ -60,13 +119,16 @@ extension BPBenifitUniversityVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 18
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: benifitUniversityCell) as! BPBenefitUniversityCell
         
+        cell.dataModel = dataList[indexPath.row]
+        cell.addLab.tag = indexPath.row
+        cell.addLab.addOnClickListener(target: self, action: #selector(onClickedAdd(sender:)))
         
         cell.selectionStyle = .none
         return cell

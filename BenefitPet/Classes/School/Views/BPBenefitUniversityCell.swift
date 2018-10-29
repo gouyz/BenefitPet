@@ -9,6 +9,16 @@
 import UIKit
 
 class BPBenefitUniversityCell: UITableViewCell {
+    
+    /// 填充数据
+    var dataModel : BPSchoolModel?{
+        didSet{
+            if let model = dataModel {
+                
+                nameLab.text = model.classname
+            }
+        }
+    }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)

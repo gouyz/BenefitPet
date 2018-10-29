@@ -108,16 +108,18 @@ class BPWorkingVC: GYZBaseVC {
                 }
                 headerView.adsImgView.setUrlsGroup(imgUrlArr)
             }
-            
-            headerView.nameLab.text = dataModel?.userInfo?.hospital
-            headerView.headerImgView.kf.setImage(with: URL.init(string: (dataModel?.userInfo?.head)!), placeholder: UIImage.init(named: "icon_header_default"), options: nil, progressBlock: nil, completionHandler: nil)
-            headerView.userNameLab.text = dataModel?.userInfo?.name
-            
-            var rating: Double = 0.0
-            if !(dataModel?.userInfo?.role?.isEmpty)!{
-                rating = Double.init((dataModel?.userInfo?.role)!)!
+            if dataModel?.userInfo != nil{
+                headerView.nameLab.text = dataModel?.userInfo?.hospital
+                headerView.headerImgView.kf.setImage(with: URL.init(string: (dataModel?.userInfo?.head)!), placeholder: UIImage.init(named: "icon_header_default"), options: nil, progressBlock: nil, completionHandler: nil)
+                headerView.userNameLab.text = dataModel?.userInfo?.name
+                
+                var rating: Double = 0.0
+                if !(dataModel?.userInfo?.role?.isEmpty)!{
+                    rating = Double.init((dataModel?.userInfo?.role)!)!
+                }
+                headerView.ratingView.rating = rating
             }
-            headerView.ratingView.rating = rating
+            
             headerView.numberLab.text = "今日回答：\((dataModel?.num)!)人"
             
             tableView.reloadData()
