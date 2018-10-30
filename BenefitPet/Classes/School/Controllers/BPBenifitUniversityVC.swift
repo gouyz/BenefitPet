@@ -108,7 +108,35 @@ class BPBenifitUniversityVC: GYZBaseVC {
     }
     /// 加入培训班
     @objc func onClickedAdd(sender: UITapGestureRecognizer){
+        let tag = sender.view?.tag
+        requestAddClass(model: dataList[tag!])
+    }
+    
+    /// 加入培训班
+    func requestAddClass(model: BPSchoolModel){
         
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("school/school_college_join", parameters: ["d_id": userDefaults.string(forKey: "userId") ?? "","id":model.id!],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
     }
 }
 
