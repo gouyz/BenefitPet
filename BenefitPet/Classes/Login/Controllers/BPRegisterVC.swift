@@ -287,6 +287,7 @@ class BPRegisterVC: GYZBaseVC {
                 userDefaults.set(true, forKey: kIsLoginTagKey)//是否登录标识
                 userDefaults.set(data["id"].stringValue, forKey: "userId")//用户ID
                 userDefaults.set(data["plone"].stringValue, forKey: "phone")//用户电话
+                userDefaults.set(data["name"].stringValue, forKey: "userName")//用户姓名
                 
                 let userName: String = data["jg_id"].stringValue
                 let info: JMSGUserInfo = JMSGUserInfo()

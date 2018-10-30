@@ -179,6 +179,10 @@ class BPChatMessageVC: GYZBaseVC {
     }
     fileprivate func _loadMessage(_ page: Int) {
         
+        if conversation == nil {
+            return
+        }
+        
         let messages = conversation?.messageArrayFromNewest(withOffset: NSNumber(value: jMessageCount), limit: NSNumber(value: 17))
         if messages?.count == 0 {
             return

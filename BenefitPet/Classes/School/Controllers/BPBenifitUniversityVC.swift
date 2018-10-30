@@ -54,6 +54,10 @@ class BPBenifitUniversityVC: GYZBaseVC {
     /// 创建
     @objc func onClickRightBtn(){
         let vc = BPAddClassVC()
+        vc.resultBlock = {[weak self] () in
+            
+            self?.requestClassDatas()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -119,6 +119,7 @@ class BPModifyNameVC: GYZBaseVC {
                 if weakSelf?.resultBlock != nil{
                     weakSelf?.resultBlock!((weakSelf?.contentField.text)!)
                 }
+                userDefaults.set((weakSelf?.contentField.text)!, forKey: "userName")//用户姓名
                 weakSelf?.setupNickname()
                 weakSelf?.clickedBackBtn()
             }

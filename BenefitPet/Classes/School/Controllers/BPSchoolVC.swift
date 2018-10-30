@@ -14,8 +14,8 @@ private let schoolHeader = "schoolHeader"
 
 class BPSchoolVC: GYZBaseVC {
     
-    var titles: [String] = ["学习园地","益宠大学","我的投稿","我的培训班"]
-    var contents: [String] = ["随时随地方便学习","一键发送，轻松宣教","一键投稿，互动交流","您的随身宠物医生"]
+    var titles: [String] = ["学习园地","益宠大学","用药指南","我的培训班"]
+    var contents: [String] = ["随时随地方便学习","一键发送，轻松宣教","您的随身药品秘籍","您的随身宠物医生"]
     var tagImgs: [String] = ["icon_school_xuexi","icon_school_ycdx","icon_school_tougao","icon_school_myclass"]
 
     override func viewDidLoad() {

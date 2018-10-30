@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPAddClassVC: GYZBaseVC {
+    /// 选择结果回调
+    var resultBlock:(() -> Void)?
     ///txtView 提示文字
     let placeHolder = "填写培训班内容（0~500字）"
     // 内容
@@ -84,6 +87,7 @@ class BPAddClassVC: GYZBaseVC {
     lazy var dateView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "名称：", placeHolder: "如：急救培训班", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
         
         return view
     }()
@@ -114,6 +118,46 @@ class BPAddClassVC: GYZBaseVC {
     /// 保存
     @objc func onClickRightBtn(){
         
+        if (dateView.textFiled.text?.isEmpty)! {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入培训班名称")
+            return
+        }
+        if content.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入培训班内容")
+            return
+        }
+        requestCreateClass()
+    }
+    
+    /// 创建培训班
+    func requestCreateClass(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("school/school_college_add", parameters: ["f_id": userDefaults.string(forKey: "userId") ?? "","founder":userDefaults.string(forKey: "userName") ?? "","classname": dateView.textFiled.text!,"content": content],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                if weakSelf?.resultBlock != nil{
+                    weakSelf?.resultBlock!()
+                }
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
     }
 }
 
