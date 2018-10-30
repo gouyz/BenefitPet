@@ -134,7 +134,7 @@ extension BPYuYueListVC: UITableViewDelegate,UITableViewDataSource{
         
         let model = dataList[indexPath.row]
         cell.nameLab.text = model.user_name
-        cell.iconView.kf.setImage(with: URL.init(string: model.head!), placeholder: UIImage.init(named: "icon_header_default"), options: nil, progressBlock: nil, completionHandler: nil)
+        cell.iconView.kf.setImage(with: URL.init(string: model.head!), placeholder: nil, options: nil, progressBlock: nil, completionHandler: nil)
         cell.contentLab.text = model.xinxi
         
         if isFinished {

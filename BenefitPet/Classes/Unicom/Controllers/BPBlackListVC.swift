@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let blackListCell = "blackListCell"
 
 class BPBlackListVC: GYZBaseVC {
+    
+    var dataList: [BPFriendModel] = [BPFriendModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +59,7 @@ class BPBlackListVC: GYZBaseVC {
         searchView.searchBtn.set(image: UIImage.init(named: "icon_search"), title: "请输入宠物姓名", titlePosition: .right, additionalSpacing: 5, state: .normal)
         
         addImgView.addOnClickListener(target: self, action: #selector(onClickedAdd))
+        requestBackListDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -113,6 +117,58 @@ class BPBlackListVC: GYZBaseVC {
         vc.currIndex = 1
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    ///获取黑名单数据
+    func requestBackListDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("contact/black_patient",  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                weakSelf?.dataList.removeAll()
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPFriendModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.tableView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无患者黑名单信息")
+                    weakSelf?.view.bringSubview(toFront: (weakSelf?.bottomView)!)
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.requestBackListDatas()
+                weakSelf?.hiddenEmptyView()
+            })
+            weakSelf?.view.bringSubview(toFront: (weakSelf?.bottomView)!)
+        })
+    }
 }
 
 extension BPBlackListVC: UITableViewDelegate,UITableViewDataSource{
@@ -121,14 +177,16 @@ extension BPBlackListVC: UITableViewDelegate,UITableViewDataSource{
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 16
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: blackListCell) as! BPOnLineOrderCell
-        
-        cell.contentLab.text = "小腿骨裂"
+        let model = dataList[indexPath.row]
+        cell.contentLab.text = model.remark
+        cell.nameLab.text = model.nickname
+        cell.iconView.kf.setImage(with: URL.init(string: model.head!), placeholder: nil, options: nil, progressBlock: nil, completionHandler: nil)
         
         cell.selectionStyle = .none
         return cell

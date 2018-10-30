@@ -57,7 +57,7 @@ class BPOnLineOrderCell: UITableViewCell {
     /// 头像图标
     lazy var iconView: UIImageView = {
         let imgView = UIImageView()
-        imgView.image = UIImage.init(named: "icon_header_default")
+        imgView.backgroundColor = kBackgroundColor
         imgView.cornerRadius = 20
         
         return imgView

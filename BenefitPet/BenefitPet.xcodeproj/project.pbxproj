@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A010A832180A5A8006E25E1 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A010A822180A5A8006E25E1 /* libc++.tbd */; };
 		0A0129A52187523F00E2363E /* BPSchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0129A42187523F00E2363E /* BPSchoolModel.swift */; };
+		0A0FA1032188A2C600D4E60B /* BPFriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0FA1022188A2C600D4E60B /* BPFriendModel.swift */; };
 		0A157A57216CF3830082FAC6 /* Date+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A157A56216CF3830082FAC6 /* Date+JChat.swift */; };
 		0A2FD85F211D6362000EE6CD /* BPShouYiCertificateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FD85E211D6362000EE6CD /* BPShouYiCertificateVC.swift */; };
 		0A303510212E4D1800B55AAE /* BPAllFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A30350F212E4D1800B55AAE /* BPAllFriendsVC.swift */; };
@@ -284,6 +285,7 @@
 /* Begin PBXFileReference section */
 		0A010A822180A5A8006E25E1 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0A0129A42187523F00E2363E /* BPSchoolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolModel.swift; sourceTree = "<group>"; };
+		0A0FA1022188A2C600D4E60B /* BPFriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPFriendModel.swift; sourceTree = "<group>"; };
 		0A157A56216CF3830082FAC6 /* Date+JChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+JChat.swift"; sourceTree = "<group>"; };
 		0A2FD85E211D6362000EE6CD /* BPShouYiCertificateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPShouYiCertificateVC.swift; sourceTree = "<group>"; };
 		0A30350F212E4D1800B55AAE /* BPAllFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPAllFriendsVC.swift; sourceTree = "<group>"; };
@@ -1231,6 +1233,7 @@
 		0A8388F5210AB3EB009ECF96 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0A0FA1022188A2C600D4E60B /* BPFriendModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1740,6 +1743,7 @@
 				0A838914210AB3EC009ECF96 /* GYZDate+Extension.swift in Sources */,
 				0A954CA521182FA8002772A0 /* BPHuanZheMenuCell.swift in Sources */,
 				0A0129A52187523F00E2363E /* BPSchoolModel.swift in Sources */,
+				0A0FA1032188A2C600D4E60B /* BPFriendModel.swift in Sources */,
 				0A814319211BD7A800529C74 /* BPWenZhenTableDetailVC.swift in Sources */,
 				0A7168B3212F8C5B00125444 /* BPTongXunluVC.swift in Sources */,
 				0A8388FF210AB3EB009ECF96 /* LHSSelectPayMethodView.swift in Sources */,
