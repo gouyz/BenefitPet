@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let applyFriendsCell = "applyFriendsCell"
 
 class BPApplyFriendsVC: GYZBaseVC {
+    
+    var dataList: [BPFriendModel] = [BPFriendModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +28,7 @@ class BPApplyFriendsVC: GYZBaseVC {
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        tableView.isHidden = true
-        //        friendEmptyView.isHidden = true
+        requestFriendListDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -59,6 +61,86 @@ class BPApplyFriendsVC: GYZBaseVC {
         let vc = BPAddFriendsVC()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    ///获取好友数据
+    func requestFriendListDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("contact/request_friend", parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                weakSelf?.dataList.removeAll()
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPFriendModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.friendEmptyView.isHidden = true
+                    weakSelf?.tableView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.friendEmptyView.isHidden = false
+                    weakSelf?.tableView.isHidden = true
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.requestFriendListDatas()
+                weakSelf?.hiddenEmptyView()
+                weakSelf?.friendEmptyView.isHidden = true
+            })
+        })
+    }
+    
+    /// 添加好友
+    func requestAddFriend(index: Int){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        let model = dataList[index]
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("contact/add_friend", parameters: ["f_id": model.id!,"d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                weakSelf?.dataList[index].ishad = "2"
+                weakSelf?.tableView.reloadData()
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
 }
 
 extension BPApplyFriendsVC: UITableViewDelegate,UITableViewDataSource{
@@ -67,28 +149,33 @@ extension BPApplyFriendsVC: UITableViewDelegate,UITableViewDataSource{
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 16
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: applyFriendsCell) as! BPSchoolFriendsCell
+        let model = dataList[indexPath.row]
+        cell.dataModel = model
         
-        if indexPath.row % 2 == 0 {
-            cell.addBtn.isEnabled = false
-            cell.addBtn.backgroundColor = kWhiteColor
-            cell.addBtn.setTitle("已添加", for: .normal)
-            cell.addBtn.setTitleColor(kBlackFontColor, for: .normal)
-        }else{
+        /// 好友添加状态：0未添加 1待通过 2通过
+        let state: String = model.ishad!
+        if state == "1" {
             cell.addBtn.isEnabled = true
             cell.addBtn.backgroundColor = kBtnClickBGColor
             cell.addBtn.setTitle("接受", for: .normal)
             cell.addBtn.setTitleColor(kWhiteColor, for: .normal)
+        }else{
+            cell.addBtn.isEnabled = false
+            cell.addBtn.backgroundColor = kWhiteColor
+            cell.addBtn.setTitle("已添加", for: .normal)
+            cell.addBtn.setTitleColor(kBlackFontColor, for: .normal)
+            
         }
         
         cell.addBtn.tag = indexPath.row
-        cell.addBlock = { (index) in
-            
+        cell.addBlock = { [weak self] (index) in
+            self?.requestAddFriend(index: index)
         }
         
         cell.selectionStyle = .none

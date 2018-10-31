@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPModifySchoolVC: GYZBaseVC {
+    
+    var resultBlock:(() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +97,7 @@ class BPModifySchoolVC: GYZBaseVC {
     lazy var schoolNameView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "学校", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
         
         return view
     }()
@@ -108,6 +112,7 @@ class BPModifySchoolVC: GYZBaseVC {
     lazy var zhuanYeView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "专业", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
         
         return view
     }()
@@ -122,6 +127,7 @@ class BPModifySchoolVC: GYZBaseVC {
     lazy var xueWeiView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "学位", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
         
         return view
     }()
@@ -136,6 +142,10 @@ class BPModifySchoolVC: GYZBaseVC {
     lazy var startDateView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "入学时间", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isEnabled = false
+        view.textFiled.isSecureTextEntry = false
+        view.tag = 101
+        view.addOnClickListener(target: self, action: #selector(onClickedDate(sender:)))
         
         return view
     }()
@@ -150,6 +160,10 @@ class BPModifySchoolVC: GYZBaseVC {
     lazy var endDateView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "毕业时间", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isEnabled = false
+        view.textFiled.isSecureTextEntry = false
+        view.tag = 102
+        view.addOnClickListener(target: self, action: #selector(onClickedDate(sender:)))
         
         return view
     }()
@@ -161,8 +175,67 @@ class BPModifySchoolVC: GYZBaseVC {
         return line
     }()
     
+    /// 选择日期
+    @objc func onClickedDate(sender: UITapGestureRecognizer){
+        
+        let tag: Int = (sender.view?.tag)!
+        UsefulPickerView.showDatePicker("选择日期") { [weak self](date) in
+            let dateStr = date.dateToStringWithFormat(format: "yyyy-MM")
+            if tag == 101{
+                self?.startDateView.textFiled.text = dateStr
+            }else{
+                self?.endDateView.textFiled.text = dateStr
+            }
+        }
+    }
     /// 保存
     @objc func onClickRightBtn(){
+        if schoolNameView.textFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入您的毕业院校")
+            return
+        }
+        if zhuanYeView.textFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入您的专业")
+            return
+        }
+        if xueWeiView.textFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入您的学位")
+            return
+        }
+        if startDateView.textFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请选择您的入学时间")
+            return
+        }
+        if endDateView.textFiled.text!.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请选择您的毕业时间")
+            return
+        }
+        requestModifySchool()
+    }
+    
+    /// 保存
+    func requestModifySchool(){
         
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("doctor/perfect", parameters: ["id":userDefaults.string(forKey: "userId") ?? "","school":schoolNameView.textFiled.text!,"major": zhuanYeView.textFiled.text!,"degree": xueWeiView.textFiled.text!,"in_school_time": startDateView.textFiled.text!,"le_school_time": endDateView.textFiled.text!],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            GYZLog(response)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                if weakSelf?.resultBlock != nil{
+                    weakSelf?.resultBlock!()
+                }
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
     }
 }

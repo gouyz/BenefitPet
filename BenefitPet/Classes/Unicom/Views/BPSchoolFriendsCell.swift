@@ -9,6 +9,16 @@
 import UIKit
 
 class BPSchoolFriendsCell: UITableViewCell {
+    /// 填充数据
+    var dataModel : BPFriendModel?{
+        didSet{
+            if let model = dataModel {
+                
+                nameLab.text = model.name
+                iconView.kf.setImage(with: URL.init(string: model.head!), placeholder: nil, options: nil, progressBlock: nil, completionHandler: nil)
+            }
+        }
+    }
     
     /// 添加
     var addBlock:((_ index: Int) -> Void)?
@@ -50,8 +60,8 @@ class BPSchoolFriendsCell: UITableViewCell {
     lazy var iconView: UIImageView = {
         
         let imgView = UIImageView()
-        imgView.cornerRadius = 10
-        imgView.image = UIImage.init(named: "icon_header_default")
+        imgView.cornerRadius = 15
+        imgView.backgroundColor = kBackgroundColor
         
         return imgView
     }()

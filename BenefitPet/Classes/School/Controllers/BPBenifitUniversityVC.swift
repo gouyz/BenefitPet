@@ -113,11 +113,11 @@ class BPBenifitUniversityVC: GYZBaseVC {
     /// 加入培训班
     @objc func onClickedAdd(sender: UITapGestureRecognizer){
         let tag = sender.view?.tag
-        requestAddClass(model: dataList[tag!])
+        requestAddClass(model: dataList[tag!], index:tag!)
     }
     
     /// 加入培训班
-    func requestAddClass(model: BPSchoolModel){
+    func requestAddClass(model: BPSchoolModel, index: Int){
         
         if !GYZTool.checkNetWork() {
             return
@@ -134,7 +134,12 @@ class BPBenifitUniversityVC: GYZBaseVC {
             MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
             if response["status"].intValue == kQuestSuccessTag{//请求成功
                 
-                
+                weakSelf?.dataList.remove(at: index)
+                weakSelf?.tableView.reloadData()
+                if weakSelf?.dataList.count == 0{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无培训班信息")
+                }
             }
             
         }, failture: { (error) in

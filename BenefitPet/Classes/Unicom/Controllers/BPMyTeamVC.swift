@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let myTeamCell = "myTeamCell"
 private let myTeamHeader = "myTeamHeader"
 
 class BPMyTeamVC: GYZBaseVC {
 
-    let titleArr : [String] = ["院长","副院长","主任医师","护士"]
+    var dataList: [BPMyTeamModel] = [BPMyTeamModel]()
     /// 头像宽度
     let imgWidth = (kScreenWidth - 6 * klineWidth) * 0.2
     
@@ -26,7 +27,7 @@ class BPMyTeamVC: GYZBaseVC {
         collectionView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        
+        requestFriendListDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,22 +59,70 @@ class BPMyTeamVC: GYZBaseVC {
         return collView
     }()
     
+    ///获取好友数据
+    func requestFriendListDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("contact/team_list", parameters: ["d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                weakSelf?.dataList.removeAll()
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPMyTeamModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.collectionView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无团队信息")
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.requestFriendListDatas()
+                weakSelf?.hiddenEmptyView()
+            })
+        })
+    }
 }
 
 extension BPMyTeamVC : UICollectionViewDataSource,UICollectionViewDelegate{
     // MARK: UICollectionViewDataSource 代理方法
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return titleArr.count
+        return dataList.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section < 2{
-            return 1
-        }
-        return 16
+        
+        return dataList[section].doctorList.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: myTeamCell, for: indexPath) as! BPMyTeamCell
         
+        cell.dataModel = dataList[indexPath.section].doctorList[indexPath.row]
         
         return cell
     }
@@ -87,7 +136,7 @@ extension BPMyTeamVC : UICollectionViewDataSource,UICollectionViewDelegate{
             
             reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: myTeamHeader, for: indexPath) as! BPMyTeamHeaderView
             
-            (reusableview as! BPMyTeamHeaderView).nameLab.text = titleArr[indexPath.section]
+            (reusableview as! BPMyTeamHeaderView).nameLab.text = dataList[indexPath.section].job_title
         }
         
         return reusableview

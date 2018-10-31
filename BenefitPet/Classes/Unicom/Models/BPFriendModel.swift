@@ -24,4 +24,6 @@ class BPFriendModel: LHSBaseModel {
     var school : String? = ""
     /// 好友添加状态：0未添加 1待通过 2通过
     var ishad : String? = ""
+    /// 极光IM id
+    var jg_id : String? = ""
 }

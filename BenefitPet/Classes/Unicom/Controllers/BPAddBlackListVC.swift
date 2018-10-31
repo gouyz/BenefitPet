@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPAddBlackListVC: GYZBaseVC {
+    
+    /// 选择结果回调
+    var resultBlock:(() -> Void)?
+    /// 选择患者
+    var selectHuanZheModel: BPHuanZheModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,18 +84,63 @@ class BPAddBlackListVC: GYZBaseVC {
     /// 症状
     lazy var noteView : GYZLabAndFieldView = {
         let lab = GYZLabAndFieldView.init(desName: "症状", placeHolder: "未填写", isPhone: false)
+        lab.textFiled.isSecureTextEntry = false
         lab.textFiled.textAlignment = .right
         
         return lab
     }()
     /// 保存
     @objc func onClickRightBtn(){
+        if selectHuanZheModel == nil {
+            MBProgressHUD.showAutoDismissHUD(message: "请选择患者")
+            return
+        }
+        if (noteView.textFiled.text?.isEmpty)! {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入患者症状")
+            return
+        }
         
+        requestAddBlackList()
+        
+    }
+    /// 加入黑名单
+    func requestAddBlackList(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("contact/add_black_patient", parameters: ["u_id": (selectHuanZheModel?.id)!,"remark": noteView.textFiled.text!],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                if weakSelf?.resultBlock != nil{
+                    weakSelf?.resultBlock!()
+                }
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
     }
     
     /// 选择患者
     @objc func onClickedSelectedHuanZhe(){
-        let vc = BPSelectHuanZheVC()
+        let vc = BPSelectSingleHuanZheVC()
+        vc.selectBlock = {[weak self] (model) in
+            
+            self?.selectHuanZheModel = model
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }

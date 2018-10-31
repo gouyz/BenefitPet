@@ -9,6 +9,17 @@
 import UIKit
 
 class BPMyTeamCell: UICollectionViewCell {
+    /// 填充数据
+    var dataModel : BPFriendModel?{
+        didSet{
+            if let model = dataModel {
+                
+                nameLab.text = model.name
+                userImgView.kf.setImage(with: URL.init(string: model.head!), placeholder: nil, options: nil, progressBlock: nil, completionHandler: nil)
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -53,7 +64,7 @@ class BPMyTeamCell: UICollectionViewCell {
         let lab = UILabel()
         lab.textColor = kBlackFontColor
         lab.textAlignment = .center
-        lab.font = k13Font
+        lab.font = k10Font
         lab.text = "丽莎"
         
         return lab

@@ -13,8 +13,8 @@ private let unicomFooter = "unicomFooter"
 
 class BPUnicomVC: GYZBaseVC {
     
-    var titles: [String] = ["患者黑名单","所有好友","我的团队","可能认识的人"]
-    var tagImgs: [String] = ["icon_blacklist","icon_all_friends","icon_team","icon_all_friends"]
+    var titles: [String] = ["患者黑名单","所有好友","我的团队"]
+    var tagImgs: [String] = ["icon_blacklist","icon_all_friends","icon_team"]
 
     override func viewDidLoad() {
         super.viewDidLoad()

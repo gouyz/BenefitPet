@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A010A832180A5A8006E25E1 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A010A822180A5A8006E25E1 /* libc++.tbd */; };
 		0A0129A52187523F00E2363E /* BPSchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0129A42187523F00E2363E /* BPSchoolModel.swift */; };
+		0A057D222189DC3A00CD3733 /* BPSelectSingleHuanZheVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A057D212189DC3A00CD3733 /* BPSelectSingleHuanZheVC.swift */; };
 		0A0FA1032188A2C600D4E60B /* BPFriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0FA1022188A2C600D4E60B /* BPFriendModel.swift */; };
 		0A157A57216CF3830082FAC6 /* Date+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A157A56216CF3830082FAC6 /* Date+JChat.swift */; };
 		0A2FD85F211D6362000EE6CD /* BPShouYiCertificateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FD85E211D6362000EE6CD /* BPShouYiCertificateVC.swift */; };
@@ -254,6 +255,7 @@
 		0A9BB53E2133EB65002ED5C7 /* City.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A9BB5362133EB64002ED5C7 /* City.plist */; };
 		0A9BB53F2133EB65002ED5C7 /* UsefulPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9BB5372133EB64002ED5C7 /* UsefulPickerView.swift */; };
 		0A9BB5402133EB65002ED5C7 /* SelectionTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9BB5382133EB64002ED5C7 /* SelectionTextField.swift */; };
+		0AA7129C218A08C4008E5DD7 /* BPMyTeamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA7129B218A08C4008E5DD7 /* BPMyTeamModel.swift */; };
 		0AB026D1216CA4EC00455EA3 /* KILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB026D0216CA4EB00455EA3 /* KILabel.m */; };
 		0AB026D3216CA5E800455EA3 /* JCTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB026D2216CA5E800455EA3 /* JCTableViewCell.swift */; };
 		0AB026D5216CA6B300455EA3 /* NSLayoutConstraint+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB026D4216CA6B300455EA3 /* NSLayoutConstraint+JChat.swift */; };
@@ -285,6 +287,7 @@
 /* Begin PBXFileReference section */
 		0A010A822180A5A8006E25E1 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0A0129A42187523F00E2363E /* BPSchoolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolModel.swift; sourceTree = "<group>"; };
+		0A057D212189DC3A00CD3733 /* BPSelectSingleHuanZheVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSelectSingleHuanZheVC.swift; sourceTree = "<group>"; };
 		0A0FA1022188A2C600D4E60B /* BPFriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPFriendModel.swift; sourceTree = "<group>"; };
 		0A157A56216CF3830082FAC6 /* Date+JChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+JChat.swift"; sourceTree = "<group>"; };
 		0A2FD85E211D6362000EE6CD /* BPShouYiCertificateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPShouYiCertificateVC.swift; sourceTree = "<group>"; };
@@ -544,6 +547,7 @@
 		0A9BB5362133EB64002ED5C7 /* City.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = City.plist; sourceTree = "<group>"; };
 		0A9BB5372133EB64002ED5C7 /* UsefulPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsefulPickerView.swift; sourceTree = "<group>"; };
 		0A9BB5382133EB64002ED5C7 /* SelectionTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionTextField.swift; sourceTree = "<group>"; };
+		0AA7129B218A08C4008E5DD7 /* BPMyTeamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPMyTeamModel.swift; sourceTree = "<group>"; };
 		0AB026CF216CA4EB00455EA3 /* KILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KILabel.h; sourceTree = "<group>"; };
 		0AB026D0216CA4EB00455EA3 /* KILabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KILabel.m; sourceTree = "<group>"; };
 		0AB026D2216CA5E800455EA3 /* JCTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCTableViewCell.swift; sourceTree = "<group>"; };
@@ -818,6 +822,7 @@
 		0A838886210AB3EB009ECF96 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0A057D212189DC3A00CD3733 /* BPSelectSingleHuanZheVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1234,6 +1239,7 @@
 			isa = PBXGroup;
 			children = (
 				0A0FA1022188A2C600D4E60B /* BPFriendModel.swift */,
+				0AA7129B218A08C4008E5DD7 /* BPMyTeamModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1610,6 +1616,7 @@
 				0A7B6F0621256263005EBCF0 /* BPZhenLiaoRecordInfoCell.swift in Sources */,
 				0A96492E2119280200BE7DC3 /* BPEditGroupVC.swift in Sources */,
 				0A744862215F1FBF002DE6AB /* BPRiChengModel.swift in Sources */,
+				0AA7129C218A08C4008E5DD7 /* BPMyTeamModel.swift in Sources */,
 				0A744866215F2981002DE6AB /* BPFollowPlanDetailVC.swift in Sources */,
 				0AEAD62A211D737A0076C1C2 /* BPBenefitPetCertificateVC.swift in Sources */,
 				0A744860215F19AC002DE6AB /* BPWenZhenModel.swift in Sources */,
@@ -1617,6 +1624,7 @@
 				0A723764211143C4006E0E04 /* BPOnLineOrderVC.swift in Sources */,
 				0A761D1E216CA17500FDA645 /* ImageFileCell.swift in Sources */,
 				0A714DF8212D04510016BAB1 /* BPStudyVideoCell.swift in Sources */,
+				0A057D222189DC3A00CD3733 /* BPSelectSingleHuanZheVC.swift in Sources */,
 				0A4C421B217F4524000A3998 /* BPPastWenZhenCell.swift in Sources */,
 				0A761D22216CA17500FDA645 /* JCMessageImageContent.swift in Sources */,
 				0A4C4219217F431E000A3998 /* BPPastWenZhenModel.swift in Sources */,

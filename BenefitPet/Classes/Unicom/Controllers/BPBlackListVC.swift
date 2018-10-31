@@ -108,13 +108,19 @@ class BPBlackListVC: GYZBaseVC {
     /// add
     @objc func onClickedAdd(){
         let vc = BPAddBlackListVC()
+        vc.resultBlock = {[weak self] () in
+            
+            self?.requestBackListDatas()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
     /// 患者聊天、同步诊疗记录
-    func goChatVC(){
+    func goChatVC(jgId: String){
         let vc = BPChatManagerVC()
+        vc.conversation = JMSGConversation.singleConversation(withUsername: jgId)
         vc.currIndex = 1
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -202,7 +208,7 @@ extension BPBlackListVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        goChatVC()
+        goChatVC(jgId: dataList[indexPath.row].jg_id!)
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

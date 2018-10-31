@@ -7,13 +7,17 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let tongXunluCell = "tongXunluCell"
 
 class BPTongXunluVC: GYZBaseVC {
     
     /// 通讯录数据
-    var dataList: [AddressBookModel] = []
+    var bookList: [AddressBookModel] = [AddressBookModel]()
+    var dataList: [BPFriendModel] = [BPFriendModel]()
+    /// 通讯录中返回的电话（用逗号分隔）
+    var phoneNums: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +32,18 @@ class BPTongXunluVC: GYZBaseVC {
             GYZAddressBookManager.sharedInstance.requestAddressBookAccess { [weak self](isRight) in
                 
                 if isRight{//授权成功
-                    self?.dataList = GYZAddressBookManager.sharedInstance.readRecords()
+                    self?.bookList = GYZAddressBookManager.sharedInstance.readRecords()
                 }
             }
         }else{
-            dataList = GYZAddressBookManager.sharedInstance.readRecords()
+            bookList = GYZAddressBookManager.sharedInstance.readRecords()
+        }
+        
+        for item in bookList {
+            phoneNums += item.phone! + ","
+        }
+        if phoneNums.count > 0 {
+            phoneNums = phoneNums.subString(start: 0, length: phoneNums.count - 1)
         }
         
         view.addSubview(tableView)
@@ -41,6 +52,7 @@ class BPTongXunluVC: GYZBaseVC {
             make.edges.equalTo(0)
         }
     
+        requestFriendListDatas()
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,6 +76,85 @@ class BPTongXunluVC: GYZBaseVC {
         
         return table
     }()
+    
+    ///获取好友数据
+    func requestFriendListDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("contact/books", parameters: ["d_id": userDefaults.string(forKey: "userId") ?? "","phones": phoneNums],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                weakSelf?.dataList.removeAll()
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPFriendModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.tableView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无通讯录好友信息")
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.requestFriendListDatas()
+                weakSelf?.hiddenEmptyView()
+            })
+            
+        })
+    }
+    
+    /// 添加好友
+    func requestAddFriend(index: Int){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        let model = dataList[index]
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("contact/add_friend", parameters: ["f_id": model.id!,"d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                weakSelf?.dataList[index].ishad = "1"
+                weakSelf?.tableView.reloadData()
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
 }
 
 extension BPTongXunluVC: UITableViewDelegate,UITableViewDataSource{
@@ -79,23 +170,31 @@ extension BPTongXunluVC: UITableViewDelegate,UITableViewDataSource{
         
         let cell = tableView.dequeueReusableCell(withIdentifier: tongXunluCell) as! BPSchoolFriendsCell
         
-        cell.nameLab.text = dataList[indexPath.row].name
+        let model = dataList[indexPath.row]
+        cell.dataModel = model
         
-        if indexPath.row % 2 == 0 {
-            cell.addBtn.isEnabled = false
-            cell.addBtn.backgroundColor = kWhiteColor
-            cell.addBtn.setTitle("已添加", for: .normal)
-            cell.addBtn.setTitleColor(kBlackFontColor, for: .normal)
-        }else{
+        /// 好友添加状态：0未添加 1待通过 2通过
+        let state: String = model.ishad!
+        if state == "0" {
             cell.addBtn.isEnabled = true
             cell.addBtn.backgroundColor = kBtnClickBGColor
             cell.addBtn.setTitle("添加", for: .normal)
             cell.addBtn.setTitleColor(kWhiteColor, for: .normal)
+        }else if state == "1" {
+            cell.addBtn.isEnabled = false
+            cell.addBtn.backgroundColor = kWhiteColor
+            cell.addBtn.setTitle("待通过", for: .normal)
+            cell.addBtn.setTitleColor(kBlackFontColor, for: .normal)
+        }else if state == "2" {
+            cell.addBtn.isEnabled = false
+            cell.addBtn.backgroundColor = kWhiteColor
+            cell.addBtn.setTitle("已添加", for: .normal)
+            cell.addBtn.setTitleColor(kBlackFontColor, for: .normal)
         }
         
         cell.addBtn.tag = indexPath.row
-        cell.addBlock = { (index) in
-            
+        cell.addBlock = { [weak self] (index) in
+            self?.requestAddFriend(index: index)
         }
         
         cell.selectionStyle = .none
