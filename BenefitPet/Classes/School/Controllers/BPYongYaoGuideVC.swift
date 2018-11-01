@@ -95,6 +95,7 @@ class BPYongYaoGuideVC: GYZBaseVC {
     func goDetail(index: Int){
         let vc = BPGuideDetailVC()
         vc.articleId = dataList[index].id!
+        vc.type = .guide
         navigationController?.pushViewController(vc, animated: true)
     }
 }

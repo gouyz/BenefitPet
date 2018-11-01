@@ -11,6 +11,16 @@ import UIKit
 private let studyVideoChildCell = "studyVideoChildCell"
 
 class BPStudyVideoCell: UITableViewCell {
+    
+    /// 填充数据
+    var dataModels : [BPWangKeModel]?{
+        didSet{
+            if dataModels != nil {
+                
+                collectionView.reloadData()
+            }
+        }
+    }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -65,11 +75,16 @@ extension BPStudyVideoCell : UICollectionViewDataSource,UICollectionViewDelegate
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        if dataModels == nil {
+            return 0
+        }
+        return (dataModels?.count)!
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: studyVideoChildCell, for: indexPath) as! BPStudyVideoChildCell
+        
+        cell.dataModel = dataModels?[indexPath.row]
         
         return cell
     }

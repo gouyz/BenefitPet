@@ -10,6 +10,17 @@ import UIKit
 
 class BPStudyVideoChildCell: UICollectionViewCell {
     
+    /// 填充数据
+    var dataModel : BPWangKeModel?{
+        didSet{
+            if let model = dataModel {
+                
+                iconView.kf.setImage(with: URL.init(string: model.pic!), placeholder: nil, options: nil, progressBlock: nil, completionHandler: nil)
+                desLab.text = model.title
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

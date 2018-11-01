@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A010A832180A5A8006E25E1 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A010A822180A5A8006E25E1 /* libc++.tbd */; };
 		0A0129A52187523F00E2363E /* BPSchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0129A42187523F00E2363E /* BPSchoolModel.swift */; };
+		0A026BEB218B370000DF0187 /* BPDocStudyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A026BEA218B370000DF0187 /* BPDocStudyModel.swift */; };
 		0A057D222189DC3A00CD3733 /* BPSelectSingleHuanZheVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A057D212189DC3A00CD3733 /* BPSelectSingleHuanZheVC.swift */; };
 		0A0FA1032188A2C600D4E60B /* BPFriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0FA1022188A2C600D4E60B /* BPFriendModel.swift */; };
 		0A157A57216CF3830082FAC6 /* Date+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A157A56216CF3830082FAC6 /* Date+JChat.swift */; };
@@ -289,6 +290,7 @@
 /* Begin PBXFileReference section */
 		0A010A822180A5A8006E25E1 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0A0129A42187523F00E2363E /* BPSchoolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolModel.swift; sourceTree = "<group>"; };
+		0A026BEA218B370000DF0187 /* BPDocStudyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPDocStudyModel.swift; sourceTree = "<group>"; };
 		0A057D212189DC3A00CD3733 /* BPSelectSingleHuanZheVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSelectSingleHuanZheVC.swift; sourceTree = "<group>"; };
 		0A0FA1022188A2C600D4E60B /* BPFriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPFriendModel.swift; sourceTree = "<group>"; };
 		0A157A56216CF3830082FAC6 /* Date+JChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+JChat.swift"; sourceTree = "<group>"; };
@@ -1005,6 +1007,7 @@
 			children = (
 				0A0129A42187523F00E2363E /* BPSchoolModel.swift */,
 				0A492FC1218AE16000C7E3AE /* BPYongYaoGuideModel.swift */,
+				0A026BEA218B370000DF0187 /* BPDocStudyModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1601,6 +1604,7 @@
 				0A814311211BC99700529C74 /* BPWenZhenTableView.swift in Sources */,
 				0A8388F8210AB3EB009ECF96 /* LHSBaseModel.swift in Sources */,
 				0A761D12216CA17500FDA645 /* JCMessageOptions.swift in Sources */,
+				0A026BEB218B370000DF0187 /* BPDocStudyModel.swift in Sources */,
 				0A9BB52F2133E9B6002ED5C7 /* BPMayKnowPersonVC.swift in Sources */,
 				0A74486C215F66FC002DE6AB /* BPArticleDetailVC.swift in Sources */,
 				0A838912210AB3EC009ECF96 /* GYZUIColor+Extension.swift in Sources */,

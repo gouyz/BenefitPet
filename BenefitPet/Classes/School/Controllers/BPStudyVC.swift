@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let studyVideoCell = "studyVideoCell"
 private let studyCell = "studyCell"
@@ -15,6 +16,7 @@ private let studyHeader = "studyHeader"
 class BPStudyVC: GYZBaseVC {
     
     let titleArr : [String] = ["专家网课","专业文章","医生快课"]
+    var dataModel: BPDocStudyModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +27,7 @@ class BPStudyVC: GYZBaseVC {
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
+        requestDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,6 +73,52 @@ class BPStudyVC: GYZBaseVC {
             break
         }
     }
+    
+    ///获取数据
+    func requestDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("school/school_study",  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].dictionaryObject else { return }
+                weakSelf?.dataModel = BPDocStudyModel.init(dict: data)
+                
+                weakSelf?.tableView.reloadData()
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.hiddenEmptyView()
+                weakSelf?.requestDatas()
+            })
+        })
+    }
+    
+    /// 详情
+    func goDetailVC(articleId: String,type: ArticleType){
+        let vc = BPGuideDetailVC()
+        vc.type = type
+        vc.articleId = articleId
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPStudyVC : UITableViewDelegate,UITableViewDataSource{
@@ -79,16 +128,24 @@ extension BPStudyVC : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+        if dataModel == nil {
+            return 0
+        }
+        
         if section == 0 {
             return 1
+        }else if section == 1{
+            return (dataModel?.articleList.count)!
+        }else{
+            return (dataModel?.kuaikeList.count)!
         }
-        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: studyVideoCell) as! BPStudyVideoCell
+            cell.dataModels = dataModel?.wangkeList
             
 //            cell.delegate = self
             
@@ -98,9 +155,10 @@ extension BPStudyVC : UITableViewDelegate,UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: studyCell) as! GYZLabArrowCell
             
             if indexPath.section == 1 {//专业文章
-                cell.nameLab.text = "宠物日常护理"
+                
+                cell.nameLab.text = dataModel?.articleList[indexPath.row].title
             }else {// 医生快课
-                cell.nameLab.text = "宠物意外急救"
+                cell.nameLab.text = dataModel?.kuaikeList[indexPath.row].title
             }
             
             cell.selectionStyle = .none
@@ -125,6 +183,11 @@ extension BPStudyVC : UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        if indexPath.section == 1 {
+            goDetailVC(articleId: (dataModel?.articleList[indexPath.row].id)!, type: .article)
+        }else if indexPath.section == 2 {
+            goDetailVC(articleId: (dataModel?.kuaikeList[indexPath.row].id)!, type: .kuaike)
+        }
     }
     
     ///MARK : UITableViewDelegate

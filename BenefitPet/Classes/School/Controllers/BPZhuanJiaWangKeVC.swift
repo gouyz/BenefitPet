@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let zhuanJiaWangKeCell = "zhuanJiaWangKeCell"
 
 class BPZhuanJiaWangKeVC: GYZBaseVC {
+    
+    var dataList: [BPWangKeModel] = [BPWangKeModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +28,7 @@ class BPZhuanJiaWangKeVC: GYZBaseVC {
             make.right.equalTo(-kMargin)
             make.bottom.equalTo(view)
         }
+        requestDatas()
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,6 +60,56 @@ class BPZhuanJiaWangKeVC: GYZBaseVC {
         return collView
     }()
 
+    
+    ///获取网课数据
+    func requestDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("school/school_study_wangke",  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"]["wangke"].array else { return }
+                weakSelf?.dataList.removeAll()
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPWangKeModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.collectionView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无网课信息")
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.hiddenEmptyView()
+                weakSelf?.requestDatas()
+            })
+        })
+    }
 }
 
 extension BPZhuanJiaWangKeVC : UICollectionViewDataSource,UICollectionViewDelegate{
@@ -64,11 +118,13 @@ extension BPZhuanJiaWangKeVC : UICollectionViewDataSource,UICollectionViewDelega
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 36
+        return dataList.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: zhuanJiaWangKeCell, for: indexPath) as! BPStudyVideoChildCell
+        
+        cell.dataModel = dataList[indexPath.row]
         
         return cell
     }

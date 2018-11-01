@@ -10,11 +10,24 @@ import UIKit
 import WebKit
 import MBProgressHUD
 
+
+public enum ArticleType : Int {
+    
+    
+    case guide // 用药指南
+    
+    case  article// 专业文章
+    
+    case kuaike // 快课
+}
+
 class BPGuideDetailVC: GYZBaseVC {
 
     /// 加载内容
     var articleId: String = ""
     var dataModel: BPYongYaoGuideModel?
+    
+    var type: ArticleType = .guide
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +68,14 @@ class BPGuideDetailVC: GYZBaseVC {
         weak var weakSelf = self
         createHUD(message: "加载中...")
         
-        GYZNetWork.requestNetwork("school/school_guide_content", parameters: ["id": articleId],  success: { (response) in
+        var method: String = "school/school_guide_content"
+        if type == .article {
+            method = "school/school_study_wenzhang_content"
+        }else if type == .kuaike {
+            method = "school/school_study_kuaike_content"
+        }
+        
+        GYZNetWork.requestNetwork(method, parameters: ["id": articleId],  success: { (response) in
             
             weakSelf?.hud?.hide(animated: true)
             GYZLog(response)

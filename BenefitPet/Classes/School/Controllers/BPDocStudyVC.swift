@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let docStudyCell = "docStudyCell"
 
 class BPDocStudyVC: GYZBaseVC {
+    
+    var dataList: [BPYongYaoGuideModel] = [BPYongYaoGuideModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +23,7 @@ class BPDocStudyVC: GYZBaseVC {
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
+        requestDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -37,10 +41,61 @@ class BPDocStudyVC: GYZBaseVC {
         
         return table
     }()
-    /// 问诊表详情
-    func goDetailVC(){
-        let vc = BPWenZhenTableDetailVC()
+    /// 详情
+    func goDetailVC(index: Int){
+        let vc = BPGuideDetailVC()
+        vc.type = .kuaike
+        vc.articleId = dataList[index].id!
         navigationController?.pushViewController(vc, animated: true)
+    }
+    ///获取文章数据
+    func requestDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("school/school_study_kuaike",  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                weakSelf?.dataList.removeAll()
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPYongYaoGuideModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.tableView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无医生快课信息")
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.hiddenEmptyView()
+                weakSelf?.requestDatas()
+            })
+        })
     }
 }
 
@@ -51,14 +106,14 @@ extension BPDocStudyVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 18
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: docStudyCell) as! GYZLabArrowCell
         
-        cell.nameLab.text = "宠物用药有哪些注意事项"
+        cell.nameLab.text = dataList[indexPath.row].title
         
         cell.selectionStyle = .none
         return cell
@@ -73,7 +128,7 @@ extension BPDocStudyVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        //        goDetailVC()
+        goDetailVC(index: indexPath.row)
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
