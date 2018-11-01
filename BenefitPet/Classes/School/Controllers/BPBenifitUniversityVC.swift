@@ -71,7 +71,7 @@ class BPBenifitUniversityVC: GYZBaseVC {
         weak var weakSelf = self
         showLoadingView()
         
-        GYZNetWork.requestNetwork("school/school_college",  success: { (response) in
+        GYZNetWork.requestNetwork("school/school_college", parameters: ["d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             GYZLog(response)

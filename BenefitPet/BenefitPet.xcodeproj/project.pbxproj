@@ -20,6 +20,8 @@
 		0A303518212EA01D00B55AAE /* BPModifySchoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */; };
 		0A30351A212EA30200B55AAE /* BPTongShiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303519212EA30200B55AAE /* BPTongShiVC.swift */; };
 		0A487A4B2177803800352EAF /* BPHuanZheGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */; };
+		0A492FC2218AE16000C7E3AE /* BPYongYaoGuideModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A492FC1218AE16000C7E3AE /* BPYongYaoGuideModel.swift */; };
+		0A492FC4218AE4B900C7E3AE /* BPGuideDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A492FC3218AE4B900C7E3AE /* BPGuideDetailVC.swift */; };
 		0A4C4219217F431E000A3998 /* BPPastWenZhenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C4218217F431E000A3998 /* BPPastWenZhenModel.swift */; };
 		0A4C421B217F4524000A3998 /* BPPastWenZhenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C421A217F4524000A3998 /* BPPastWenZhenCell.swift */; };
 		0A64D007215E6F000045F14F /* BPYuYueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64D006215E6F000045F14F /* BPYuYueModel.swift */; };
@@ -298,6 +300,8 @@
 		0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifySchoolVC.swift; sourceTree = "<group>"; };
 		0A303519212EA30200B55AAE /* BPTongShiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPTongShiVC.swift; sourceTree = "<group>"; };
 		0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHuanZheGroupModel.swift; sourceTree = "<group>"; };
+		0A492FC1218AE16000C7E3AE /* BPYongYaoGuideModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPYongYaoGuideModel.swift; sourceTree = "<group>"; };
+		0A492FC3218AE4B900C7E3AE /* BPGuideDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPGuideDetailVC.swift; sourceTree = "<group>"; };
 		0A4C4218217F431E000A3998 /* BPPastWenZhenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPPastWenZhenModel.swift; sourceTree = "<group>"; };
 		0A4C421A217F4524000A3998 /* BPPastWenZhenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPPastWenZhenCell.swift; sourceTree = "<group>"; };
 		0A4C421C217F5590000A3998 /* BenefitPet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BenefitPet.entitlements; sourceTree = "<group>"; };
@@ -1000,6 +1004,7 @@
 			isa = PBXGroup;
 			children = (
 				0A0129A42187523F00E2363E /* BPSchoolModel.swift */,
+				0A492FC1218AE16000C7E3AE /* BPYongYaoGuideModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1017,6 +1022,7 @@
 				0A714DFB212D3DFE0016BAB1 /* BPArticlesVC.swift */,
 				0A714DFD212D3FC50016BAB1 /* BPDocStudyVC.swift */,
 				0A714DFF212D419C0016BAB1 /* BPZhuanJiaWangKeVC.swift */,
+				0A492FC3218AE4B900C7E3AE /* BPGuideDetailVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1660,6 +1666,7 @@
 				0A744864215F2427002DE6AB /* BPFollowPlanModel.swift in Sources */,
 				0A838920210AB3EC009ECF96 /* ZCycleViewCell.swift in Sources */,
 				0A814317211BCEBC00529C74 /* BPImgHeaderView.swift in Sources */,
+				0A492FC4218AE4B900C7E3AE /* BPGuideDetailVC.swift in Sources */,
 				0A761D29216CA17500FDA645 /* JCMessageNoticeContent.swift in Sources */,
 				0A761D39216CA17500FDA645 /* JCChatViewUpdate.swift in Sources */,
 				0A78AFF62123AF8C006672CF /* BPCashVC.swift in Sources */,
@@ -1807,6 +1814,7 @@
 				0A761D37216CA17500FDA645 /* JCChatViewCell.swift in Sources */,
 				0A72376E21119B2E006E0E04 /* BPAddBlackListVC.swift in Sources */,
 				0A814321211BE45900529C74 /* BPFollowPlanChildVC.swift in Sources */,
+				0A492FC2218AE16000C7E3AE /* BPYongYaoGuideModel.swift in Sources */,
 				0A7168B9212FDB2400125444 /* BPAddFriendsVC.swift in Sources */,
 				0A761D19216CA17500FDA645 /* JCMessageAvatarView.swift in Sources */,
 				0A761CD9216C8C2B00FDA645 /* JMSGMessage+.swift in Sources */,
