@@ -187,6 +187,13 @@ class BPTongShiVC: GYZBaseVC {
             GYZLog(error)
         })
     }
+    
+    /// 患者聊天
+    func goChatVC(userId: String){
+        let vc = BPChatVC()
+        vc.userJgId = userId
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPTongShiVC: UITableViewDelegate,UITableViewDataSource{
@@ -242,7 +249,11 @@ extension BPTongShiVC: UITableViewDelegate,UITableViewDataSource{
         return UIView()
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let model = dataList[indexPath.row]
+        /// 好友添加状态：0未添加 1待通过 2通过
+        if model.ishad == "2" {
+            goChatVC(userId: model.jg_id!)
+        }
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -26,7 +26,12 @@ class BPApplyFriendsVC: GYZBaseVC {
             make.edges.equalTo(0)
         }
         tableView.snp.makeConstraints { (make) in
-            make.edges.equalTo(0)
+            make.left.right.bottom.equalTo(view)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(view)
+            }else{
+                make.top.equalTo(kTitleAndStateHeight)
+            }
         }
         requestFriendListDatas()
     }
@@ -124,7 +129,7 @@ class BPApplyFriendsVC: GYZBaseVC {
         weak var weakSelf = self
         createHUD(message: "加载中...")
         
-        GYZNetWork.requestNetwork("contact/add_friend", parameters: ["f_id": model.id!,"d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+        GYZNetWork.requestNetwork("contact/pass_friend", parameters: ["f_id": model.id!,"d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
             
             weakSelf?.hud?.hide(animated: true)
             GYZLog(response)

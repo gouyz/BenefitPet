@@ -108,6 +108,13 @@ class BPMyTeamVC: GYZBaseVC {
             })
         })
     }
+    
+    /// 患者聊天
+    func goChatVC(userId: String){
+        let vc = BPChatVC()
+        vc.userJgId = userId
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPMyTeamVC : UICollectionViewDataSource,UICollectionViewDelegate{
@@ -144,5 +151,9 @@ extension BPMyTeamVC : UICollectionViewDataSource,UICollectionViewDelegate{
     // MARK: UICollectionViewDelegate的代理方法
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        let model = dataList[indexPath.section].doctorList[indexPath.row]
+        if model.id != userDefaults.string(forKey: "userId") {
+            goChatVC(userId: model.jg_id!)
+        }
     }
 }

@@ -117,8 +117,25 @@ class BPBlackListVC: GYZBaseVC {
     
     /// 患者聊天、同步诊疗记录
     func goChatVC(jgId: String){
+        let conversation = JMSGConversation.singleConversation(withUsername: jgId)
+        if conversation == nil {
+
+            JMSGConversation.createSingleConversation(withUsername: jgId) {[weak self] (resultObject, error) in
+                
+                if error == nil{
+                    self?.goChatManagerVC(conversation: resultObject as! JMSGConversation)
+                }
+            }
+        }else{
+            goChatManagerVC(conversation: conversation!)
+        }
+        
+    }
+    
+    func goChatManagerVC(conversation: JMSGConversation){
         let vc = BPChatManagerVC()
-        vc.conversation = JMSGConversation.singleConversation(withUsername: jgId)
+        
+        vc.conversation = conversation
         vc.currIndex = 1
         
         navigationController?.pushViewController(vc, animated: true)

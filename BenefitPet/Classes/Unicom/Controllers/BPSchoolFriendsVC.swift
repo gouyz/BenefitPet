@@ -27,7 +27,12 @@ class BPSchoolFriendsVC: GYZBaseVC {
             make.edges.equalTo(0)
         }
         tableView.snp.makeConstraints { (make) in
-            make.edges.equalTo(0)
+            make.left.right.bottom.equalTo(view)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(view)
+            }else{
+                make.top.equalTo(kTitleAndStateHeight)
+            }
         }
         requestFriendListDatas()
     }
@@ -151,6 +156,13 @@ class BPSchoolFriendsVC: GYZBaseVC {
             GYZLog(error)
         })
     }
+    
+    /// 患者聊天
+    func goChatVC(userId: String){
+        let vc = BPChatVC()
+        vc.userJgId = userId
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPSchoolFriendsVC: UITableViewDelegate,UITableViewDataSource{
@@ -207,6 +219,11 @@ extension BPSchoolFriendsVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let model = dataList[indexPath.row]
+        /// 好友添加状态：0未添加 1待通过 2通过
+        if model.ishad == "2" {
+            goChatVC(userId: model.jg_id!)
+        }
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

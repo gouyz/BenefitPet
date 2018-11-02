@@ -119,6 +119,13 @@ class BPStudyVC: GYZBaseVC {
         vc.articleId = articleId
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    /// 网课详情
+    func goWangKeDetailVC(index: Int){
+        let vc = BPWangKeDetailVC()
+        vc.articleId = (dataModel?.wangkeList[index].id!)!
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPStudyVC : UITableViewDelegate,UITableViewDataSource{
@@ -147,7 +154,9 @@ extension BPStudyVC : UITableViewDelegate,UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: studyVideoCell) as! BPStudyVideoCell
             cell.dataModels = dataModel?.wangkeList
             
-//            cell.delegate = self
+            cell.didSelectItemBlock = {[weak self] (index) in
+                self?.goWangKeDetailVC(index: index)
+            }
             
             cell.selectionStyle = .none
             return cell

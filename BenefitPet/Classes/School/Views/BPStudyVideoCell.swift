@@ -12,6 +12,7 @@ private let studyVideoChildCell = "studyVideoChildCell"
 
 class BPStudyVideoCell: UITableViewCell {
     
+    var didSelectItemBlock:((_ index: Int) -> Void)?
     /// 填充数据
     var dataModels : [BPWangKeModel]?{
         didSet{
@@ -92,6 +93,8 @@ extension BPStudyVideoCell : UICollectionViewDataSource,UICollectionViewDelegate
     // MARK: UICollectionViewDelegate的代理方法
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        
+        if didSelectItemBlock != nil {
+            didSelectItemBlock!(indexPath.row)
+        }
     }
 }

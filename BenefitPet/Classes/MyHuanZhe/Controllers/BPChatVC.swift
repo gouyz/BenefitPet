@@ -35,10 +35,20 @@ class BPChatVC: GYZBaseVC {
         super.viewDidLoad()
         automaticallyAdjustsScrollViewInsets = false
         conversation = JMSGConversation.singleConversation(withUsername: userJgId)
-        let user = conversation?.target as? JMSGUser
-        self.navigationItem.title = user?.displayName() ?? ""
+        if conversation == nil {
+            
+            JMSGConversation.createSingleConversation(withUsername: userJgId) {[weak self] (resultObject, error) in
+                
+                if error == nil{
+                    self?.conversation = resultObject as? JMSGConversation
+                    
+                    self?.initData()
+                }
+            }
+        }else{
+            initData()
+        }
         
-        _init()
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,12 +56,22 @@ class BPChatVC: GYZBaseVC {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    func initData(){
+        let user = conversation?.target as? JMSGUser
+        self.navigationItem.title = user?.displayName() ?? ""
+        
+        _init()
+    }
     deinit {
         JMessage.remove(self, with: conversation)
     }
     lazy var chatView: JCChatView = {
-        let chatview = JCChatView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height - 160), chatViewLayout: chatViewLayout)
+        var y = kTitleAndStateHeight
+        if #available(iOS 11.0, *) {
+            y = 0
+        }
+        
+        let chatview = JCChatView(frame: CGRect(x: 0, y: y, width: self.view.width, height: self.view.height - 160 -  y), chatViewLayout: chatViewLayout)
         chatview.delegate = self
         chatview.messageDelegate = self
         
