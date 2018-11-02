@@ -25,6 +25,8 @@
 		0A492FC4218AE4B900C7E3AE /* BPGuideDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A492FC3218AE4B900C7E3AE /* BPGuideDetailVC.swift */; };
 		0A4C4219217F431E000A3998 /* BPPastWenZhenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C4218217F431E000A3998 /* BPPastWenZhenModel.swift */; };
 		0A4C421B217F4524000A3998 /* BPPastWenZhenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C421A217F4524000A3998 /* BPPastWenZhenCell.swift */; };
+		0A4E253F218BDD0D0095F236 /* BPWangKeDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4E253E218BDD0D0095F236 /* BPWangKeDetailVC.swift */; };
+		0A4E2541218BE6A40095F236 /* BPWangKeDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4E2540218BE6A40095F236 /* BPWangKeDetailModel.swift */; };
 		0A64D007215E6F000045F14F /* BPYuYueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64D006215E6F000045F14F /* BPYuYueModel.swift */; };
 		0A6D51BC216D81B9008B7CF0 /* Array+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D51BB216D81B9008B7CF0 /* Array+JChat.swift */; };
 		0A6D51BE216D88B0008B7CF0 /* BPChatBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D51BD216D88B0008B7CF0 /* BPChatBottomView.swift */; };
@@ -307,6 +309,8 @@
 		0A4C4218217F431E000A3998 /* BPPastWenZhenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPPastWenZhenModel.swift; sourceTree = "<group>"; };
 		0A4C421A217F4524000A3998 /* BPPastWenZhenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPPastWenZhenCell.swift; sourceTree = "<group>"; };
 		0A4C421C217F5590000A3998 /* BenefitPet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BenefitPet.entitlements; sourceTree = "<group>"; };
+		0A4E253E218BDD0D0095F236 /* BPWangKeDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPWangKeDetailVC.swift; sourceTree = "<group>"; };
+		0A4E2540218BE6A40095F236 /* BPWangKeDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPWangKeDetailModel.swift; sourceTree = "<group>"; };
 		0A64D006215E6F000045F14F /* BPYuYueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPYuYueModel.swift; sourceTree = "<group>"; };
 		0A6D51BB216D81B9008B7CF0 /* Array+JChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+JChat.swift"; sourceTree = "<group>"; };
 		0A6D51BD216D88B0008B7CF0 /* BPChatBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPChatBottomView.swift; sourceTree = "<group>"; };
@@ -1008,6 +1012,7 @@
 				0A0129A42187523F00E2363E /* BPSchoolModel.swift */,
 				0A492FC1218AE16000C7E3AE /* BPYongYaoGuideModel.swift */,
 				0A026BEA218B370000DF0187 /* BPDocStudyModel.swift */,
+				0A4E2540218BE6A40095F236 /* BPWangKeDetailModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1026,6 +1031,7 @@
 				0A714DFD212D3FC50016BAB1 /* BPDocStudyVC.swift */,
 				0A714DFF212D419C0016BAB1 /* BPZhuanJiaWangKeVC.swift */,
 				0A492FC3218AE4B900C7E3AE /* BPGuideDetailVC.swift */,
+				0A4E253E218BDD0D0095F236 /* BPWangKeDetailVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1611,6 +1617,7 @@
 				0A838905210AB3EC009ECF96 /* GYZBaseNavigationVC.swift in Sources */,
 				0A761D40216CA18300FDA645 /* JCMessage.swift in Sources */,
 				0A954CAD21183F0C002772A0 /* BPHuanZheGroupCell.swift in Sources */,
+				0A4E253F218BDD0D0095F236 /* BPWangKeDetailVC.swift in Sources */,
 				0A78B0022123C99F006672CF /* BPAddBankCardVC.swift in Sources */,
 				0A838921210AB3EC009ECF96 /* ZCycleLayout.swift in Sources */,
 				0AB026D5216CA6B300455EA3 /* NSLayoutConstraint+JChat.swift in Sources */,
@@ -1706,6 +1713,7 @@
 				0AEAD62E211D793C0076C1C2 /* BPSettingVC.swift in Sources */,
 				0A761D3B216CA17500FDA645 /* JCChatViewLayoutAttributesInfo.swift in Sources */,
 				0A838924210AB3EC009ECF96 /* MMCardItem.swift in Sources */,
+				0A4E2541218BE6A40095F236 /* BPWangKeDetailModel.swift in Sources */,
 				0A761D38216CA17500FDA645 /* JCChatViewData.swift in Sources */,
 				0A96493A2119982200BE7DC3 /* BPSelectHuanZheHeaderView.swift in Sources */,
 				0A303512212E8C4000B55AAE /* BPSchoolFriendsVC.swift in Sources */,

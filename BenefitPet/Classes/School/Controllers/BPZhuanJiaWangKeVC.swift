@@ -110,6 +110,12 @@ class BPZhuanJiaWangKeVC: GYZBaseVC {
             })
         })
     }
+    /// 详情
+    func goDetailVC(index: Int){
+        let vc = BPWangKeDetailVC()
+        vc.articleId = dataList[index].id!
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPZhuanJiaWangKeVC : UICollectionViewDataSource,UICollectionViewDelegate{
@@ -132,6 +138,6 @@ extension BPZhuanJiaWangKeVC : UICollectionViewDataSource,UICollectionViewDelega
     // MARK: UICollectionViewDelegate的代理方法
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        
+        goDetailVC(index: indexPath.row)
     }
 }
