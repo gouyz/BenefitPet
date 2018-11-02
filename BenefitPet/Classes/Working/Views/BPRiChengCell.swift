@@ -21,7 +21,7 @@ class BPRiChengCell: UITableViewCell {
                 
                 timeLab.text = model.time
                 contentLab.text = model.richeng
-                nameLab.text = model.nickname
+                nameLab.text = (model.nickname?.isEmpty)! ? model.name : model.nickname
             }
         }
     }

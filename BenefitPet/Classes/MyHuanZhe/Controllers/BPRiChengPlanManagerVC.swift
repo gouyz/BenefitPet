@@ -13,6 +13,7 @@ class BPRiChengPlanManagerVC: GYZBaseVC {
     let titleArr : [String] = ["日程","随访计划"]
     
     var scrollPageView: ScrollPageView?
+    var huanZheId: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ class BPRiChengPlanManagerVC: GYZBaseVC {
     func setChildVcs() -> [UIViewController] {
         
         let riChengVC = BPHuanZheRiChengVC()
+        riChengVC.huanZheId = huanZheId
         
         let planVC = BPHuanZheFollowPlanVC()
         

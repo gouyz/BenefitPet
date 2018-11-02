@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPAddRiChengVC: GYZBaseVC {
+    
+    /// 选择患者
+    var selectHuanZheModel: BPHuanZheModel?
+    /// 选择结果回调
+    var resultBlock:(() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,12 +163,63 @@ class BPAddRiChengVC: GYZBaseVC {
     }()
     /// 保存
     @objc func onClickRightBtn(){
+        if selectHuanZheModel == nil {
+            MBProgressHUD.showAutoDismissHUD(message: "请选择患者")
+            return
+        }
+        if (dateView.textFiled.text?.isEmpty)! {
+            MBProgressHUD.showAutoDismissHUD(message: "请选择日期")
+            return
+        }
+        if (timeView.textFiled.text?.isEmpty)! {
+            MBProgressHUD.showAutoDismissHUD(message: "请选择时间")
+            return
+        }
+        if (dealView.textFiled.text?.isEmpty)! {
+            MBProgressHUD.showAutoDismissHUD(message: "请填写安排")
+            return
+        }
+        requestAddRiChengList()
+    }
+    /// 添加日程
+    func requestAddRiChengList(){
         
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("doctorindex/add_Richeng", parameters: ["d_id": userDefaults.string(forKey: "userId") ?? "","date": dateView.textFiled.text!,"time":timeView.textFiled.text!,"richeng": dealView.textFiled.text!,"u_id":(selectHuanZheModel?.id)!],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                if weakSelf?.resultBlock != nil{
+                    weakSelf?.resultBlock!()
+                }
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
     }
     
     /// 选择患者
     @objc func onClickedSelectedHuanZhe(){
-        let vc = BPSelectHuanZheVC()
+        let vc = BPSelectSingleHuanZheVC()
+        vc.selectBlock = {[weak self] (model) in
+            
+            self?.selectHuanZheModel = model
+            self?.huanzheView.textFiled.text = model.nickname
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let zhenLiaoRecordInfoCell = "zhenLiaoRecordInfoCell"
 private let zhenLiaoRecordCell = "zhenLiaoRecordCell"
@@ -14,6 +15,9 @@ private let zhenLiaoRecordHeader = "zhenLiaoRecordHeader"
 private let zhenLiaoRecordFooter = "zhenLiaoRecordFooter"
 
 class BPZhenLiaoRecordVC: GYZBaseVC {
+    
+    var dataModel: BPZhenLiaoModel?
+    var huanZheId: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +36,7 @@ class BPZhenLiaoRecordVC: GYZBaseVC {
             make.bottom.equalTo(addRecordBtn.snp.top)
         }
         
+        requestDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,6 +72,44 @@ class BPZhenLiaoRecordVC: GYZBaseVC {
         
         return btn
     }()
+    
+    ///获取数据
+    func requestDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("patient/record_page", parameters: ["d_id": userDefaults.string(forKey: "userId") ?? "","u_id": huanZheId],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].dictionaryObject else { return }
+                weakSelf?.dataModel = BPZhenLiaoModel.init(dict: data)
+                
+                weakSelf?.tableView.reloadData()
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                weakSelf?.hiddenEmptyView()
+                weakSelf?.requestDatas()
+            })
+        })
+    }
     /// 添加诊疗记录
     @objc func clickedAddRecordBtn(){
         let vc = BPAddZhenLiaoRecordVC()
@@ -75,11 +118,13 @@ class BPZhenLiaoRecordVC: GYZBaseVC {
     /// 问诊表
     func goWenZhenList(){
         let vc = BPWenZhenListVC()
+        vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
     /// 日程和随访计划
     func goWenRiCheng(){
         let vc = BPRiChengPlanManagerVC()
+        vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
     /// 编辑患者信息
@@ -103,13 +148,19 @@ extension BPZhenLiaoRecordVC: UITableViewDelegate,UITableViewDataSource{
         if section == 0 {
             return 4
         }
-        return 8
+        return dataModel == nil ? 0 : (dataModel?.recordList.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 && indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: zhenLiaoRecordInfoCell) as! BPZhenLiaoRecordInfoCell
+            
+            if dataModel != nil && dataModel?.userModel != nil{
+                cell.nameLab.text = dataModel?.userModel?.nickname
+                cell.userImgView.kf.setImage(with: URL.init(string: (dataModel?.userModel?.head)!))
+            }
+            
             
             cell.selectionStyle = .none
             return cell
@@ -118,7 +169,9 @@ extension BPZhenLiaoRecordVC: UITableViewDelegate,UITableViewDataSource{
             if indexPath.section == 0 {
                 if indexPath.row == 1{
                     cell.nameLab.text = "分组"
-                    cell.contentLab.text = "门诊"
+                    if dataModel != nil{
+                        cell.contentLab.text = dataModel?.groupModel?.name
+                    }
                 }else if indexPath.row == 2{
                     cell.nameLab.text = "日程和随访计划"
                     cell.contentLab.text = ""
@@ -127,8 +180,10 @@ extension BPZhenLiaoRecordVC: UITableViewDelegate,UITableViewDataSource{
                     cell.contentLab.text = ""
                 }
             }else{
-                cell.nameLab.text = "2018-08-16"
-                cell.contentLab.text = "患者伤口感染发炎"
+                
+                let model = dataModel?.recordList[indexPath.row]
+                cell.nameLab.text = model?.see_time
+                cell.contentLab.text = model?.remark
             }
             
             cell.selectionStyle = .none
@@ -150,7 +205,7 @@ extension BPZhenLiaoRecordVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
-        if section == 1 {
+        if section == 1 && (dataModel != nil && dataModel?.recordList.count == 0) {
             let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: zhenLiaoRecordFooter) as! BPZhenLiaoRecordEmptyFooterView
             
             return footerView
@@ -193,7 +248,7 @@ extension BPZhenLiaoRecordVC: UITableViewDelegate,UITableViewDataSource{
         return 0.00001
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 1 {
+        if section == 1 && (dataModel != nil && dataModel?.recordList.count == 0){
             return 200
         }
         return 0.00001

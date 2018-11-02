@@ -113,11 +113,32 @@ class BPYuYueListVC: GYZBaseVC {
     }
     
     /// 患者聊天、同步诊疗记录
-    func goChatVC(){
+    func goChatVC(jgId: String){
+        
+        let conversation = JMSGConversation.singleConversation(withUsername: jgId)
+        if conversation == nil {
+            
+            JMSGConversation.createSingleConversation(withUsername: jgId) {[weak self] (resultObject, error) in
+                
+                if error == nil{
+                    self?.goChatManagerVC(conversation: resultObject as! JMSGConversation)
+                }
+            }
+        }else{
+            goChatManagerVC(conversation: conversation!)
+        }
+        
+    }
+    
+    func goChatManagerVC(conversation: JMSGConversation){
         let vc = BPChatManagerVC()
+        
+        vc.conversation = conversation
         vc.currIndex = 1
+        
         navigationController?.pushViewController(vc, animated: true)
     }
+
 }
 extension BPYuYueListVC: UITableViewDelegate,UITableViewDataSource{
     
@@ -157,7 +178,7 @@ extension BPYuYueListVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if isFinished {
-            goChatVC()
+            goChatVC(jgId: dataList[indexPath.row].jg_id!)
         }
     }
     ///MARK : UITableViewDelegate

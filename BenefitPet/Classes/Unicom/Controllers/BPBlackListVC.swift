@@ -117,6 +117,7 @@ class BPBlackListVC: GYZBaseVC {
     
     /// 患者聊天、同步诊疗记录
     func goChatVC(jgId: String){
+        
         let conversation = JMSGConversation.singleConversation(withUsername: jgId)
         if conversation == nil {
 

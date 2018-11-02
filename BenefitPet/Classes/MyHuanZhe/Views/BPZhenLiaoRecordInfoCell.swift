@@ -55,7 +55,7 @@ class BPZhenLiaoRecordInfoCell: UITableViewCell {
         img.cornerRadius = 25
         img.borderColor = kWhiteColor
         img.borderWidth = klineDoubleWidth
-        img.image = UIImage.init(named: "icon_header_default")
+        img.backgroundColor = kBackgroundColor
         
         return img
     }()
@@ -64,7 +64,6 @@ class BPZhenLiaoRecordInfoCell: UITableViewCell {
         let lab = UILabel()
         lab.font = k15Font
         lab.textColor = kBlackFontColor
-        lab.text = "欢欢"
         
         return lab
     }()

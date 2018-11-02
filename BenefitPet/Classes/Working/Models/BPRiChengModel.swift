@@ -22,4 +22,6 @@ class BPRiChengModel: LHSBaseModel {
     var date : String? = "0"
     /// 日程时间 17:00
     var time : String? = ""
+    /// 医生姓名
+    var name : String? = ""
 }

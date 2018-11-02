@@ -66,6 +66,8 @@ class BPRiChengVC: GYZBaseVC {
             if response["status"].intValue == kQuestSuccessTag{//请求成功
                 
                 guard let data = response["data"].array else { return }
+                weakSelf?.titleList.removeAll()
+                weakSelf?.dataList.removeAll()
                 
                 var date: String = ""
                 var dataArr: [BPRiChengModel] = [BPRiChengModel]()
@@ -125,6 +127,10 @@ class BPRiChengVC: GYZBaseVC {
     /// add
     @objc func onClickedAdd(){
         let vc = BPAddRiChengVC()
+        vc.resultBlock = {[weak self] () in
+            
+            self?.requestRiChengDatas()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     

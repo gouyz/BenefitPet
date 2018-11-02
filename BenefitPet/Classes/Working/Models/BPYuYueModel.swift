@@ -24,4 +24,8 @@ class BPYuYueModel: LHSBaseModel {
     var status : String? = ""
     /// 未完成患者头像
     var head : String? = ""
+    /// 患者id
+    var u_id : String? = ""
+    /// 极光id
+    var jg_id : String? = ""
 }

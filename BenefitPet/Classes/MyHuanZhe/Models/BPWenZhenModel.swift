@@ -14,4 +14,8 @@ class BPWenZhenModel: LHSBaseModel {
     var id : String?
     /// 问题
     var question : String? = ""
+    /// 问诊表模板id
+    var title_id : String? = ""
+    /// 问诊表答案
+    var answer : String? = ""
 }

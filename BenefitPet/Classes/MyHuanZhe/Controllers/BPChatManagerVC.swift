@@ -17,12 +17,16 @@ class BPChatManagerVC: GYZBaseVC {
     var scrollPageView: ScrollPageView?
     /// 当前索引
     var currIndex: Int = 0
+    var huanZheId: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let user = conversation?.target as? JMSGUser
         self.navigationItem.title = user?.displayName() ?? ""
+        let uId: String = (user?.username)!
+        /// 根据极光id获取患者id  yichongc、yichongd
+        huanZheId = uId.subString(start: 8, length: uId.count - 8)
         setScrollView()
         
         if currIndex > 0 {
@@ -42,6 +46,7 @@ class BPChatManagerVC: GYZBaseVC {
         chatVC.conversation = conversation
         
         let recordVC = BPZhenLiaoRecordVC()
+        recordVC.huanZheId = huanZheId
         
         return [chatVC,recordVC]
     }

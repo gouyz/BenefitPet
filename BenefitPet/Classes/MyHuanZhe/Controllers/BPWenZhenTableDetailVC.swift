@@ -53,7 +53,12 @@ class BPWenZhenTableDetailVC: GYZBaseVC {
         weak var weakSelf = self
         showLoadingView()
         
-        GYZNetWork.requestNetwork("doctorindex/question",parameters: ["id": (wenZhenModel?.id)!],  success: { (response) in
+        var params: [String: String] = ["id": (wenZhenModel?.id)!]
+        if !(wenZhenModel?.title_id?.isEmpty)! {
+            params["title_id"] = (wenZhenModel?.title_id)!
+        }
+        
+        GYZNetWork.requestNetwork("doctorindex/question",parameters: params,  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             GYZLog(response)
@@ -110,6 +115,7 @@ extension BPWenZhenTableDetailVC: UITableViewDelegate,UITableViewDataSource{
         let model = dataList[indexPath.row]
         cell.sortLab.text = "\(indexPath.row + 1)"
         cell.nameLab.text = model.question
+        cell.contentLab.text = model.answer
         
         cell.selectionStyle = .none
         return cell
