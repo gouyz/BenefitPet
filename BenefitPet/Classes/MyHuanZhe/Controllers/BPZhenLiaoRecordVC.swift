@@ -113,6 +113,11 @@ class BPZhenLiaoRecordVC: GYZBaseVC {
     /// 添加诊疗记录
     @objc func clickedAddRecordBtn(){
         let vc = BPAddZhenLiaoRecordVC()
+        vc.huanZheId = huanZheId
+        vc.resultBlock = {[weak self] () in
+            
+            self?.requestDatas()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     /// 问诊表
@@ -135,6 +140,12 @@ class BPZhenLiaoRecordVC: GYZBaseVC {
     /// 编辑分组
     func goEditGroup(){
         let vc = BPGroupManagerVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    /// 诊疗记录详情
+    func goZhenLiaoDetail(model: BPZhenLiaoRecordModel){
+        let vc = BPZhenLiaoDetailVC()
+        vc.dataModel = model
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -229,6 +240,8 @@ extension BPZhenLiaoRecordVC: UITableViewDelegate,UITableViewDataSource{
             default:
                 break
             }
+        }else{
+            goZhenLiaoDetail(model: (dataModel?.recordList[indexPath.row])!)
         }
         
     }

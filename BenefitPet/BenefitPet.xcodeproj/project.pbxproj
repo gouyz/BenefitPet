@@ -21,6 +21,8 @@
 		0A303516212E957200B55AAE /* BPSchoolFriendsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */; };
 		0A303518212EA01D00B55AAE /* BPModifySchoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */; };
 		0A30351A212EA30200B55AAE /* BPTongShiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303519212EA30200B55AAE /* BPTongShiVC.swift */; };
+		0A45B27F218D304A004E7C90 /* BPClassDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B27E218D304A004E7C90 /* BPClassDetailVC.swift */; };
+		0A45B281218D374C004E7C90 /* BPZhenLiaoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B280218D374C004E7C90 /* BPZhenLiaoDetailVC.swift */; };
 		0A487A4B2177803800352EAF /* BPHuanZheGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */; };
 		0A492FC2218AE16000C7E3AE /* BPYongYaoGuideModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A492FC1218AE16000C7E3AE /* BPYongYaoGuideModel.swift */; };
 		0A492FC4218AE4B900C7E3AE /* BPGuideDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A492FC3218AE4B900C7E3AE /* BPGuideDetailVC.swift */; };
@@ -305,6 +307,8 @@
 		0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolFriendsCell.swift; sourceTree = "<group>"; };
 		0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifySchoolVC.swift; sourceTree = "<group>"; };
 		0A303519212EA30200B55AAE /* BPTongShiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPTongShiVC.swift; sourceTree = "<group>"; };
+		0A45B27E218D304A004E7C90 /* BPClassDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPClassDetailVC.swift; sourceTree = "<group>"; };
+		0A45B280218D374C004E7C90 /* BPZhenLiaoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPZhenLiaoDetailVC.swift; sourceTree = "<group>"; };
 		0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHuanZheGroupModel.swift; sourceTree = "<group>"; };
 		0A492FC1218AE16000C7E3AE /* BPYongYaoGuideModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPYongYaoGuideModel.swift; sourceTree = "<group>"; };
 		0A492FC3218AE4B900C7E3AE /* BPGuideDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPGuideDetailVC.swift; sourceTree = "<group>"; };
@@ -909,6 +913,7 @@
 				0A7517A32126C0590002553A /* BPGroupManagerVC.swift */,
 				0A744865215F2981002DE6AB /* BPFollowPlanDetailVC.swift */,
 				0A8002B32178355500DF1550 /* BPChatVC.swift */,
+				0A45B280218D374C004E7C90 /* BPZhenLiaoDetailVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1035,6 +1040,7 @@
 				0A714DFF212D419C0016BAB1 /* BPZhuanJiaWangKeVC.swift */,
 				0A492FC3218AE4B900C7E3AE /* BPGuideDetailVC.swift */,
 				0A4E253E218BDD0D0095F236 /* BPWangKeDetailVC.swift */,
+				0A45B27E218D304A004E7C90 /* BPClassDetailVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1639,6 +1645,7 @@
 				0AA7129C218A08C4008E5DD7 /* BPMyTeamModel.swift in Sources */,
 				0A744866215F2981002DE6AB /* BPFollowPlanDetailVC.swift in Sources */,
 				0AEAD62A211D737A0076C1C2 /* BPBenefitPetCertificateVC.swift in Sources */,
+				0A45B281218D374C004E7C90 /* BPZhenLiaoDetailVC.swift in Sources */,
 				0A744860215F19AC002DE6AB /* BPWenZhenModel.swift in Sources */,
 				0A7168B7212FB8D400125444 /* BPApplyFriendsVC.swift in Sources */,
 				0A723764211143C4006E0E04 /* BPOnLineOrderVC.swift in Sources */,
@@ -1834,6 +1841,7 @@
 				0A7168B9212FDB2400125444 /* BPAddFriendsVC.swift in Sources */,
 				0A761D19216CA17500FDA645 /* JCMessageAvatarView.swift in Sources */,
 				0A761CD9216C8C2B00FDA645 /* JMSGMessage+.swift in Sources */,
+				0A45B27F218D304A004E7C90 /* BPClassDetailVC.swift in Sources */,
 				0A838941210AC061009ECF96 /* BPSchoolVC.swift in Sources */,
 				0A8CDF94212C00C80032E6C8 /* BPAddClassVC.swift in Sources */,
 				0A838913210AB3EC009ECF96 /* GYZUIViewControl+Empty.swift in Sources */,

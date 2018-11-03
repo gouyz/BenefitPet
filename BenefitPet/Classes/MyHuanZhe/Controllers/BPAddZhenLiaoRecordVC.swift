@@ -7,13 +7,18 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPAddZhenLiaoRecordVC: GYZBaseVC {
     
+    /// 选择结果回调
+    var resultBlock:(() -> Void)?
+    
     ///txtView 提示文字
-    let placeHolder = "添加诊疗记录（0~500字）"
+    let placeHolder = "添加诊疗记录内容（0~500字）"
     // 内容
     var content: String = ""
+    var huanZheId: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +85,9 @@ class BPAddZhenLiaoRecordVC: GYZBaseVC {
     lazy var dateView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "就诊时间", placeHolder: "如：2018-08-05", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
+        view.textFiled.isEnabled = false
+        view.addOnClickListener(target: self, action: #selector(onClickedDate))
         
         return view
     }()
@@ -102,6 +110,54 @@ class BPAddZhenLiaoRecordVC: GYZBaseVC {
     /// 保存
     @objc func onClickRightBtn(){
         
+        if (dateView.textFiled.text?.isEmpty)! {
+            MBProgressHUD.showAutoDismissHUD(message: "请选择日期")
+            return
+        }
+        
+        if content.isEmpty {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入诊疗记录内容")
+            return
+        }
+        requestAddData()
+    }
+    /// 添加诊疗记录
+    func requestAddData(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("patient/record_add", parameters: ["d_id": userDefaults.string(forKey: "userId") ?? "","see_time": dateView.textFiled.text!,"remark":content,"u_id":huanZheId],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                if weakSelf?.resultBlock != nil{
+                    weakSelf?.resultBlock!()
+                }
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
+    
+    /// 选择日期
+    @objc func onClickedDate(){
+        UsefulPickerView.showDatePicker("选择日期") { [weak self](date) in
+            
+            self?.dateView.textFiled.text = date.dateToStringWithFormat(format: "yyyy-MM-dd")
+        }
     }
 }
 

@@ -98,6 +98,12 @@ class BPMyClassVC: GYZBaseVC {
             })
         })
     }
+    /// 培训班详情
+    func goDetailVC(index: Int){
+        let vc = BPClassDetailVC()
+        vc.classId = dataList[index].id!
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPMyClassVC: UITableViewDelegate,UITableViewDataSource{
@@ -129,7 +135,7 @@ extension BPMyClassVC: UITableViewDelegate,UITableViewDataSource{
         return UIView()
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        goDetailVC(index: indexPath.row)
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

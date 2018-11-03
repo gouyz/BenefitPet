@@ -26,4 +26,6 @@ class BPFriendModel: LHSBaseModel {
     var ishad : String? = ""
     /// 极光IM id
     var jg_id : String? = ""
+    /// 用于搜索时 1 好友   0 患者   2陌生好友
+    var type : String? = ""
 }
