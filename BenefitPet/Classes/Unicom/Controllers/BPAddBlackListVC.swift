@@ -140,6 +140,7 @@ class BPAddBlackListVC: GYZBaseVC {
         vc.selectBlock = {[weak self] (model) in
             
             self?.selectHuanZheModel = model
+            self?.nameView.textFiled.text = model.nickname
         }
         navigationController?.pushViewController(vc, animated: true)
     }

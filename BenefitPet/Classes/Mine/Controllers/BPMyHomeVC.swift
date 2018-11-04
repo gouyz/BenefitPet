@@ -328,9 +328,7 @@ class BPMyHomeVC: GYZBaseVC {
                     
                     weakSelf?.articleList.append(model)
                 }
-                if weakSelf?.articleList.count > 0{
-                    weakSelf?.tableView.reloadData()
-                }
+                weakSelf?.tableView.reloadData()
                 
             }else{
                 MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
@@ -371,9 +369,7 @@ class BPMyHomeVC: GYZBaseVC {
                     
                     weakSelf?.dynamicList.append(model)
                 }
-                if weakSelf?.dynamicList.count > 0{
-                    weakSelf?.tableView.reloadData()
-                }
+                weakSelf?.tableView.reloadData()
                 
             }else{
                 MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)

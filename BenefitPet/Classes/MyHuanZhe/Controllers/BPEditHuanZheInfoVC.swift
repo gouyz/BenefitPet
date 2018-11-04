@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPEditHuanZheInfoVC: GYZBaseVC {
+    
+    var dataModel: BPHuanZheBedModel?
+    var huanZheId: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +29,7 @@ class BPEditHuanZheInfoVC: GYZBaseVC {
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: rightBtn)
         
         setUpUI()
+        requestInfoDatas()
     }
 
     override func didReceiveMemoryWarning() {
@@ -104,6 +109,7 @@ class BPEditHuanZheInfoVC: GYZBaseVC {
     lazy var numberView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "住院号", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
         
         return view
     }()
@@ -118,6 +124,7 @@ class BPEditHuanZheInfoVC: GYZBaseVC {
     lazy var chuangHaoView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "床位号", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
         
         return view
     }()
@@ -132,6 +139,8 @@ class BPEditHuanZheInfoVC: GYZBaseVC {
     lazy var nameView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "姓名", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
+        view.textFiled.isEnabled = false
         
         return view
     }()
@@ -146,6 +155,8 @@ class BPEditHuanZheInfoVC: GYZBaseVC {
     lazy var sexView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "性别", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
+        view.textFiled.isEnabled = false
         
         return view
     }()
@@ -160,6 +171,8 @@ class BPEditHuanZheInfoVC: GYZBaseVC {
     lazy var birthdayView: GYZLabAndFieldView = {
         let view = GYZLabAndFieldView.init(desName: "出生日期", placeHolder: "未填写", isPhone: false)
         view.textFiled.textAlignment = .right
+        view.textFiled.isSecureTextEntry = false
+        view.textFiled.isEnabled = false
         
         return view
     }()
@@ -172,7 +185,9 @@ class BPEditHuanZheInfoVC: GYZBaseVC {
     }()
     /// 联系方式
     lazy var phoneView: GYZLabAndFieldView = {
-        let view = GYZLabAndFieldView.init(desName: "联系方式", placeHolder: "未填写", isPhone: true)
+        let view = GYZLabAndFieldView.init(desName: "联系方式", placeHolder: "未填写", isPhone: false)
+        view.textFiled.isSecureTextEntry = false
+        view.textFiled.isEnabled = false
         view.textFiled.textAlignment = .right
         
         return view
@@ -188,6 +203,85 @@ class BPEditHuanZheInfoVC: GYZBaseVC {
     /// 保存
     @objc func onClickRightBtn(){
         
+        if dataModel == nil {
+            MBProgressHUD.showAutoDismissHUD(message: "暂无患者信息")
+            return
+        }
+        if (numberView.textFiled.text?.isEmpty)! {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入住院号")
+            return
+        }
+        if (chuangHaoView.textFiled.text?.isEmpty)! {
+            MBProgressHUD.showAutoDismissHUD(message: "请输入床位号")
+            return
+        }
+        requestSaveData()
     }
     
+    ///获取患者住院数据
+    func requestInfoDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("patient/show_userinfo", parameters: ["u_id": huanZheId],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].dictionaryObject else { return }
+                weakSelf?.dataModel = BPHuanZheBedModel.init(dict: data)
+                weakSelf?.loadData()
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
+    
+    func loadData(){
+        numberView.textFiled.text = dataModel?.hospitalization
+        chuangHaoView.textFiled.text = dataModel?.bed
+        nameView.textFiled.text = dataModel?.nickname
+        sexView.textFiled.text = dataModel?.sex == "1" ? "男" : "女"
+        birthdayView.textFiled.text = dataModel?.date
+        phoneView.textFiled.text = dataModel?.mobile
+    }
+    
+    /// 保存
+    func requestSaveData(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("patient/save_userinfo", parameters: ["id": (dataModel?.id)!,"hospitalization": numberView.textFiled.text!,"bed":chuangHaoView.textFiled.text!],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
 }

@@ -16,7 +16,7 @@ class BPHuanZheMenuCell: UITableViewCell {
     var menuDataArr : [BPHuanZheMenuModel]?{
         didSet{
             if let menuArr = menuDataArr {
-                for index in 0 ..< 6{
+                for index in 0 ..< 5{
                     
                     let btnView: GYZFuncModelView = contentView.viewWithTag(100 + index) as! GYZFuncModelView
                     
@@ -54,7 +54,7 @@ class BPHuanZheMenuCell: UITableViewCell {
         
         let width : CGFloat = kScreenWidth/3.0
         
-        for index in 0 ..< 6 {
+        for index in 0 ..< 5 {
             
             /// 行数,向下取整
             let rows : Int = Int(floor(Double(index/3)))

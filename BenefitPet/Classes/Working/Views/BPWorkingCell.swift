@@ -17,16 +17,17 @@ class BPWorkingCell: UITableViewCell {
                 
                 categoryLab.text = model.title! + "》"
                 
-                let attrStr = try! NSMutableAttributedString.init(data: (model.content?.dealFuTextImgSize().htmlToString.data(using: .unicode, allowLossyConversion: true))!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+//                let attrStr = try! NSMutableAttributedString.init(data: (model.content?.dealFuTextImgSize().htmlToString.data(using: .unicode, allowLossyConversion: true))!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+//
+//                //调整行间距
+//                let paragraphStye = NSMutableParagraphStyle()
+//
+//                paragraphStye.lineSpacing = 5
+//                let rang = NSMakeRange(0, attrStr.length)
+//                attrStr.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStye, range: rang)
                 
-                //调整行间距
-                let paragraphStye = NSMutableParagraphStyle()
-                
-                paragraphStye.lineSpacing = 5
-                let rang = NSMakeRange(0, attrStr.length)
-                attrStr.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStye, range: rang)
-                
-                contentLab.attributedText = attrStr
+//                contentLab.attributedText = attrStr
+                contentLab.text = model.abstract
                 contentImgView.kf.setImage(with: URL.init(string: model.img!), placeholder: UIImage.init(named: "icon_working_default"), options: nil, progressBlock: nil, completionHandler: nil)
                 
                 timeLab.text = model.add_time?.dateFromTimeInterval()?.dateDesc

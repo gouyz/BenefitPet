@@ -7,12 +7,20 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPGroupManagerVC: GYZBaseVC {
     
-    var groupArr: [String] = ["门诊","住院","内科","骨科","门诊","住院","内科","骨科"]
+    /// 选择结果回调
+    var resultBlock:(() -> Void)?
+    
+    var groupArr: [String] = [String]()
     /// 分类高度
     var groupHeight: CGFloat = 0
+    var selectedGroup: BPHuanZheGroupModel?
+    /// 患者群组
+    var dataList: [BPHuanZheGroupModel] = [BPHuanZheGroupModel]()
+    var huanZheId: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,16 +37,11 @@ class BPGroupManagerVC: GYZBaseVC {
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: rightBtn)
         
         setUpUI()
-        
-        groupHeight = HXTagsView.getHeightWithTags(groupArr, layout: allGroupTagsView.layout, tagAttribute: allGroupTagsView.tagAttribute, width: kScreenWidth)
-        
-        allGroupTagsView.snp.updateConstraints { (make) in
-            make.height.equalTo(groupHeight)
+        allGroupTagsView.completion = {[weak self] (tags,index) in
+            self?.selectedGroup = self?.dataList[index]
         }
-        allGroupTagsView.tags = groupArr
         
-        selectedTagsView.tags = ["门诊"]
-        selectedTagsView.selectedTags = ["门诊"]
+        requestGroupDatas()
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,26 +51,13 @@ class BPGroupManagerVC: GYZBaseVC {
     
     func setUpUI(){
         
-        view.addSubview(selectedTagsView)
-        view.addSubview(marginView)
         view.addSubview(desLab)
         view.addSubview(allGroupTagsView)
         
-        selectedTagsView.snp.makeConstraints { (make) in
-            make.left.right.equalTo(view)
-            make.top.equalTo(kTitleAndStateHeight + kMargin)
-            make.height.equalTo(60)
-        }
-        
-        marginView.snp.makeConstraints { (make) in
-            make.left.right.equalTo(view)
-            make.top.equalTo(selectedTagsView.snp.bottom)
-            make.height.equalTo(kMargin)
-        }
         desLab.snp.makeConstraints { (make) in
             make.left.equalTo(kMargin)
             make.right.equalTo(-kMargin)
-            make.top.equalTo(marginView.snp.bottom)
+            make.top.equalTo(kTitleAndStateHeight + kMargin)
             make.height.equalTo(kTitleHeight)
         }
         
@@ -77,37 +67,12 @@ class BPGroupManagerVC: GYZBaseVC {
             make.height.equalTo(0)
         }
     }
-    
-
-    /// 选择分组
-    lazy var selectedTagsView: HXTagsView = {
-        
-        let view = HXTagsView()
-        view.tagAttribute.borderColor = kBlueFontColor
-        view.tagAttribute.normalBackgroundColor = kWhiteColor
-        view.tagAttribute.selectedBackgroundColor = kBlueFontColor
-        view.tagAttribute.textColor = kBlueFontColor
-        view.tagAttribute.selectedTextColor = kWhiteColor
-        view.tagAttribute.cornerRadius = kCornerRadius
-        /// 显示多行
-        view.layout.scrollDirection = .vertical
-        view.backgroundColor = kWhiteColor
-        
-        return view
-    }()
-    lazy var marginView: UIView = {
-        
-        let line = UIView()
-        line.backgroundColor = kBackgroundColor
-        
-        return line
-    }()
     /// 所有分组
     lazy var desLab : UILabel = {
         let lab = UILabel()
         lab.font = k15Font
         lab.textColor = kBlackFontColor
-        lab.text = "所有分组"
+        lab.text = "全部分组"
         
         return lab
     }()
@@ -128,8 +93,98 @@ class BPGroupManagerVC: GYZBaseVC {
         return view
     }()
     
+    ///获取医生所有分组数据
+    func requestGroupDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("patient/doctor_group",parameters: ["d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPHuanZheGroupModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                    weakSelf?.groupArr.append(model.name!)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.setData()
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+        })
+    }
+    
+    func setData(){
+        groupHeight = HXTagsView.getHeightWithTags(groupArr, layout: allGroupTagsView.layout, tagAttribute: allGroupTagsView.tagAttribute, width: kScreenWidth)
+        
+        allGroupTagsView.snp.updateConstraints { (make) in
+            make.height.equalTo(groupHeight)
+        }
+        allGroupTagsView.tags = groupArr
+        if selectedGroup != nil {
+            allGroupTagsView.selectedTags = [(selectedGroup?.name)!]
+        }
+        allGroupTagsView.reloadData()
+    }
     /// 保存
     @objc func onClickRightBtn(){
         
+        if selectedGroup == nil {
+            MBProgressHUD.showAutoDismissHUD(message: "请选择分组")
+            return
+        }
+        
+        requestSaveData()
+    }
+    
+    /// 保存
+    func requestSaveData(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("patient/save_patient_group", parameters: ["d_id": userDefaults.string(forKey: "userId") ?? "","group_id": (selectedGroup?.id)!,"u_id":huanZheId],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                if weakSelf?.resultBlock != nil{
+                    weakSelf?.resultBlock!()
+                }
+                weakSelf?.clickedBackBtn()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
     }
 }

@@ -12,7 +12,7 @@ import MBProgressHUD
 class BPZhenLiaoDetailVC: GYZBaseVC {
 
     var dataModel: BPZhenLiaoRecordModel?
-//    var classId: String = ""
+    var zhenLiaoId: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +21,7 @@ class BPZhenLiaoDetailVC: GYZBaseVC {
         self.view.backgroundColor = kWhiteColor
         
         setUpUI()
-        loadData()
-//        requestDetailDatas()
+        requestDetailDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -80,35 +79,34 @@ class BPZhenLiaoDetailVC: GYZBaseVC {
     
     
     ///获取详情数据
-//    func requestDetailDatas(){
-//
-//        if !GYZTool.checkNetWork() {
-//            return
-//        }
-//        weak var weakSelf = self
-//        createHUD(message: "加载中...")
-//
-//        GYZNetWork.requestNetwork("school/school_college_content", parameters: ["id": classId],  success: { (response) in
-//
-//            weakSelf?.hud?.hide(animated: true)
-//            GYZLog(response)
-//
-//            if response["status"].intValue == kQuestSuccessTag{//请求成功
-//
-//                guard let data = response["data"].dictionaryObject else { return }
-//                weakSelf?.dataModel = BPSchoolModel.init(dict: data)
-//                weakSelf?.loadData()
-//            }else{
-//                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
-//            }
-//
-//        }, failture: { (error) in
-//
-//            weakSelf?.hud?.hide(animated: true)
-//            GYZLog(error)
-//        })
-//    }
-//
+    func requestDetailDatas(){
+
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+
+        GYZNetWork.requestNetwork("patient/record_check", parameters: ["id": zhenLiaoId],  success: { (response) in
+
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+
+                guard let data = response["data"].dictionaryObject else { return }
+                weakSelf?.dataModel = BPZhenLiaoRecordModel.init(dict: data)
+                weakSelf?.loadData()
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+
+        }, failture: { (error) in
+
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
     func loadData(){
         if dataModel != nil {
             dateView.textFiled.text = dataModel?.see_time

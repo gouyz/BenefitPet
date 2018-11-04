@@ -135,17 +135,24 @@ class BPZhenLiaoRecordVC: GYZBaseVC {
     /// 编辑患者信息
     func goEditInfo(){
         let vc = BPEditHuanZheInfoVC()
+        vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
     /// 编辑分组
     func goEditGroup(){
         let vc = BPGroupManagerVC()
+        vc.huanZheId = huanZheId
+        vc.selectedGroup = dataModel?.groupModel
+        vc.resultBlock = {[weak self] () in
+            
+            self?.requestDatas()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     /// 诊疗记录详情
     func goZhenLiaoDetail(model: BPZhenLiaoRecordModel){
         let vc = BPZhenLiaoDetailVC()
-        vc.dataModel = model
+        vc.zhenLiaoId = model.id!
         navigationController?.pushViewController(vc, animated: true)
     }
 }

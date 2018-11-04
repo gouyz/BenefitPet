@@ -200,6 +200,13 @@ class BPWorkingVC: GYZBaseVC {
         let vc = BPFollowPlanVC()
         navigationController?.pushViewController(vc, animated: true)
     }
+    /// 新闻详情
+    func goArticleDetail(index:Int){
+        let vc = BPArticleDetailVC()
+        vc.url = (dataModel?.newModels![index].url)!
+        vc.articleTitle = (dataModel?.newModels![index].title)!
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 extension BPWorkingVC: UITableViewDelegate,UITableViewDataSource{
     
@@ -234,6 +241,9 @@ extension BPWorkingVC: UITableViewDelegate,UITableViewDataSource{
         return UIView()
     }
     ///MARK : UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        goArticleDetail(index: indexPath.row)
+    }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 34
     }

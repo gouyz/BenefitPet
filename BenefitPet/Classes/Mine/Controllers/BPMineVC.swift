@@ -13,8 +13,8 @@ private let mineCell = "mineCell"
 
 class BPMineVC: GYZBaseVC {
     
-    var titles: [String] = ["个人主页","我的提现","我的设置"]
-    var tagImgs: [String] = ["icon_mine_home","icon_mine_cash","icon_mine_setting"]
+    var titles: [String] = ["个人主页",/*"我的提现",*/"我的设置"]
+    var tagImgs: [String] = ["icon_mine_home",/*"icon_mine_cash",*/"icon_mine_setting"]
     
     var userInfoModel: LHSUserInfoModel?
 
@@ -193,9 +193,9 @@ extension BPMineVC: UITableViewDelegate,UITableViewDataSource{
         switch indexPath.row {
         case 0:// 个人主页
             goMyHome()
-        case 1:// 我的提现
-            goMyCash()
-        case 2:// 我的设置
+//        case 1:// 我的提现
+//            goMyCash()
+        case 1:// 我的设置
             goSetting()
         default:
             break

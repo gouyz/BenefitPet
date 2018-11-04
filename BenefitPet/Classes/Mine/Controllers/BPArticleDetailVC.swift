@@ -15,6 +15,7 @@ class BPArticleDetailVC: GYZBaseVC {
     var id: String = ""
     var articleTitle: String = ""
     var dataModel: BArticlesModel?
+    var url: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,11 @@ class BPArticleDetailVC: GYZBaseVC {
         webView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        requestDetailDatas()
+        if url == "" {
+            requestDetailDatas()
+        }else{
+            webView.load(URLRequest.init(url: URL.init(string: url)!))
+        }
     }
     
     override func didReceiveMemoryWarning() {

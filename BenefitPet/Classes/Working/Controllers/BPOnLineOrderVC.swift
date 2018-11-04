@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BPOnLineOrderVC: GYZBaseVC {
     
+    //0未接单 1正在接单
+    var orderStatus: String = "0"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +21,7 @@ class BPOnLineOrderVC: GYZBaseVC {
         self.view.backgroundColor = kWhiteColor
         
         setUpUI()
+        requestStatusData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -101,17 +105,117 @@ class BPOnLineOrderVC: GYZBaseVC {
         lab.font = k13Font
         lab.numberOfLines = 0
         lab.textColor = kHeightGaryFontColor
-        lab.text = "1、在线接单时间为10:00~18:00\n2、在线接单时间为10:00~18:00"
+        lab.text = "1、在线接单时间为10:00~18:00"
         
         return lab
     }()
     ///立即接单
     @objc func clickedOnLineBtn(){
-        onLineBtn.isSelected = !onLineBtn.isSelected
+        if orderStatus == "0" {
+            requestStartOrderData()
+        }else{
+            weak var weakSelf = self
+            GYZAlertViewTools.alertViewTools.showAlert(title: "提示", message: "确定要停止接单吗？", cancleTitle: "取消", viewController: self, buttonTitles: "确定") { (index) in
+                
+                if index != cancelIndex{
+                    weakSelf?.requestStopOrderData()
+                }
+            }
+        }
+    }
+    
+    /// 获取接单状态数据
+    func requestStatusData(){
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("doctorindex/jiedan_show", parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                weakSelf?.orderStatus = response["data"]["receipt"].stringValue
+                weakSelf?.setButShow()
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
+    
+    func setButShow(){
+        if orderStatus == "0" {
+            onLineBtn.isSelected = false
+        }else{
+            onLineBtn.isSelected = true
+        }
+        
         if onLineBtn.isSelected {
             onLineBtn.backgroundColor = kBtnClickBGColor
         }else{
             onLineBtn.backgroundColor = kBtnNoClickBGColor
         }
+    }
+    
+    /// 开始接单
+    func requestStartOrderData(){
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("doctorindex/jiedan_start", parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                weakSelf?.orderStatus = "1"
+                weakSelf?.setButShow()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
+    /// 停止接单
+    func requestStopOrderData(){
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("doctorindex/jiedan_stop", parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                weakSelf?.orderStatus = "0"
+                weakSelf?.setButShow()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
     }
 }

@@ -75,7 +75,7 @@ class BPChatBottomView: UIView {
         planBtn.set(image: UIImage.init(named: "icon_chat_plan"), title: "随访计划", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
         
         riChengBtn.set(image: UIImage.init(named: "icon_chat_richeng"), title: "日程提醒", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
-        IconBtn.set(image: UIImage.init(named: "icon_chat_richeng"), title: "图片", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
+        IconBtn.set(image: UIImage.init(named: "icon_chat_tupian"), title: "图片", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
     }
     lazy var conmentField: UITextField = {
         let txtField = UITextField()

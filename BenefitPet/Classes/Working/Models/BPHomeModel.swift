@@ -50,12 +50,12 @@ class BPHomeNewModel: LHSBaseModel {
     var id : String?
     /// 标题
     var title : String? = ""
-    /// 内容
-    var content : String? = ""
+    /// 摘要
+    var abstract : String? = ""
     /// 图片
     var img : String? = ""
     ///
-    var status : String? = ""
+    var url : String? = ""
     ///
     var add_time : String? = ""
 }

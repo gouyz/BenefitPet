@@ -36,14 +36,6 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>群发中心</string>
-		<key>image</key>
-		<string>icon_huanzhe_center</string>
-		<key>controller</key>
-		<string></string>
-	</dict>
-	<dict>
-		<key>title</key>
 		<string>随访计划</string>
 		<key>image</key>
 		<string>icon_huanzhe_suifang</string>

@@ -16,6 +16,8 @@ class BPFollowPlanModel: LHSBaseModel {
     var title : String? = ""
     /// 内容
     var content : String? = ""
+    /// url 
+    var url : String? = ""
     /// 时间
     var add_time : String? = ""
     /// 随访计划内容一级id

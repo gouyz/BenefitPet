@@ -17,6 +17,7 @@ class BPFollowPlanDetailVC: GYZBaseVC {
     var id: String = ""
     var planTitle: String = ""
     var dataModel: BPFollowPlanModel?
+    var url: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,12 @@ class BPFollowPlanDetailVC: GYZBaseVC {
         webView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        requestDetailDatas()
+        if url != "" {
+            loadContent(content: url)
+        }else{
+            requestDetailDatas()
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -83,7 +89,7 @@ class BPFollowPlanDetailVC: GYZBaseVC {
             
             webView.load(URLRequest.init(url: URL.init(string: content)!))
         }else{
-            webView.loadHTMLString(content.dealFuTextImgSize(), baseURL: nil)
+            webView.loadHTMLString(content.dealFuTextImgSize().htmlToString, baseURL: nil)
         }
     }
 }
