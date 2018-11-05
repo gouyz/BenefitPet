@@ -12,6 +12,8 @@ import DKImagePickerController
 
 class BPChatMessageVC: GYZBaseVC {
     
+    /// 用户极光id
+    var userJgId: String = ""
     var conversation: JMSGConversation?
     
     var chatViewLayout: JCChatViewLayout = JCChatViewLayout.init()
@@ -32,6 +34,9 @@ class BPChatMessageVC: GYZBaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         _init()
+        
+        let user = conversation?.target as? JMSGUser
+        userJgId = (user?.username)!
     }
     
 //    override func loadView() {
@@ -152,6 +157,23 @@ class BPChatMessageVC: GYZBaseVC {
         }
     }
     
+    /// 记录发送离线消息提醒
+    func requestMessageRecord(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        let dJgId: String = "yichongd" + userDefaults.string(forKey: "userId")!
+        
+        GYZNetWork.requestNetwork("patient/offline", parameters: ["u_jg_id": userJgId,"d_jg_id": dJgId],  success: { (response) in
+            
+            
+        }, failture: { (error) in
+            GYZLog(error)
+        })
+    }
+    
     @objc func _updateFileMessage(_ notification: Notification) {
         let userInfo = notification.userInfo
         let msgId = userInfo?[kUpdateFileMessage] as! String
@@ -262,6 +284,8 @@ class BPChatMessageVC: GYZBaseVC {
         messages.append(message)
         chatView.scrollToLast(animated: false)
         conversation?.send(jmessage, optionalContent: JMSGOptionalContent.ex.default)
+        
+        requestMessageRecord()
     }
     
     func send(forText text: String) {

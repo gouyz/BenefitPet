@@ -25,7 +25,7 @@ class BPSearchHeaderView: UIView {
             make.right.equalTo(-20)
         }
         
-        searchBtn.set(image: UIImage.init(named: "icon_search"), title: "请输入您搜索的内容", titlePosition: .right, additionalSpacing: 5, state: .normal)
+        searchBtn.set(image: UIImage.init(named: "icon_search"), title: "搜索好友", titlePosition: .right, additionalSpacing: 5, state: .normal)
     }
     
     
@@ -40,13 +40,7 @@ class BPSearchHeaderView: UIView {
         btn.setTitleColor(kBlackFontColor, for: .normal)
         btn.backgroundColor = kWhiteColor
         btn.cornerRadius = kCornerRadius
-        btn.addTarget(self, action: #selector(clickedOperateBtn(btn:)), for: .touchUpInside)
         return btn
     }()
     
-    ///操作
-    @objc func clickedOperateBtn(btn : UIButton){
-        
-        
-    }
 }

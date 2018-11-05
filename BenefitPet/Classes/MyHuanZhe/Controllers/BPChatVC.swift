@@ -167,6 +167,23 @@ class BPChatVC: GYZBaseVC {
         }
     }
     
+    /// 记录发送离线消息提醒
+    func requestMessageRecord(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        let dJgId: String = "yichongd" + userDefaults.string(forKey: "userId")!
+        
+        GYZNetWork.requestNetwork("patient/offline", parameters: ["u_jg_id": userJgId,"d_jg_id": dJgId],  success: { (response) in
+            
+            
+        }, failture: { (error) in
+            GYZLog(error)
+        })
+    }
+    
     @objc func _updateFileMessage(_ notification: Notification) {
         let userInfo = notification.userInfo
         let msgId = userInfo?[kUpdateFileMessage] as! String
@@ -273,6 +290,8 @@ class BPChatVC: GYZBaseVC {
         messages.append(message)
         chatView.scrollToLast(animated: false)
         conversation?.send(jmessage, optionalContent: JMSGOptionalContent.ex.default)
+        
+        requestMessageRecord()
     }
     
     func send(forText text: String) {

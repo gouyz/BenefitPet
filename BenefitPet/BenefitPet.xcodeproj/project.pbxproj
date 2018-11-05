@@ -22,6 +22,8 @@
 		0A303516212E957200B55AAE /* BPSchoolFriendsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */; };
 		0A303518212EA01D00B55AAE /* BPModifySchoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */; };
 		0A30351A212EA30200B55AAE /* BPTongShiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303519212EA30200B55AAE /* BPTongShiVC.swift */; };
+		0A3DFAED2190222B0024C803 /* BPSearchBlackListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DFAEC2190222B0024C803 /* BPSearchBlackListVC.swift */; };
+		0A3DFAEF219028E40024C803 /* BPSearchFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DFAEE219028E40024C803 /* BPSearchFriendsVC.swift */; };
 		0A45B27F218D304A004E7C90 /* BPClassDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B27E218D304A004E7C90 /* BPClassDetailVC.swift */; };
 		0A45B281218D374C004E7C90 /* BPZhenLiaoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B280218D374C004E7C90 /* BPZhenLiaoDetailVC.swift */; };
 		0A487A4B2177803800352EAF /* BPHuanZheGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */; };
@@ -309,6 +311,8 @@
 		0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolFriendsCell.swift; sourceTree = "<group>"; };
 		0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifySchoolVC.swift; sourceTree = "<group>"; };
 		0A303519212EA30200B55AAE /* BPTongShiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPTongShiVC.swift; sourceTree = "<group>"; };
+		0A3DFAEC2190222B0024C803 /* BPSearchBlackListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSearchBlackListVC.swift; sourceTree = "<group>"; };
+		0A3DFAEE219028E40024C803 /* BPSearchFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSearchFriendsVC.swift; sourceTree = "<group>"; };
 		0A45B27E218D304A004E7C90 /* BPClassDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPClassDetailVC.swift; sourceTree = "<group>"; };
 		0A45B280218D374C004E7C90 /* BPZhenLiaoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPZhenLiaoDetailVC.swift; sourceTree = "<group>"; };
 		0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHuanZheGroupModel.swift; sourceTree = "<group>"; };
@@ -1286,6 +1290,8 @@
 				0A7168B6212FB8D400125444 /* BPApplyFriendsVC.swift */,
 				0A7168B8212FDB2400125444 /* BPAddFriendsVC.swift */,
 				0A9BB52E2133E9B6002ED5C7 /* BPMayKnowPersonVC.swift */,
+				0A3DFAEC2190222B0024C803 /* BPSearchBlackListVC.swift */,
+				0A3DFAEE219028E40024C803 /* BPSearchFriendsVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1557,6 +1563,7 @@
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/PYSearch/PYSearch.framework",
 				"${BUILT_PRODUCTS_DIR}/SKPhotoBrowser/SKPhotoBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
@@ -1573,6 +1580,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PYSearch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SKPhotoBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -1840,11 +1848,13 @@
 				0A2FD85F211D6362000EE6CD /* BPShouYiCertificateVC.swift in Sources */,
 				0A761D37216CA17500FDA645 /* JCChatViewCell.swift in Sources */,
 				0A72376E21119B2E006E0E04 /* BPAddBlackListVC.swift in Sources */,
+				0A3DFAEF219028E40024C803 /* BPSearchFriendsVC.swift in Sources */,
 				0A814321211BE45900529C74 /* BPFollowPlanChildVC.swift in Sources */,
 				0A492FC2218AE16000C7E3AE /* BPYongYaoGuideModel.swift in Sources */,
 				0A7168B9212FDB2400125444 /* BPAddFriendsVC.swift in Sources */,
 				0A761D19216CA17500FDA645 /* JCMessageAvatarView.swift in Sources */,
 				0A761CD9216C8C2B00FDA645 /* JMSGMessage+.swift in Sources */,
+				0A3DFAED2190222B0024C803 /* BPSearchBlackListVC.swift in Sources */,
 				0A45B27F218D304A004E7C90 /* BPClassDetailVC.swift in Sources */,
 				0A838941210AC061009ECF96 /* BPSchoolVC.swift in Sources */,
 				0A8CDF94212C00C80032E6C8 /* BPAddClassVC.swift in Sources */,

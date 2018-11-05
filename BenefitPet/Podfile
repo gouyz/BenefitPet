@@ -16,6 +16,7 @@ pod 'Cosmos', '~> 12.0.1' # 星星评分 https://github.com/marketplacer/Cosmos
 
 pod 'DKImagePickerController' #图片选择器 https://github.com/zhangao0086/DKImagePickerController
 pod 'SKPhotoBrowser' #图片浏览器 https://github.com/suzuki-0000/SKPhotoBrowser
+pod 'PYSearch'  # 搜索框 https://github.com/ko1o/PYSearch
 
 pod 'BMPlayer'  # 基于AVPlayer封装的视频播放器  https://github.com/BrikerMan/BMPlayer
 

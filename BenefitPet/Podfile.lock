@@ -28,6 +28,7 @@ PODS:
   - NVActivityIndicatorView (4.0.0):
     - NVActivityIndicatorView/Presenter (= 4.0.0)
   - NVActivityIndicatorView/Presenter (4.0.0)
+  - PYSearch (0.9.1)
   - SKPhotoBrowser (4.1.1)
   - SnapKit (4.0.0)
   - SwiftyJSON (3.1.4)
@@ -45,6 +46,7 @@ DEPENDENCIES:
   - Kingfisher (~> 4.2.0)
   - MBProgressHUD (~> 1.0.0)
   - MJRefresh
+  - PYSearch
   - SKPhotoBrowser
   - SnapKit (~> 4.0.0)
   - SwiftyJSON
@@ -65,6 +67,7 @@ SPEC REPOS:
     - MBProgressHUD
     - MJRefresh
     - NVActivityIndicatorView
+    - PYSearch
     - SKPhotoBrowser
     - SnapKit
     - SwiftyJSON
@@ -84,11 +87,12 @@ SPEC CHECKSUMS:
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: 9af70f5f9327a2cf87f0fb5929f35fcc2fa638ea
   NVActivityIndicatorView: 54c9b93b6f25a4f467512680c0c90c09a1095cf2
+  PYSearch: 76dee18eea3309b60921a5d6a69390a63a5dda15
   SKPhotoBrowser: aa02de50f56d80fac23f543e40847af6b360e4b3
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   WechatOpenSDK: 3117412f8aafde4758cac1e8d20b93c67cafcfef
 
-PODFILE CHECKSUM: 7e89b4bc5e3c808974c5bd6600b1484835f61db4
+PODFILE CHECKSUM: 90567f07f7a740956c8111788c6340c59422c0ef
 
 COCOAPODS: 1.5.3

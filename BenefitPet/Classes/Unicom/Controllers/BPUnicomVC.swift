@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PYSearch
 
 private let unicomCell = "unicomCell"
 private let unicomFooter = "unicomFooter"
@@ -27,6 +28,7 @@ class BPUnicomVC: GYZBaseVC {
         }
         
         tableView.tableHeaderView = searchView
+        searchView.searchBtn.addTarget(self, action: #selector(onClickSearch), for: .touchUpInside)
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,6 +52,24 @@ class BPUnicomVC: GYZBaseVC {
     /// 搜索
     lazy var searchView: BPSearchHeaderView = BPSearchHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 50))
     
+    
+    /// 搜索
+    @objc func onClickSearch(){
+        let searchVC: PYSearchViewController = PYSearchViewController.init(hotSearches: [], searchBarPlaceholder: "请输入好友姓名或手机号") { (searchViewController, searchBar, searchText) in
+            
+            let searchVC = BPSearchFriendsVC()
+            searchVC.searchContent = searchText!
+            searchVC.searchType = "1"
+            searchViewController?.navigationController?.pushViewController(searchVC, animated: true)
+        }
+        searchVC.hotSearchStyle = .borderTag
+        searchVC.searchHistoryStyle = .borderTag
+        
+        let searchNav = GYZBaseNavigationVC(rootViewController:searchVC)
+        
+        searchVC.cancelButton.setTitleColor(kBlackFontColor, for: .normal)
+        self.present(searchNav, animated: true, completion: nil)
+    }
     /// 患者黑名单
     func goBlackList(){
         let vc = BPBlackListVC()

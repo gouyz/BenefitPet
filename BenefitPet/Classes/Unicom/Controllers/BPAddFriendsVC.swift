@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PYSearch
 
 private let addFriendsCell = "addFriendsCell"
 
@@ -24,6 +25,10 @@ class BPAddFriendsVC: GYZBaseVC {
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
+        
+        tableView.tableHeaderView = searchView
+        searchView.searchBtn.set(image: UIImage.init(named: "icon_search"), title: "搜索新好友", titlePosition: .right, additionalSpacing: 5, state: .normal)
+        searchView.searchBtn.addTarget(self, action: #selector(onClickSearch), for: .touchUpInside)
         
     }
     
@@ -44,7 +49,27 @@ class BPAddFriendsVC: GYZBaseVC {
         
         return table
     }()
+    /// 搜索
+    lazy var searchView: BPSearchHeaderView = BPSearchHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 50))
     
+    
+    /// 搜索
+    @objc func onClickSearch(){
+        let searchVC: PYSearchViewController = PYSearchViewController.init(hotSearches: [], searchBarPlaceholder: "请输入好友姓名或手机号") { (searchViewController, searchBar, searchText) in
+            
+            let searchVC = BPSearchFriendsVC()
+            searchVC.searchContent = searchText!
+            searchVC.searchType = "2"
+            searchViewController?.navigationController?.pushViewController(searchVC, animated: true)
+        }
+        searchVC.hotSearchStyle = .borderTag
+        searchVC.searchHistoryStyle = .borderTag
+        
+        let searchNav = GYZBaseNavigationVC(rootViewController:searchVC)
+        
+        searchVC.cancelButton.setTitleColor(kBlackFontColor, for: .normal)
+        self.present(searchNav, animated: true, completion: nil)
+    }
     /// 同届校友
     func goSchoolFriends(){
         let vc = BPSchoolFriendsVC()

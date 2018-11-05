@@ -1,146 +1,54 @@
 //
-//  BPBlackListVC.swift
+//  BPSearchBlackListVC.swift
 //  BenefitPet
-//  患者黑名单
-//  Created by gouyz on 2018/8/1.
-//  Copyright © 2018年 gyz. All rights reserved.
+//  搜索黑名单
+//  Created by gouyz on 2018/11/5.
+//  Copyright © 2018 gyz. All rights reserved.
 //
 
 import UIKit
 import MBProgressHUD
-import PYSearch
 
-private let blackListCell = "blackListCell"
+private let searchBlackListCell = "searchBlackListCell"
 
-class BPBlackListVC: GYZBaseVC {
+class BPSearchBlackListVC: GYZBaseVC {
     
+    var searchContent: String = ""
     var dataList: [BPFriendModel] = [BPFriendModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "患者黑名单"
-        
-        view.addSubview(bottomView)
-        bottomView.addSubview(noteLab)
-        bottomView.addSubview(lineView)
-        bottomView.addSubview(addImgView)
+        self.navigationItem.title = "患者搜索"
         view.addSubview(tableView)
-        
-        bottomView.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalTo(view)
-            make.height.equalTo(kBottomTabbarHeight)
-        }
-        noteLab.snp.makeConstraints { (make) in
-            make.left.top.bottom.equalTo(bottomView)
-            make.right.equalTo(lineView.snp.left)
-        }
-        lineView.snp.makeConstraints { (make) in
-            make.top.equalTo(5)
-            make.bottom.equalTo(-5)
-            make.right.equalTo(addImgView.snp.left).offset(-20)
-            make.width.equalTo(klineDoubleWidth)
-        }
-        addImgView.snp.makeConstraints { (make) in
-            make.right.equalTo(-20)
-            make.centerY.equalTo(bottomView)
-            make.size.equalTo(CGSize.init(width: 34, height: 35))
-        }
         tableView.snp.makeConstraints { (make) in
-            make.left.right.equalTo(view)
-            make.bottom.equalTo(bottomView.snp.top)
-            if #available(iOS 11.0, *) {
-                make.top.equalTo(view)
-            }else{
-                make.top.equalTo(kTitleAndStateHeight)
-            }
+            make.edges.equalTo(0)
         }
         
-        tableView.tableHeaderView = searchView
-        searchView.searchBtn.set(image: UIImage.init(named: "icon_search"), title: "请输入患者姓名", titlePosition: .right, additionalSpacing: 5, state: .normal)
-        
-        searchView.searchBtn.addTarget(self, action: #selector(onClickSearch), for: .touchUpInside)
-        
-        addImgView.addOnClickListener(target: self, action: #selector(onClickedAdd))
         requestBackListDatas()
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     lazy var tableView : UITableView = {
         let table = UITableView(frame: CGRect.zero, style: .grouped)
         table.dataSource = self
         table.delegate = self
-        table.separatorStyle = .none
+        table.separatorColor = kGrayLineColor
         
-        
-        table.register(BPOnLineOrderCell.self, forCellReuseIdentifier: blackListCell)
+        table.register(BPOnLineOrderCell.self, forCellReuseIdentifier: searchBlackListCell)
         
         return table
     }()
-    /// 搜索
-    lazy var searchView: BPSearchHeaderView = BPSearchHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 50))
-    
-    lazy var bottomView: UIView = {
-        let bgView = UIView()
-        bgView.backgroundColor = kBlueFontColor
-        
-        return bgView
-    }()
-    /// 内容
-    var noteLab : UILabel = {
-        let lab = UILabel()
-        lab.font = k15Font
-        lab.textColor = kWhiteColor
-        lab.textAlignment = .center
-        lab.numberOfLines = 2
-        lab.text = "记录这些不良患者，\n帮助我的同仁多加留心这些患者"
-        
-        return lab
-    }()
-    lazy var lineView: UIView = {
-        let bgView = UIView()
-        bgView.backgroundColor = kWhiteColor
-        
-        return bgView
-    }()
-    lazy var addImgView: UIImageView = UIImageView.init(image: UIImage.init(named: "icon_edit_pen"))
-    /// add
-    @objc func onClickedAdd(){
-        let vc = BPAddBlackListVC()
-        vc.resultBlock = {[weak self] () in
-            
-            self?.requestBackListDatas()
-        }
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    /// 搜索
-    @objc func onClickSearch(){
-        let searchVC: PYSearchViewController = PYSearchViewController.init(hotSearches: [], searchBarPlaceholder: "请输入患者姓名") { (searchViewController, searchBar, searchText) in
-            
-            let searchVC = BPSearchBlackListVC()
-            searchVC.searchContent = searchText!
-            searchViewController?.navigationController?.pushViewController(searchVC, animated: true)
-        }
-        searchVC.hotSearchStyle = .borderTag
-        searchVC.searchHistoryStyle = .borderTag
-        
-        let searchNav = GYZBaseNavigationVC(rootViewController:searchVC)
-        
-        searchVC.cancelButton.setTitleColor(kBlackFontColor, for: .normal)
-        self.present(searchNav, animated: true, completion: nil)
-    }
     
     /// 患者聊天、同步诊疗记录
     func goChatVC(jgId: String){
         
         let conversation = JMSGConversation.singleConversation(withUsername: jgId)
         if conversation == nil {
-
+            
             JMSGConversation.createSingleConversation(withUsername: jgId) {[weak self] (resultObject, error) in
                 
                 if error == nil{
@@ -172,7 +80,7 @@ class BPBlackListVC: GYZBaseVC {
         weak var weakSelf = self
         showLoadingView()
         
-        GYZNetWork.requestNetwork("contact/black_patient",  success: { (response) in
+        GYZNetWork.requestNetwork("contact/search",parameters: ["input": searchContent,"type": "0"],  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             GYZLog(response)
@@ -194,7 +102,6 @@ class BPBlackListVC: GYZBaseVC {
                 }else{
                     ///显示空页面
                     weakSelf?.showEmptyView(content: "暂无患者黑名单信息")
-                    weakSelf?.view.bringSubview(toFront: (weakSelf?.bottomView)!)
                 }
                 
             }else{
@@ -210,12 +117,11 @@ class BPBlackListVC: GYZBaseVC {
                 weakSelf?.requestBackListDatas()
                 weakSelf?.hiddenEmptyView()
             })
-            weakSelf?.view.bringSubview(toFront: (weakSelf?.bottomView)!)
         })
     }
 }
 
-extension BPBlackListVC: UITableViewDelegate,UITableViewDataSource{
+extension BPSearchBlackListVC: UITableViewDelegate,UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -226,7 +132,7 @@ extension BPBlackListVC: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: blackListCell) as! BPOnLineOrderCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: searchBlackListCell) as! BPOnLineOrderCell
         let model = dataList[indexPath.row]
         cell.contentLab.text = model.remark
         cell.nameLab.text = model.nickname
