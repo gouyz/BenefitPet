@@ -93,9 +93,11 @@ class BPYongYaoGuideVC: GYZBaseVC {
     }
     /// 详情
     func goDetail(index: Int){
+        
+        let model = dataList[index]
         let vc = BPGuideDetailVC()
-        vc.articleId = dataList[index].id!
-        vc.type = .guide
+        vc.articleTitle = model.title!
+        vc.url = model.url!
         navigationController?.pushViewController(vc, animated: true)
     }
 }

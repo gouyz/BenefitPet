@@ -8,26 +8,14 @@
 
 import UIKit
 import WebKit
-import MBProgressHUD
 
-
-public enum ArticleType : Int {
-    
-    
-    case guide // 用药指南
-    
-    case  article// 专业文章
-    
-    case kuaike // 快课
-}
 
 class BPGuideDetailVC: GYZBaseVC {
 
-    /// 加载内容
-    var articleId: String = ""
-    var dataModel: BPYongYaoGuideModel?
-    
-    var type: ArticleType = .guide
+    /// 文章标题
+    var articleTitle: String = ""
+    /// 文章url
+    var url: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +26,7 @@ class BPGuideDetailVC: GYZBaseVC {
         webView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        requestDetailDatas()
+        loadContent()
     }
     
     override func didReceiveMemoryWarning() {
@@ -59,46 +47,10 @@ class BPGuideDetailVC: GYZBaseVC {
         return webView
     }()
     
-    ///获取详情数据
-    func requestDetailDatas(){
-        
-        if !GYZTool.checkNetWork() {
-            return
-        }
-        weak var weakSelf = self
-        createHUD(message: "加载中...")
-        
-        var method: String = "school/school_guide_content"
-        if type == .article {
-            method = "school/school_study_wenzhang_content"
-        }else if type == .kuaike {
-            method = "school/school_study_kuaike_content"
-        }
-        
-        GYZNetWork.requestNetwork(method, parameters: ["id": articleId],  success: { (response) in
-            
-            weakSelf?.hud?.hide(animated: true)
-            GYZLog(response)
-            
-            if response["status"].intValue == kQuestSuccessTag{//请求成功
-                
-                guard let data = response["data"].dictionaryObject else { return }
-                weakSelf?.dataModel = BPYongYaoGuideModel.init(dict: data)
-                weakSelf?.loadContent()
-            }else{
-                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
-            }
-            
-        }, failture: { (error) in
-            
-            weakSelf?.hud?.hide(animated: true)
-            GYZLog(error)
-        })
-    }
     /// 加载
     func loadContent(){
-        self.navigationItem.title = dataModel?.title
-        let url: String = (dataModel?.content)!.dealFuTextImgSize().htmlToString
+        self.navigationItem.title = articleTitle
+        
         if url.hasPrefix("http://") || url.hasPrefix("https://") {
 //            webView.load(URLRequest.init(url: URL.init(string: url)!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60))
             webView.load(URLRequest.init(url: URL.init(string: url)!))

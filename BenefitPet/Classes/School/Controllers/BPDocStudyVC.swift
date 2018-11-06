@@ -43,9 +43,10 @@ class BPDocStudyVC: GYZBaseVC {
     }()
     /// 详情
     func goDetailVC(index: Int){
+        let model = dataList[index]
         let vc = BPGuideDetailVC()
-        vc.type = .kuaike
-        vc.articleId = dataList[index].id!
+        vc.articleTitle = model.title!
+        vc.url = model.url!
         navigationController?.pushViewController(vc, animated: true)
     }
     ///获取文章数据

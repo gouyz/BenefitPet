@@ -100,8 +100,8 @@ class BPFollowPlanChildVC: GYZBaseVC {
     
     func goPlanDetail(index: Int){
         let vc = BPFollowPlanDetailVC()
-        vc.id = dataList[index].id!
         vc.planTitle = dataList[index].title!
+        vc.url = dataList[index].url!
         navigationController?.pushViewController(vc, animated: true)
     }
 }

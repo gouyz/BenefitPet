@@ -13,10 +13,7 @@ import WebKit
 
 class BPFollowPlanDetailVC: GYZBaseVC {
     
-    //随访计划id
-    var id: String = ""
     var planTitle: String = ""
-    var dataModel: BPFollowPlanModel?
     var url: String = ""
 
     override func viewDidLoad() {
@@ -29,11 +26,7 @@ class BPFollowPlanDetailVC: GYZBaseVC {
         webView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        if url != "" {
-            loadContent(content: url)
-        }else{
-            requestDetailDatas()
-        }
+        loadContent(content: url)
         
     }
     
@@ -56,33 +49,7 @@ class BPFollowPlanDetailVC: GYZBaseVC {
         return webView
     }()
     
-    ///获取随访计划详情数据
-    func requestDetailDatas(){
-        
-        if !GYZTool.checkNetWork() {
-            return
-        }
-        weak var weakSelf = self
-        createHUD(message: "加载中...")
-        
-        GYZNetWork.requestNetwork("doctorindex/plan_content",parameters: ["id": id],  success: { (response) in
-            
-            weakSelf?.hud?.hide(animated: true)
-            GYZLog(response)
-            
-            if response["status"].intValue == kQuestSuccessTag{//请求成功
-                
-                weakSelf?.loadContent(content: response["data"]["content"].stringValue)
-            }else{
-                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
-            }
-            
-        }, failture: { (error) in
-            
-            weakSelf?.hud?.hide(animated: true)
-            GYZLog(error)
-        })
-    }
+    
     /// 加载
     func loadContent(content: String){
         if content.hasPrefix("http://") || content.hasPrefix("https://") {

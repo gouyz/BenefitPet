@@ -113,10 +113,11 @@ class BPStudyVC: GYZBaseVC {
     }
     
     /// 详情
-    func goDetailVC(articleId: String,type: ArticleType){
+    func goDetailVC(model: BPYongYaoGuideModel){
+        
         let vc = BPGuideDetailVC()
-        vc.type = type
-        vc.articleId = articleId
+        vc.articleTitle = model.title!
+        vc.url = model.url!
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -193,9 +194,9 @@ extension BPStudyVC : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.section == 1 {
-            goDetailVC(articleId: (dataModel?.articleList[indexPath.row].id)!, type: .article)
+            goDetailVC(model: (dataModel?.articleList[indexPath.row])!)
         }else if indexPath.section == 2 {
-            goDetailVC(articleId: (dataModel?.kuaikeList[indexPath.row].id)!, type: .kuaike)
+            goDetailVC(model: (dataModel?.kuaikeList[indexPath.row])!)
         }
     }
     

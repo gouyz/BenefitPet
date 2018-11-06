@@ -7,14 +7,11 @@
 //
 
 import UIKit
-import MBProgressHUD
 import WebKit
 
 class BPArticleDetailVC: GYZBaseVC {
-    //id
-    var id: String = ""
+    
     var articleTitle: String = ""
-    var dataModel: BArticlesModel?
     var url: String = ""
     
     override func viewDidLoad() {
@@ -27,11 +24,7 @@ class BPArticleDetailVC: GYZBaseVC {
         webView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        if url == "" {
-            requestDetailDatas()
-        }else{
-            webView.load(URLRequest.init(url: URL.init(string: url)!))
-        }
+        loadContent()
     }
     
     override func didReceiveMemoryWarning() {
@@ -53,43 +46,13 @@ class BPArticleDetailVC: GYZBaseVC {
         return webView
     }()
     
-    ///获取文章详情数据
-    func requestDetailDatas(){
-        
-        if !GYZTool.checkNetWork() {
-            return
-        }
-        weak var weakSelf = self
-        createHUD(message: "加载中...")
-        
-        GYZNetWork.requestNetwork("doctor/doctor_article",parameters: ["id": id],  success: { (response) in
-            
-            weakSelf?.hud?.hide(animated: true)
-            GYZLog(response)
-            
-            if response["status"].intValue == kQuestSuccessTag{//请求成功
-                guard let data = response["data"].dictionaryObject else { return }
-                
-                weakSelf?.dataModel = BArticlesModel.init(dict: data)
-                weakSelf?.loadContent()
-            }else{
-                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
-            }
-            
-        }, failture: { (error) in
-            
-            weakSelf?.hud?.hide(animated: true)
-            GYZLog(error)
-        })
-    }
     /// 加载
     func loadContent(){
-        let content: String = (dataModel?.content)!
-        if content.hasPrefix("http://") || content.hasPrefix("https://") {
+        if url.hasPrefix("http://") || url.hasPrefix("https://") {
             
-            webView.load(URLRequest.init(url: URL.init(string: content)!))
+            webView.load(URLRequest.init(url: URL.init(string: url)!))
         }else{
-            webView.loadHTMLString(content.dealFuTextImgSize(), baseURL: nil)
+            webView.loadHTMLString(url.dealFuTextImgSize(), baseURL: nil)
         }
     }
 }
