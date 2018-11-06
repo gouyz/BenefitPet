@@ -118,6 +118,11 @@ class GYZAddressBookManager: NSObject {
     //有的手机系统读取到的手机号都有'-',所以去除'-'
     func removeUnuseChar(str:String) -> String {
         var tmpStr = str
+        if tmpStr.hasPrefix("+86"){
+            tmpStr = tmpStr.subString(start: 4, length: tmpStr.count - 4)
+        }else if tmpStr.hasPrefix("86"){
+            tmpStr = tmpStr.subString(start: 2, length: tmpStr.count - 2)
+        }
         for char in tmpStr {
             if char == "-" {
                 let range = tmpStr.range(of: "-")
@@ -146,6 +151,11 @@ class GYZAddressBookManager: NSObject {
                     let phoneString = phoneNumber.stringValue
                     
                     let result = self?.removeUnuseChar(str: phoneString)
+//                    if result.hasPrefix("+86"){
+//                        result = result.subString(start: 4, length: 11)
+//                    }else if result.hasPrefix("86"){
+//                        result = result.subString(start: 2, length: 11)
+//                    }
                     
                     if self!.validateMobile(result!) {
                         phone = result!

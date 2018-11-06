@@ -22,4 +22,6 @@ class BArticlesModel: LHSBaseModel {
     var c_id : String? = ""
     /// 医生id
     var d_id : String? = ""
+    ///
+    var url : String? = ""
 }

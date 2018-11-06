@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 private let petTipsCell = "petTipsCell"
 private let petTipsHeader = "petTipsHeader"
 
 class BPPetTipsVC: GYZBaseVC {
+    
+    var dataList: [BArticlesModel] = [BArticlesModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,7 @@ class BPPetTipsVC: GYZBaseVC {
             make.edges.equalTo(0)
         }
         tableView.tableHeaderView = headerView
+        requestTipsDatas()
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,6 +52,64 @@ class BPPetTipsVC: GYZBaseVC {
         return header
         
     }()
+    
+    ///获取小贴士数据
+    func requestTipsDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        showLoadingView()
+        
+        GYZNetWork.requestNetwork("patient/tips_list",  success: { (response) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for item in data{
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BArticlesModel.init(dict: itemInfo)
+                    
+                    weakSelf?.dataList.append(model)
+                }
+                if weakSelf?.dataList.count > 0{
+                    weakSelf?.hiddenEmptyView()
+                    weakSelf?.tableView.reloadData()
+                }else{
+                    ///显示空页面
+                    weakSelf?.showEmptyView(content: "暂无小贴士信息")
+                }
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hiddenLoadingView()
+            GYZLog(error)
+            
+            weakSelf?.showEmptyView(content: "加载失败，请点击重新加载", reload: {
+                
+                weakSelf?.requestTipsDatas()
+                weakSelf?.hiddenEmptyView()
+            })
+        })
+    }
+    
+    /// 新闻详情
+    func goArticleDetail(index:Int){
+        let vc = BPArticleDetailVC()
+        vc.url = dataList[index].url!
+        vc.articleTitle = dataList[index].title!
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPPetTipsVC: UITableViewDelegate,UITableViewDataSource{
@@ -57,14 +119,14 @@ extension BPPetTipsVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 12
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: petTipsCell) as! GYZLabArrowCell
         
-        cell.nameLab.text = "宠物日常的正确喂养"
+        cell.nameLab.text = dataList[indexPath.row].title
         cell.nameLab.textColor = kHeightGaryFontColor
         
         cell.selectionStyle = .none
@@ -83,9 +145,7 @@ extension BPPetTipsVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        //        if indexPath.row == 0 {// 患者黑名单
-        //            goBlackList()
-        //        }
+        goArticleDetail(index: indexPath.row)
     }
     ///MARK : UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

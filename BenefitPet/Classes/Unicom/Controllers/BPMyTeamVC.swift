@@ -109,6 +109,32 @@ class BPMyTeamVC: GYZBaseVC {
         })
     }
     
+    /// 添加好友
+    func requestAddFriend(fId: String, jgId: String){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("contact/add_friend", parameters: ["f_id": fId,"d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+            }
+            weakSelf?.goChatVC(userId: jgId)
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
+    
     /// 患者聊天
     func goChatVC(userId: String){
         let vc = BPChatVC()
@@ -153,7 +179,19 @@ extension BPMyTeamVC : UICollectionViewDataSource,UICollectionViewDelegate{
         
         let model = dataList[indexPath.section].doctorList[indexPath.row]
         if model.id != userDefaults.string(forKey: "userId") {
-            goChatVC(userId: model.jg_id!)
+            if model.ishad == "2"{//是好友
+                goChatVC(userId: model.jg_id!)
+            }else{
+                weak var weakSelf = self
+                GYZAlertViewTools.alertViewTools.showAlert(title: "提示", message: "\(model.name!)还不是您的好友，是否添加好友？", cancleTitle: "取消", viewController: self, buttonTitles: "添加") { (index) in
+                    
+                    if index != cancelIndex{
+                        weakSelf?.requestAddFriend(fId: model.id!, jgId: model.jg_id!)
+                    }else{
+                        weakSelf?.goChatVC(userId: model.jg_id!)
+                    }
+                }
+            }
         }
     }
 }

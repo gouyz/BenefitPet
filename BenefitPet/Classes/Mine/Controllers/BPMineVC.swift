@@ -34,7 +34,8 @@ class BPMineVC: GYZBaseVC {
             }else{
                 make.top.equalTo(0)
             }
-            make.left.bottom.right.equalTo(view)
+            make.left.right.equalTo(view)
+            make.bottom.equalTo(-kBottomTabbarHeight)
         }
         
         tableView.tableHeaderView = userHeaderView
