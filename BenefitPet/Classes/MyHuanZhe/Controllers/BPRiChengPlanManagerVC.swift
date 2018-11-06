@@ -34,6 +34,7 @@ class BPRiChengPlanManagerVC: GYZBaseVC {
         riChengVC.huanZheId = huanZheId
         
         let planVC = BPHuanZheFollowPlanVC()
+        planVC.huanZheId = huanZheId
         
         return [riChengVC,planVC]
     }

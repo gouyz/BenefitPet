@@ -386,7 +386,7 @@ class BPMyHomeVC: GYZBaseVC {
     /// 文章详情
     func goArticleDetail(index:Int){
         let vc = BPArticleDetailVC()
-        vc.id = articleList[index].id!
+        vc.url = articleList[index].url!
         vc.articleTitle = articleList[index].title!
         navigationController?.pushViewController(vc, animated: true)
     }

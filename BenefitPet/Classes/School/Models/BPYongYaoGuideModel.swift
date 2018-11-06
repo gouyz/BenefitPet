@@ -20,4 +20,6 @@ class BPYongYaoGuideModel: LHSBaseModel {
     var content : String? = ""
     /// 标题
     var title : String? = ""
+    /// 链接
+    var url : String? = ""
 }

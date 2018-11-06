@@ -12,6 +12,8 @@ import MBProgressHUD
 private let huanZheFollowPlanCell = "huanZheFollowPlanCell"
 
 class BPHuanZheFollowPlanVC: GYZBaseVC {
+    
+    var huanZheId: String = ""
     var dataList: [BPFollowPlanModel] = [BPFollowPlanModel]()
 
     override func viewDidLoad() {
@@ -50,7 +52,7 @@ class BPHuanZheFollowPlanVC: GYZBaseVC {
         weak var weakSelf = self
         showLoadingView()
         
-        GYZNetWork.requestNetwork("patient/user_access",  success: { (response) in
+        GYZNetWork.requestNetwork("patient/user_access",parameters: ["u_id": huanZheId],  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             GYZLog(response)
@@ -91,7 +93,6 @@ class BPHuanZheFollowPlanVC: GYZBaseVC {
     
     func goPlanDetail(index: Int){
         let vc = BPFollowPlanDetailVC()
-        vc.id = dataList[index].id!
         vc.planTitle = dataList[index].title!
         vc.url = dataList[index].url!
         navigationController?.pushViewController(vc, animated: true)
