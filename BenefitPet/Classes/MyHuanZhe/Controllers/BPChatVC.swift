@@ -56,6 +56,8 @@ class BPChatVC: GYZBaseVC {
         
         //注册通知
         NotificationCenter.default.addObserver(self, selector: #selector(refreshView(noti:)), name: NSNotification.Name(rawValue: kSendMessageData), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(pushUrlView(noti:)), name: NSNotification.Name(rawValue: kUrlMessagePushData), object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -205,7 +207,18 @@ class BPChatVC: GYZBaseVC {
         
         send(forText: url)
     }
-    
+    /// 点击url跳转
+    /// - Parameter noti: 参数
+    @objc func pushUrlView(noti:NSNotification){
+        
+        let userInfo = noti.userInfo!
+        let url: String = userInfo["url"] as! String
+        
+        let vc = BPArticleDetailVC()
+        vc.url = url
+        vc.articleTitle = "详情"
+        navigationController?.pushViewController(vc, animated: true)
+    }
     @objc func _updateFileMessage(_ notification: Notification) {
         let userInfo = notification.userInfo
         let msgId = userInfo?[kUpdateFileMessage] as! String

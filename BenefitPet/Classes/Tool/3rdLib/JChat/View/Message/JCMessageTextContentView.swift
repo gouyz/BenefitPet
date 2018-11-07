@@ -31,12 +31,13 @@ open class JCMessageTextContentView: KILabel, JCMessageContentViewType {
         self.linkDetectionTypes = KILinkTypeOption.URL
         self.urlLinkTapHandler = { label, url, range in
             if let Url = URL(string: url) {
-                if UIApplication.shared.canOpenURL(Url) {
-                    UIApplication.shared.openURL(Url)
-                } else {
-                    let newUrl = URL(string: "https://" + url)
-                    UIApplication.shared.openURL(newUrl!)
-                }
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: kUrlMessagePushData), object: nil,userInfo:["url" : url])
+//                if UIApplication.shared.canOpenURL(Url) {
+//                    UIApplication.shared.openURL(Url)
+//                } else {
+//                    let newUrl = URL(string: "https://" + url)
+//                    UIApplication.shared.openURL(newUrl!)
+//                }
             }
         }
     }
@@ -45,13 +46,6 @@ open class JCMessageTextContentView: KILabel, JCMessageContentViewType {
         self.numberOfLines = 0
     }
     
-    /// url详情
-//    func goArticleDetail(url:String){
-//        let vc = BPArticleDetailVC()
-//        vc.url = url
-//        vc.articleTitle = "详情"
-//        navigationController?.pushViewController(vc, animated: true)
-//    }
 }
 
 

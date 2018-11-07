@@ -87,9 +87,11 @@ let ERROR_MESSAGE = "ERROR_MESSAGE"
 
 /// 发送小贴士等消息 通知名称
 let kSendMessageData = "kSendMessageData"
+/// 点击url消息 通知名称
+let kUrlMessagePushData = "kUrlMessagePushData"
 
 ///已读消息后，刷新消息角标 通知名称
-let kMessageBadageRefreshData = "messageBadageRefreshData"
+let kUMessageBadageRefreshData = "messageBadageRefreshData"
 /// 极光推送 跳转指定页面通知名称
 let kJPushRefreshData = "kJPushRefreshData"
 

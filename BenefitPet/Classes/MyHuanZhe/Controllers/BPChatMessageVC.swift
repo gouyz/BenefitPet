@@ -42,6 +42,7 @@ class BPChatMessageVC: GYZBaseVC {
         userJgId = (user?.username)!
         //注册通知
         NotificationCenter.default.addObserver(self, selector: #selector(refreshView(noti:)), name: NSNotification.Name(rawValue: kSendMessageData), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(pushUrlView(noti:)), name: NSNotification.Name(rawValue: kUrlMessagePushData), object: nil)
     }
     
 //    override func loadView() {
@@ -192,6 +193,19 @@ class BPChatMessageVC: GYZBaseVC {
         let url: String = userInfo["url"] as! String
         
         send(forText: url)
+    }
+    
+    /// 点击url跳转
+    /// - Parameter noti: 参数
+    @objc func pushUrlView(noti:NSNotification){
+    
+        let userInfo = noti.userInfo!
+        let url: String = userInfo["url"] as! String
+        
+        let vc = BPArticleDetailVC()
+        vc.url = url
+        vc.articleTitle = "详情"
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func _updateFileMessage(_ notification: Notification) {
