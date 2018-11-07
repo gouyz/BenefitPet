@@ -9,6 +9,7 @@
 import UIKit
 import MBProgressHUD
 import DKImagePickerController
+import SKPhotoBrowser
 
 class BPChatVC: GYZBaseVC {
 
