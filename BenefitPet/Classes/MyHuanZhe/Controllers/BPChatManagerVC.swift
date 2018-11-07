@@ -44,6 +44,7 @@ class BPChatManagerVC: GYZBaseVC {
         
         let chatVC = BPChatMessageVC()
         chatVC.conversation = conversation
+        chatVC.huanZheId = huanZheId
         
         let recordVC = BPZhenLiaoRecordVC()
         recordVC.huanZheId = huanZheId

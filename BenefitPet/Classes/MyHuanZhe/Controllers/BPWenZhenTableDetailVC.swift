@@ -15,11 +15,24 @@ class BPWenZhenTableDetailVC: GYZBaseVC {
     
     var wenZhenModel: BPWenZhenModel?
     var dataList: [BPWenZhenModel] = [BPWenZhenModel]()
+    var huanZheId: String = ""
+    /// 是否有答案
+    var isAnswer: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationItem.title = wenZhenModel?.question
+        if huanZheId != "" {
+            let rightBtn = UIButton(frame: CGRect.init(x: 0, y: 0, width: 60, height: kTitleHeight))
+            rightBtn.setTitle("发送", for: .normal)
+            rightBtn.setTitleColor(kBlackFontColor, for: .normal)
+            rightBtn.titleLabel?.font = k14Font
+            rightBtn.addTarget(self, action: #selector(onClickedSendBtn), for: .touchUpInside)
+            
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
+        }
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
@@ -54,11 +67,14 @@ class BPWenZhenTableDetailVC: GYZBaseVC {
         showLoadingView()
         
         var params: [String: String] = ["id": (wenZhenModel?.id)!]
-        if !(wenZhenModel?.title_id?.isEmpty)! {
+        
+        var method: String = "doctorindex/question"
+        if isAnswer {
+            method = "patient/inq_content"
             params["title_id"] = (wenZhenModel?.title_id)!
         }
         
-        GYZNetWork.requestNetwork("doctorindex/question",parameters: params,  success: { (response) in
+        GYZNetWork.requestNetwork(method,parameters: params,  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             GYZLog(response)
@@ -94,6 +110,40 @@ class BPWenZhenTableDetailVC: GYZBaseVC {
                 weakSelf?.requestWenZhenDetailDatas()
                 weakSelf?.hiddenEmptyView()
             })
+        })
+    }
+    
+    /// 发送
+    @objc func onClickedSendBtn(){
+        weak var weakSelf = self
+        GYZAlertViewTools.alertViewTools.showAlert(title: "提示", message: "确定要发送给患者吗？", cancleTitle: "取消", viewController: self, buttonTitles: "发送") { (index) in
+            
+            if index != cancelIndex{
+                weakSelf?.requestSendData()
+            }
+        }
+    }
+    
+    /// 发送
+    func requestSendData(){
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("patient/send_user_inq", parameters: ["u_id": huanZheId,"inq_id": (wenZhenModel?.id)!,"d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
         })
     }
 }

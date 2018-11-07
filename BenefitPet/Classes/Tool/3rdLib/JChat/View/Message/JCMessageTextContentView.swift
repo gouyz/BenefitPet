@@ -44,6 +44,14 @@ open class JCMessageTextContentView: KILabel, JCMessageContentViewType {
     private func _commonInit() {
         self.numberOfLines = 0
     }
+    
+    /// url详情
+//    func goArticleDetail(url:String){
+//        let vc = BPArticleDetailVC()
+//        vc.url = url
+//        vc.articleTitle = "详情"
+//        navigationController?.pushViewController(vc, animated: true)
+//    }
 }
 
 

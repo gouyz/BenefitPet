@@ -8,17 +8,31 @@
 
 import UIKit
 import WebKit
+import MBProgressHUD
 
 class BPArticleDetailVC: GYZBaseVC {
     
     var articleTitle: String = ""
     var url: String = ""
+    var articleId: String = ""
+    
+    var huanZheId: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = articleTitle
         self.view.backgroundColor = kWhiteColor
+        
+        if huanZheId != "" {
+            let rightBtn = UIButton(frame: CGRect.init(x: 0, y: 0, width: 60, height: kTitleHeight))
+            rightBtn.setTitle("发送", for: .normal)
+            rightBtn.setTitleColor(kBlackFontColor, for: .normal)
+            rightBtn.titleLabel?.font = k14Font
+            rightBtn.addTarget(self, action: #selector(onClickedSendBtn), for: .touchUpInside)
+            
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
+        }
         
         view.addSubview(webView)
         webView.snp.makeConstraints { (make) in
@@ -54,6 +68,46 @@ class BPArticleDetailVC: GYZBaseVC {
         }else{
             webView.loadHTMLString(url.dealFuTextImgSize(), baseURL: nil)
         }
+    }
+    /// 发送
+    @objc func onClickedSendBtn(){
+        weak var weakSelf = self
+        GYZAlertViewTools.alertViewTools.showAlert(title: "提示", message: "确定要发送给患者吗？", cancleTitle: "取消", viewController: self, buttonTitles: "发送") { (index) in
+            
+            if index != cancelIndex{
+                weakSelf?.requestSendData()
+            }
+        }
+    }
+    
+    /// 发送
+    func requestSendData(){
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("patient/send_user_tips", parameters: ["u_id": huanZheId,"tips_id": articleId],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                weakSelf?.backRefreshData()
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
+    /// 回传，刷新数据
+    func backRefreshData(){
+        /// 发布通知, 完成订单后，刷新待办
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kSendMessageData), object: nil,userInfo:["url" : url])
     }
 }
 extension BPArticleDetailVC : WKNavigationDelegate{

@@ -85,8 +85,8 @@ let kDefaultLat = 31.7692000000
 /// 保存异常信息标识
 let ERROR_MESSAGE = "ERROR_MESSAGE"
 
-/// 订单列表刷新数据 通知名称
-let kOrderListRefreshData = "orderListRefreshData"
+/// 发送小贴士等消息 通知名称
+let kSendMessageData = "kSendMessageData"
 
 ///已读消息后，刷新消息角标 通知名称
 let kMessageBadageRefreshData = "messageBadageRefreshData"

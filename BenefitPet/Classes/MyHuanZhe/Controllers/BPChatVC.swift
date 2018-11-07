@@ -31,10 +31,14 @@ class BPChatVC: GYZBaseVC {
     fileprivate var jMessageCount = 0
     fileprivate var isFristLaunch = true
     
+    var huanZheId: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         automaticallyAdjustsScrollViewInsets = false
         conversation = JMSGConversation.singleConversation(withUsername: userJgId)
+        /// 根据极光id获取患者id  yichongc、yichongd
+        huanZheId = userJgId.subString(start: 8, length: userJgId.count - 8)
         if conversation == nil {
             
             JMSGConversation.createSingleConversation(withUsername: userJgId) {[weak self] (resultObject, error) in
@@ -49,6 +53,8 @@ class BPChatVC: GYZBaseVC {
             initData()
         }
         
+        //注册通知
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshView(noti:)), name: NSNotification.Name(rawValue: kSendMessageData), object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -64,6 +70,8 @@ class BPChatVC: GYZBaseVC {
     }
     deinit {
         JMessage.remove(self, with: conversation)
+        ///移除通知
+        NotificationCenter.default.removeObserver(self)
     }
     lazy var chatView: JCChatView = {
         var y = kTitleAndStateHeight
@@ -137,17 +145,20 @@ class BPChatVC: GYZBaseVC {
     /// 小贴士
     func goPetTips(){
         let vc = BPPetTipsVC()
+        vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
     //问诊表
     func goWenZhenTable(){
         let vc = BPWenZhenTableView()
+        vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
     
     //随访计划
     func goFollowPlan(){
         let vc = BPFollowPlanVC()
+        vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
     /// 日程
@@ -182,6 +193,16 @@ class BPChatVC: GYZBaseVC {
         }, failture: { (error) in
             GYZLog(error)
         })
+    }
+    
+    /// 发送小贴士等消息
+    /// - Parameter noti: 参数
+    @objc func refreshView(noti: NSNotification) {
+        
+        let userInfo = noti.userInfo!
+        let url: String = userInfo["url"] as! String
+        
+        send(forText: url)
     }
     
     @objc func _updateFileMessage(_ notification: Notification) {
@@ -457,13 +478,10 @@ extension BPChatVC: JCMessageDelegate {
     }
     
     func message(message: JCMessageType, image: UIImage?) {
-        //        let browserImageVC = JCImageBrowserViewController()
-        //        browserImageVC.messages = messages
-        //        browserImageVC.conversation = conversation
-        //        browserImageVC.currentMessage = message
-        //        present(browserImageVC, animated: true) {
-        //            self.toolbar.isHidden = true
-        //        }
+        let browser = SKPhotoBrowser(photos: GYZTool.createWebPhotosWithImgs(imgs: [image!]))
+        browser.initializePageIndex(0)
+        
+        self.present(browser, animated: true, completion: nil)
     }
     
     func message(message: JCMessageType, fileData data: Data?, fileName: String?, fileType: String?) {

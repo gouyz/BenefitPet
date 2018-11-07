@@ -15,6 +15,7 @@ private let petTipsHeader = "petTipsHeader"
 class BPPetTipsVC: GYZBaseVC {
     
     var dataList: [BArticlesModel] = [BArticlesModel]()
+    var huanZheId: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,9 +106,12 @@ class BPPetTipsVC: GYZBaseVC {
     
     /// 新闻详情
     func goArticleDetail(index:Int){
+        let model = dataList[index]
         let vc = BPArticleDetailVC()
-        vc.url = dataList[index].url!
-        vc.articleTitle = dataList[index].title!
+        vc.url = model.url!
+        vc.articleTitle = model.title!
+        vc.huanZheId = huanZheId
+        vc.articleId = model.id!
         navigationController?.pushViewController(vc, animated: true)
     }
 }

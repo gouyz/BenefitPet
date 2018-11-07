@@ -14,6 +14,7 @@ private let followPlanHeader = "followPlanHeader"
 
 class BPFollowPlanVC: GYZBaseVC {
     
+    var huanZheId: String = ""
     var dataList: [BPFollowPlanModel] = [BPFollowPlanModel]()
 
     override func viewDidLoad() {
@@ -103,6 +104,7 @@ class BPFollowPlanVC: GYZBaseVC {
         let vc = BPFollowPlanChildVC()
         vc.cId = dataList[index].id!
         vc.planTitle = dataList[index].title!
+        vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
 }

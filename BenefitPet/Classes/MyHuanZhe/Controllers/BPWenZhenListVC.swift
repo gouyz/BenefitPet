@@ -99,6 +99,7 @@ class BPWenZhenListVC: GYZBaseVC {
     func goDetailVC(index: Int){
         let vc = BPWenZhenTableDetailVC()
         vc.wenZhenModel = dataList[index]
+        vc.isAnswer = true
         navigationController?.pushViewController(vc, animated: true)
     }
 }

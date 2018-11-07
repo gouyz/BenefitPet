@@ -175,6 +175,20 @@ class GYZTool: NSObject {
         }
     }
     
+    /// 封装查看图片大图的img
+    ///
+    class func createWebPhotosWithImgs(imgs: [UIImage]) -> [SKPhotoProtocol] {
+        return (0..<imgs.count).map { (i: Int) -> SKPhotoProtocol in
+            
+            let photo = SKPhoto.photoWithImage(imgs[i])
+            //            SKPhotoBrowserOptions.displayToolbar = false
+            ///隐藏分享按钮
+            SKPhotoBrowserOptions.displayAction = false
+            //            photo.shouldCachePhotoURLImage = true
+            return photo
+        }
+    }
+    
     //MARK: 计算天数差 
     static func dateDifference(_ endDate:Date, from startDate:Date) -> Double {
         let interval = endDate.timeIntervalSince(startDate)

@@ -16,6 +16,8 @@ class BPFollowPlanChildVC: GYZBaseVC {
     var cId: String = ""
     var planTitle: String = ""
     var dataList: [BPFollowPlanModel] = [BPFollowPlanModel]()
+    
+    var huanZheId: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,9 +101,13 @@ class BPFollowPlanChildVC: GYZBaseVC {
     }
     
     func goPlanDetail(index: Int){
+        
+        let model = dataList[index]
         let vc = BPFollowPlanDetailVC()
-        vc.planTitle = dataList[index].title!
-        vc.url = dataList[index].url!
+        vc.planTitle = model.title!
+        vc.url = model.url!
+        vc.planId = model.id!
+        vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
 }

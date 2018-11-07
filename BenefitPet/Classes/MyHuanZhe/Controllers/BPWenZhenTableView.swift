@@ -15,6 +15,7 @@ private let wenZhenTableHeader = "wenZhenTableHeader"
 class BPWenZhenTableView: GYZBaseVC {
     
     var dataList: [BPWenZhenModel] = [BPWenZhenModel]()
+    var huanZheId: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,6 +106,7 @@ class BPWenZhenTableView: GYZBaseVC {
     func goDetailVC(index: Int){
         let vc = BPWenZhenTableDetailVC()
         vc.wenZhenModel = dataList[index]
+        vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
 }
