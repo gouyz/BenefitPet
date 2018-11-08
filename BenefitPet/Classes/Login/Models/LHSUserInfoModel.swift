@@ -11,7 +11,9 @@ import UIKit
 @objcMembers
 class LHSUserInfoModel: LHSBaseModel {
     /// 用户id
-    var id : String?
+    var id : String? = ""
+    /// 极光id
+    var jg_id : String? = ""
     /// 用户姓名
     var name : String? = ""
     /// 所属医院
@@ -47,6 +49,6 @@ class LHSUserInfoModel: LHSBaseModel {
     /// 电话
     var plone : String?
     /// 医生认证
-    var renzheng : String?
+    var renzheng : String? = ""
     
 }

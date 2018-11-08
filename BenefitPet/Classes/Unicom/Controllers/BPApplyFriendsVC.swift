@@ -163,6 +163,7 @@ extension BPApplyFriendsVC: UITableViewDelegate,UITableViewDataSource{
         let model = dataList[indexPath.row]
         cell.dataModel = model
         
+        cell.rightIconView.isHidden = true
         /// 好友添加状态：0未添加 1待通过 2通过
         let state: String = model.ishad!
         if state == "1" {

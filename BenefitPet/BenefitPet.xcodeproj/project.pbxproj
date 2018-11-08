@@ -22,6 +22,9 @@
 		0A303516212E957200B55AAE /* BPSchoolFriendsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */; };
 		0A303518212EA01D00B55AAE /* BPModifySchoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */; };
 		0A30351A212EA30200B55AAE /* BPTongShiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A303519212EA30200B55AAE /* BPTongShiVC.swift */; };
+		0A3A51DA2194196A00D68C47 /* BPDocFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A51D92194196A00D68C47 /* BPDocFriendsVC.swift */; };
+		0A3A51DC21942DA400D68C47 /* BPFinishInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A51DB21942DA400D68C47 /* BPFinishInfoVC.swift */; };
+		0A3A51DE219430C200D68C47 /* BPFinishInfoFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A51DD219430C200D68C47 /* BPFinishInfoFooterView.swift */; };
 		0A3DFAED2190222B0024C803 /* BPSearchBlackListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DFAEC2190222B0024C803 /* BPSearchBlackListVC.swift */; };
 		0A3DFAEF219028E40024C803 /* BPSearchFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DFAEE219028E40024C803 /* BPSearchFriendsVC.swift */; };
 		0A45B27F218D304A004E7C90 /* BPClassDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B27E218D304A004E7C90 /* BPClassDetailVC.swift */; };
@@ -311,6 +314,9 @@
 		0A303515212E957200B55AAE /* BPSchoolFriendsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSchoolFriendsCell.swift; sourceTree = "<group>"; };
 		0A303517212EA01D00B55AAE /* BPModifySchoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPModifySchoolVC.swift; sourceTree = "<group>"; };
 		0A303519212EA30200B55AAE /* BPTongShiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPTongShiVC.swift; sourceTree = "<group>"; };
+		0A3A51D92194196A00D68C47 /* BPDocFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPDocFriendsVC.swift; sourceTree = "<group>"; };
+		0A3A51DB21942DA400D68C47 /* BPFinishInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPFinishInfoVC.swift; sourceTree = "<group>"; };
+		0A3A51DD219430C200D68C47 /* BPFinishInfoFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPFinishInfoFooterView.swift; sourceTree = "<group>"; };
 		0A3DFAEC2190222B0024C803 /* BPSearchBlackListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSearchBlackListVC.swift; sourceTree = "<group>"; };
 		0A3DFAEE219028E40024C803 /* BPSearchFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSearchFriendsVC.swift; sourceTree = "<group>"; };
 		0A45B27E218D304A004E7C90 /* BPClassDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPClassDetailVC.swift; sourceTree = "<group>"; };
@@ -1088,6 +1094,7 @@
 			children = (
 				0A838949210AF4AB009ECF96 /* BPLoginVC.swift */,
 				0A83894B210B0432009ECF96 /* BPRegisterVC.swift */,
+				0A3A51DB21942DA400D68C47 /* BPFinishInfoVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1096,6 +1103,7 @@
 			isa = PBXGroup;
 			children = (
 				0A838947210AF3AD009ECF96 /* GYZLoginInputView.swift */,
+				0A3A51DD219430C200D68C47 /* BPFinishInfoFooterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1292,6 +1300,7 @@
 				0A9BB52E2133E9B6002ED5C7 /* BPMayKnowPersonVC.swift */,
 				0A3DFAEC2190222B0024C803 /* BPSearchBlackListVC.swift */,
 				0A3DFAEE219028E40024C803 /* BPSearchFriendsVC.swift */,
+				0A3A51D92194196A00D68C47 /* BPDocFriendsVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1615,6 +1624,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A3A51DE219430C200D68C47 /* BPFinishInfoFooterView.swift in Sources */,
 				0A81431B211BD96A00529C74 /* BPPetTipsVC.swift in Sources */,
 				0A8CDF9A212C06480032E6C8 /* BPMyClassVC.swift in Sources */,
 				0A83891A210AB3EC009ECF96 /* HXTagCollectionViewCell.m in Sources */,
@@ -1630,6 +1640,7 @@
 				0A761D35216CA17500FDA645 /* JCChatViewLayoutAttributes.swift in Sources */,
 				0A814311211BC99700529C74 /* BPWenZhenTableView.swift in Sources */,
 				0A8388F8210AB3EB009ECF96 /* LHSBaseModel.swift in Sources */,
+				0A3A51DA2194196A00D68C47 /* BPDocFriendsVC.swift in Sources */,
 				0A761D12216CA17500FDA645 /* JCMessageOptions.swift in Sources */,
 				0A026BEB218B370000DF0187 /* BPDocStudyModel.swift in Sources */,
 				0A9BB52F2133E9B6002ED5C7 /* BPMayKnowPersonVC.swift in Sources */,
@@ -1720,6 +1731,7 @@
 				0A6D51BE216D88B0008B7CF0 /* BPChatBottomView.swift in Sources */,
 				0A303510212E4D1800B55AAE /* BPAllFriendsVC.swift in Sources */,
 				0A7B6F0021255948005EBCF0 /* BPChatManagerVC.swift in Sources */,
+				0A3A51DC21942DA400D68C47 /* BPFinishInfoVC.swift in Sources */,
 				0A72376621114475006E0E04 /* BPOnLineOrderCell.swift in Sources */,
 				0A9BB53C2133EB65002ED5C7 /* PickerView.swift in Sources */,
 				0A838937210AB3EC009ECF96 /* GYZAlertViewTools.swift in Sources */,

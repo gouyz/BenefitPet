@@ -180,6 +180,8 @@ extension BPTongXunluVC: UITableViewDelegate,UITableViewDataSource{
         let model = dataList[indexPath.row]
         cell.dataModel = model
         
+        cell.addBtn.isHidden = false
+        cell.rightIconView.isHidden = true
         /// 好友添加状态：0未添加 1待通过 2通过
         let state: String = model.ishad!
         if state == "0" {
@@ -197,6 +199,8 @@ extension BPTongXunluVC: UITableViewDelegate,UITableViewDataSource{
             cell.addBtn.backgroundColor = kWhiteColor
             cell.addBtn.setTitle("已添加", for: .normal)
             cell.addBtn.setTitleColor(kBlackFontColor, for: .normal)
+            cell.addBtn.isHidden = true
+            cell.rightIconView.isHidden = false
         }
         
         cell.addBtn.tag = indexPath.row

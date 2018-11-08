@@ -38,6 +38,7 @@ class BPSchoolFriendsCell: UITableViewCell {
         contentView.addSubview(iconView)
         contentView.addSubview(nameLab)
         contentView.addSubview(addBtn)
+        contentView.addSubview(rightIconView)
         
         iconView.snp.makeConstraints { (make) in
             make.left.equalTo(kMargin)
@@ -50,9 +51,14 @@ class BPSchoolFriendsCell: UITableViewCell {
             make.right.equalTo(addBtn.snp.left).offset(-kMargin)
         }
         addBtn.snp.makeConstraints { (make) in
-            make.right.equalTo(-20)
+            make.right.equalTo(rightIconView.snp.left).offset(-5)
             make.centerY.equalTo(contentView)
             make.size.equalTo(CGSize.init(width: 50, height: 24))
+        }
+        rightIconView.snp.makeConstraints { (make) in
+            make.centerY.equalTo(contentView)
+            make.right.equalTo(-kMargin)
+            make.size.equalTo(CGSize.init(width: 7, height: 12))
         }
     }
     
@@ -75,6 +81,9 @@ class BPSchoolFriendsCell: UITableViewCell {
         
         return lab
     }()
+    
+    /// 右侧箭头图标
+    lazy var rightIconView: UIImageView = UIImageView.init(image: UIImage.init(named: "icon_right_arrow"))
     
     /// 添加按钮
     lazy var addBtn : UIButton = {

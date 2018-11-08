@@ -302,7 +302,8 @@ class BPRegisterVC: GYZBaseVC {
                     }
                 }
                 
-                KeyWindow.rootViewController = GYZMainTabBarVC()
+                weakSelf?.goFinishInfo()
+//                KeyWindow.rootViewController = GYZMainTabBarVC()
             }else{
                 MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
             }
@@ -311,6 +312,12 @@ class BPRegisterVC: GYZBaseVC {
             weakSelf?.hud?.hide(animated: true)
             GYZLog(error)
         })
+    }
+    /// 完善信息
+    func goFinishInfo() {
+        let vc = BPFinishInfoVC()
+        vc.isRegister = true
+        navigationController?.pushViewController(vc, animated: true)
     }
     /// 极光IM登录
     private func userLogin(withUsername: String, password: String) {

@@ -14,8 +14,8 @@ private let allFriendsFooter = "allFriendsFooter"
 
 class BPAllFriendsVC: GYZBaseVC {
 
-    var titles: [String] = ["同届校友","同事","通讯录","好友请求"]
-    var tagImgs: [String] = ["icon_friend_school","icon_friend_tongshi","icon_friend_txl","icon_friend_apply"]
+    var titles: [String] = ["同届校友","同事","通讯录","好友请求","所有医生好友"]
+    var tagImgs: [String] = ["icon_friend_school","icon_friend_tongshi","icon_friend_txl","icon_friend_apply","icon_all_friends"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +89,11 @@ class BPAllFriendsVC: GYZBaseVC {
         let vc = BPApplyFriendsVC()
         navigationController?.pushViewController(vc, animated: true)
     }
+    /// 医生好友
+    func goDocFriend(){
+        let vc = BPDocFriendsVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     /// 添加好友
     @objc func onClickedOperatorBtn(){
@@ -139,6 +144,8 @@ extension BPAllFriendsVC: UITableViewDelegate,UITableViewDataSource{
             goTongXunLu()
         case 3:// 好友请求
             goApplyFriend()
+        case 4://医生好友
+            goDocFriend()
         default:
             break
         }

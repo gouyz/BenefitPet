@@ -8,6 +8,7 @@
 
 import UIKit
 import MBProgressHUD
+import JMessage
 
 private let workingCell = "workingCell"
 private let workingHeader = "workingHeader"
@@ -15,6 +16,7 @@ private let workingHeader = "workingHeader"
 class BPWorkingVC: GYZBaseVC {
     
     var dataModel: BPHomeModel?
+    var datasList: [JMSGConversation] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,7 @@ class BPWorkingVC: GYZBaseVC {
         }
         
         requestHomeDatas()
+        getConversations()
     }
     
     override func didReceiveMemoryWarning() {
@@ -130,7 +133,7 @@ class BPWorkingVC: GYZBaseVC {
     func dealOperator(index : Int){
         switch index {
         case 1://在线接单
-            goOnLineOrder()
+            showFinishInfo()
         case 2://预约信息
             showYuyueView()
         case 3://小护士
@@ -140,9 +143,58 @@ class BPWorkingVC: GYZBaseVC {
         }
     }
     
+    ///判断医生信息是否完善
+    func requestFinishInfoDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("doctorindex/perfect", parameters: ["id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                weakSelf?.goOnLineOrder()
+                
+            }else if response["status"].intValue == 2{///医生信息未完善
+                weakSelf?.showFinishInfo()
+            }else{///医生尚未审核通过
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
+    
+    func showFinishInfo(){
+        weak var weakSelf = self
+        GYZAlertViewTools.alertViewTools.showAlert(title: "提示", message: "完善个人信息后才能接单！", cancleTitle: "取消", viewController: self, buttonTitles: "去完善") { (index) in
+            
+            if index != cancelIndex{
+                weakSelf?.goFinishInfo()
+            }
+        }
+    }
+    
     //在线接单
     func goOnLineOrder(){
         let vc = BPOnLineOrderVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    /// 完善信息
+    func goFinishInfo() {
+        let vc = BPFinishInfoVC()
+        vc.isRegister = false
         navigationController?.pushViewController(vc, animated: true)
     }
     /// 显示预约信息
@@ -206,6 +258,49 @@ class BPWorkingVC: GYZBaseVC {
         vc.url = (dataModel?.newModels![index].url)!
         vc.articleTitle = (dataModel?.newModels![index].title)!
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func getConversations() {
+        
+        JMSGConversation.allConversations {[weak self] (result, error) in
+            guard let conversatios = result else {
+                return
+            }
+            self?.datasList = conversatios as! [JMSGConversation]
+            self?.datasList = (self?.sortConverstaions((self?.datasList)!))!
+            self?.tableView.reloadData()
+            
+            self?.updateBadge()
+        }
+    }
+    fileprivate func sortConverstaions(_ convs: [JMSGConversation]) -> [JMSGConversation] {
+        var stickyConvs: [JMSGConversation] = []
+        var allConvs: [JMSGConversation] = []
+        for index in 0..<convs.count {
+            let conv = convs[index]
+            if conv.ex.isSticky {
+                stickyConvs.append(conv)
+            } else {
+                allConvs.append(conv)
+            }
+        }
+        
+        stickyConvs = stickyConvs.sorted(by: { (c1, c2) -> Bool in
+            c1.ex.stickyTime > c2.ex.stickyTime
+        })
+        
+        allConvs.insert(contentsOf: stickyConvs, at: 0)
+        return allConvs
+    }
+    
+    func updateBadge() {
+        let count = datasList.unreadCount
+        let msgTabBarItem = self.tabBarController?.tabBar.items?[2]
+        if count > 99 {
+            msgTabBarItem?.badgeValue = "99+"
+        } else {
+            msgTabBarItem?.badgeValue = count == 0 ? nil : "\(count)"
+        }
     }
 }
 extension BPWorkingVC: UITableViewDelegate,UITableViewDataSource{

@@ -1,26 +1,28 @@
 //
-//  BPMyProfileVC.swift
+//  BPFinishInfoVC.swift
 //  BenefitPet
-//  个人信息
-//  Created by gouyz on 2018/8/9.
-//  Copyright © 2018年 gyz. All rights reserved.
+//  完善信息
+//  Created by gouyz on 2018/11/8.
+//  Copyright © 2018 gyz. All rights reserved.
 //
 
 import UIKit
 import MBProgressHUD
 
-private let profileCell = "profileCell"
+private let finishInfoCell = "finishInfoCell"
+private let finishInfoFooter = "finishInfoFooter"
 
-class BPMyProfileVC: GYZBaseVC {
-    
+class BPFinishInfoVC: GYZBaseVC {
+
     /// 选择用户头像
     var selectUserImg: UIImage?
     var userInfoModel: LHSUserInfoModel?
-
+    var isRegister: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.navigationItem.title = "个人信息"
+        
+        self.navigationItem.title = "完善信息"
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
@@ -42,7 +44,8 @@ class BPMyProfileVC: GYZBaseVC {
         table.delegate = self
         table.separatorColor = kGrayLineColor
         
-        table.register(BPProfileInfoCell.self, forCellReuseIdentifier: profileCell)
+        table.register(BPProfileInfoCell.self, forCellReuseIdentifier: finishInfoCell)
+        table.register(BPFinishInfoFooterView.self, forHeaderFooterViewReuseIdentifier: finishInfoFooter)
         
         return table
     }()
@@ -181,9 +184,44 @@ class BPMyProfileVC: GYZBaseVC {
             userDefaults.removeObject(forKey: kLastUserAvator)
         }
     }
+    
+    func goHome(index: Int){
+        if index == 102 {
+            if (userInfoModel?.head?.isEmpty)!{
+                MBProgressHUD.showAutoDismissHUD(message: "请完善头像")
+                return
+            }
+            if (userInfoModel?.name?.isEmpty)!{
+                MBProgressHUD.showAutoDismissHUD(message: "请完善姓名")
+                return
+            }
+            if (userInfoModel?.hospital?.isEmpty)!{
+                MBProgressHUD.showAutoDismissHUD(message: "请完善医院信息")
+                return
+            }
+            if (userInfoModel?.zige?.isEmpty)!{
+                MBProgressHUD.showAutoDismissHUD(message: "请完善职业兽医资格证")
+                return
+            }
+            if (userInfoModel?.renzheng?.isEmpty)!{
+                MBProgressHUD.showAutoDismissHUD(message: "请完善益宠认证")
+                return
+            }
+            if (userInfoModel?.school?.isEmpty)!{
+                MBProgressHUD.showAutoDismissHUD(message: "请完善毕业院校信息")
+                return
+            }
+        
+        }
+        if isRegister{
+            KeyWindow.rootViewController = GYZMainTabBarVC()
+        }else{
+            clickedBackBtn()
+        }
+    }
 }
 
-extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
+extension BPFinishInfoVC: UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -192,12 +230,12 @@ extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
         if section == 0 {
             return 1
         }
-        return 6
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: profileCell) as! BPProfileInfoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: finishInfoCell) as! BPProfileInfoCell
         
         cell.desLab.textColor = kGaryFontColor
         cell.userImgView.isHidden = true
@@ -238,12 +276,6 @@ extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
                 cell.desLab.isHidden = false
                 cell.desLab.text = (userInfoModel?.school?.isEmpty)! ? "未填写":"已填写"
                 cell.rightIconView.isHidden = false
-            }else if indexPath.row == 5{
-                cell.nameLab.text = "星级评定"
-                cell.desLab.isHidden = false
-                cell.desLab.text = "LV" + (userInfoModel?.role)!
-                cell.desLab.textColor = kRedFontColor
-                cell.rightIconView.isHidden = true
             }
         }
         
@@ -256,7 +288,27 @@ extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
         return UIView()
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        
+        if section == 1 {
+            let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: finishInfoFooter) as! BPFinishInfoFooterView
+            
+            if !isRegister{
+                footerView.tipsBtn.isHidden = true
+                footerView.tipsBtn.snp.updateConstraints { (make) in
+                    make.width.equalTo(0)
+                }
+                footerView.finishBtn.snp.updateConstraints { (make) in
+                    make.width.equalTo((kScreenWidth - 120) * 0.5)
+                }
+                footerView.finishBtn.setTitle("确 定", for: .normal)
+            }
+            
+            footerView.operatorBlock = {[weak self] (index) in
+                
+                self?.goHome(index: index)
+            }
+            
+            return footerView
+        }
         return UIView()
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -289,6 +341,9 @@ extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
         return kMargin
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 64
+        }
         return 0.00001
     }
 }

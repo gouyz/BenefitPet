@@ -91,7 +91,7 @@ class BPMineVC: GYZBaseVC {
                 
                 
             }else{
-                MBProgressHUD.showAutoDismissHUD(message: response["datas"]["error"].stringValue)
+                MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
             }
             
         }, failture: { (error) in
