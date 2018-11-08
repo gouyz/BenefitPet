@@ -47,7 +47,7 @@ class BPFinishInfoFooterView: UITableViewHeaderFooterView {
         let btn = UIButton.init(type: .custom)
         btn.backgroundColor = kWhiteColor
         btn.setTitleColor(kBlueFontColor, for: .normal)
-        btn.titleLabel?.font = k15Font
+        btn.titleLabel?.font = k13Font
         btn.setTitle("暂不完善，立即登录", for: .normal)
         btn.cornerRadius = kCornerRadius
         btn.borderColor = kBtnClickBGColor
@@ -65,7 +65,7 @@ class BPFinishInfoFooterView: UITableViewHeaderFooterView {
         btn.backgroundColor = kBtnClickBGColor
         btn.setTitle("已完善，立即登录", for: .normal)
         btn.setTitleColor(kWhiteColor, for: .normal)
-        btn.titleLabel?.font = k15Font
+        btn.titleLabel?.font = k13Font
         
         btn.cornerRadius = kCornerRadius
         

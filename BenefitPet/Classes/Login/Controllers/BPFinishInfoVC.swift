@@ -226,7 +226,9 @@ extension BPFinishInfoVC: UITableViewDelegate,UITableViewDataSource{
         return 2
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        if userInfoModel == nil {
+            return 0
+        }
         if section == 0 {
             return 1
         }
@@ -297,7 +299,7 @@ extension BPFinishInfoVC: UITableViewDelegate,UITableViewDataSource{
                     make.width.equalTo(0)
                 }
                 footerView.finishBtn.snp.updateConstraints { (make) in
-                    make.width.equalTo((kScreenWidth - 120) * 0.5)
+                    make.width.equalTo(kScreenWidth - 120)
                 }
                 footerView.finishBtn.setTitle("确 定", for: .normal)
             }

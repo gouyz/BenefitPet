@@ -8,6 +8,7 @@
 
 import UIKit
 import JMessage
+import PYSearch
 
 private let huanZheMenuCell = "huanZheMenuCell"
 private let huanZheCell = "huanZheCell"
@@ -40,6 +41,9 @@ class BPMyHuanZheVC: GYZBaseVC {
         
         tableView.tableHeaderView = searchView
         JMessage.add(self, with: nil)
+        searchView.searchBtn.set(image: UIImage.init(named: "icon_search"), title: "请输入患者姓名", titlePosition: .right, additionalSpacing: 5, state: .normal)
+        
+        searchView.searchBtn.addTarget(self, action: #selector(onClickSearch), for: .touchUpInside)
         
 //        getConversations()
     }
@@ -74,6 +78,22 @@ class BPMyHuanZheVC: GYZBaseVC {
     /// 搜索
     lazy var searchView: BPSearchHeaderView = BPSearchHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 50))
     
+    /// 搜索
+    @objc func onClickSearch(){
+        let searchVC: PYSearchViewController = PYSearchViewController.init(hotSearches: [], searchBarPlaceholder: "请输入患者姓名") { (searchViewController, searchBar, searchText) in
+            
+            let searchVC = BPSearchBlackListVC()
+            searchVC.searchContent = searchText!
+            searchViewController?.navigationController?.pushViewController(searchVC, animated: true)
+        }
+        searchVC.hotSearchStyle = .borderTag
+        searchVC.searchHistoryStyle = .borderTag
+        
+        let searchNav = GYZBaseNavigationVC(rootViewController:searchVC)
+        
+        searchVC.cancelButton.setTitleColor(kBlackFontColor, for: .normal)
+        self.present(searchNav, animated: true, completion: nil)
+    }
     /// 功能模块
     func dealOperator(index: Int){
         
