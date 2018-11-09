@@ -81,7 +81,7 @@ class BPSearchBlackListVC: GYZBaseVC {
         weak var weakSelf = self
         showLoadingView()
         
-        GYZNetWork.requestNetwork("contact/search",parameters: ["input": searchContent,"type": searchType],  success: { (response) in
+        GYZNetWork.requestNetwork("contact/search",parameters: ["input": searchContent,"type": searchType,"d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             GYZLog(response)
@@ -102,7 +102,7 @@ class BPSearchBlackListVC: GYZBaseVC {
                     weakSelf?.tableView.reloadData()
                 }else{
                     ///显示空页面
-                    weakSelf?.showEmptyView(content: "暂无患者黑名单信息")
+                    weakSelf?.showEmptyView(content: "暂无患者信息")
                 }
                 
             }else{
@@ -135,8 +135,15 @@ extension BPSearchBlackListVC: UITableViewDelegate,UITableViewDataSource{
         
         let cell = tableView.dequeueReusableCell(withIdentifier: searchBlackListCell) as! BPOnLineOrderCell
         let model = dataList[indexPath.row]
-        cell.contentLab.text = model.remark
-        cell.nameLab.text = model.nickname
+        
+        if searchType == "0" {
+            cell.contentLab.text = model.remark
+            cell.nameLab.text = model.nickname
+        }else{
+            cell.contentLab.text = ""
+            cell.nameLab.text = model.name
+        }
+        
         cell.iconView.kf.setImage(with: URL.init(string: model.head!), placeholder: nil, options: nil, progressBlock: nil, completionHandler: nil)
         
         cell.selectionStyle = .none
