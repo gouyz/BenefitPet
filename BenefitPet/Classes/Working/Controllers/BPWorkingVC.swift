@@ -133,7 +133,7 @@ class BPWorkingVC: GYZBaseVC {
     func dealOperator(index : Int){
         switch index {
         case 1://在线接单
-            showFinishInfo()
+            requestFinishInfoDatas()
         case 2://预约信息
             showYuyueView()
         case 3://小护士

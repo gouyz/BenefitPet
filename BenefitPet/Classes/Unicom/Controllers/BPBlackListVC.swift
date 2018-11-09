@@ -124,6 +124,7 @@ class BPBlackListVC: GYZBaseVC {
             
             let searchVC = BPSearchBlackListVC()
             searchVC.searchContent = searchText!
+            searchVC.searchType = "0"
             searchViewController?.navigationController?.pushViewController(searchVC, animated: true)
         }
         searchVC.hotSearchStyle = .borderTag

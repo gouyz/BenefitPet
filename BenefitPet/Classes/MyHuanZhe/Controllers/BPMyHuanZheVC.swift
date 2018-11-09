@@ -84,6 +84,7 @@ class BPMyHuanZheVC: GYZBaseVC {
             
             let searchVC = BPSearchBlackListVC()
             searchVC.searchContent = searchText!
+            searchVC.searchType = "3"
             searchViewController?.navigationController?.pushViewController(searchVC, animated: true)
         }
         searchVC.hotSearchStyle = .borderTag

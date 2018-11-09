@@ -15,6 +15,7 @@ class BPSearchBlackListVC: GYZBaseVC {
     
     var searchContent: String = ""
     var dataList: [BPFriendModel] = [BPFriendModel]()
+    var searchType: String = "0"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +81,7 @@ class BPSearchBlackListVC: GYZBaseVC {
         weak var weakSelf = self
         showLoadingView()
         
-        GYZNetWork.requestNetwork("contact/search",parameters: ["input": searchContent,"type": "0"],  success: { (response) in
+        GYZNetWork.requestNetwork("contact/search",parameters: ["input": searchContent,"type": searchType],  success: { (response) in
             
             weakSelf?.hiddenLoadingView()
             GYZLog(response)
