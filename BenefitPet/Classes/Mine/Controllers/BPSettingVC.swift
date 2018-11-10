@@ -12,8 +12,8 @@ private let settingCell = "settingCell"
 
 class BPSettingVC: GYZBaseVC {
     
-    var titles: [String] = ["服务条款","修改密码","退出登录"]
-    var tagImgs: [String] = ["icon_setting_service","icon_setting_pwd","icon_setting_loginout"]
+    var titles: [String] = ["服务条款","隐私政策","修改密码","退出登录"]
+    var tagImgs: [String] = ["icon_setting_service","icon_setting_about","icon_setting_pwd","icon_setting_loginout"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +69,14 @@ class BPSettingVC: GYZBaseVC {
         
         KeyWindow.rootViewController = GYZBaseNavigationVC(rootViewController: BPLoginVC())
     }
+    
+    /// 服务条款/隐私政策
+    func goArticleDetail(title: String,url: String){
+        let vc = BPArticleDetailVC()
+        vc.url = url
+        vc.articleTitle = title
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension BPSettingVC: UITableViewDelegate,UITableViewDataSource{
@@ -102,10 +110,12 @@ extension BPSettingVC: UITableViewDelegate,UITableViewDataSource{
         
         switch indexPath.row {
         case 0:// 服务条款
-            break
-        case 1:// 修改密码
+            goArticleDetail(title: "服务条款", url: "http://yichong.0519app.com/page/agreement.html")
+        case 1:// 隐私政策
+            goArticleDetail(title: "隐私政策", url: "http://yichong.0519app.com/page/privacy.html")
+        case 2:// 修改密码
             goModifyPwd()
-        case 2:// 退出登录
+        case 3:// 退出登录
             loginOut()
         default:
             break
