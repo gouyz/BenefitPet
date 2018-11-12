@@ -35,6 +35,7 @@ class BPWorkingVC: GYZBaseVC {
         
         requestHomeDatas()
         getConversations()
+        requestVersion()
     }
     
     override func didReceiveMemoryWarning() {
@@ -346,4 +347,63 @@ extension BPWorkingVC: UITableViewDelegate,UITableViewDataSource{
         return 0.00001
     }
 }
+
+extension BPWorkingVC{
+    /// 获取App Store版本信息
+    func requestVersion(){
+        
+        weak var weakSelf = self
+        
+        GYZNetWork.requestVersionNetwork("http://itunes.apple.com/cn/lookup?id=\(APPID)", success: { (response) in
+            
+            //            GYZLog(response)
+            if response["resultCount"].intValue == 1{//请求成功
+                let data = response["results"].arrayValue
+                
+                var version: String = GYZUpdateVersionTool.getCurrVersion()
+                var content: String = ""
+                if data.count > 0{
+                    version = data[0]["version"].stringValue//版本号
+                    content = data[0]["releaseNotes"].stringValue//更新内容
+                }
+                
+                weakSelf?.checkVersion(newVersion: version, content: content)
+                
+            }else{
+                MBProgressHUD.showAutoDismissHUD(message: response["result"]["msg"].stringValue)
+            }
+            
+        }, failture: { (error) in
+            GYZLog(error)
+        })
+    }
+    
+    /// 检测APP更新
+    func checkVersion(newVersion: String,content: String){
+        
+        let type: UpdateVersionType = GYZUpdateVersionTool.compareVersion(newVersion: newVersion)
+        switch type {
+        case .noUpdate:
+            break
+        default:
+            updateVersion(version: newVersion, content: content)
+            break
+        }
+    }
+    /**
+     * //不强制更新
+     * @param version 版本名称
+     * @param content 更新内容
+     */
+    func updateVersion(version: String,content: String){
+        
+        GYZAlertViewTools.alertViewTools.showAlert(title:"发现新版本\(version)", message: content, cancleTitle: "残忍拒绝", viewController: self, buttonTitles: "立即更新", alertActionBlock: { (index) in
+            
+            if index == 0{//立即更新
+                GYZUpdateVersionTool.goAppStore()
+            }
+        })
+    }
+}
+
 

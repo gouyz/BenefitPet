@@ -95,7 +95,7 @@ class BPWorkingAdsHeaderView: UIView {
         let adsView = ZCycleView()
 
         adsView.placeholderImage = UIImage.init(named: "icon_working_ads")
-        adsView.setImagesGroup([#imageLiteral(resourceName: "icon_working_ads"),#imageLiteral(resourceName: "icon_working_ads"),#imageLiteral(resourceName: "icon_working_ads")])
+//        adsView.setImagesGroup([#imageLiteral(resourceName: "icon_working_ads"),#imageLiteral(resourceName: "icon_working_ads"),#imageLiteral(resourceName: "icon_working_ads")])
         adsView.pageControlAlignment = .center
         adsView.pageControlIndictirColor = kWhiteColor
         adsView.pageControlCurrentIndictirColor = kBlueFontColor

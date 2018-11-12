@@ -63,6 +63,33 @@ class GYZNetWork: NSObject {
         })
     }
     
+    /// 网络请求
+    ///
+    /// - parameter url:        请求URL 全路径url
+    /// - parameter parameters: 请求参数
+    /// - parameter method:     请求类型POST/GET
+    /// - success: 上传成功的回调
+    /// - failture: 上传失败的回调
+    static func requestVersionNetwork(_ url : String,
+                                      parameters : Parameters? = nil,
+                                      method : HTTPMethod = .post,
+                                      encoding: ParameterEncoding = URLEncoding.default,
+                                      success : @escaping (_ response : JSON)->Void,
+                                      failture : @escaping (_ error : Error?)-> Void){
+        
+        Alamofire.request(url, method: method, parameters: parameters,encoding:encoding,headers: nil).responseJSON(completionHandler: { (response) in
+            
+            if response.result.isSuccess{
+                if let value = response.result.value {
+                    
+                    success(JSON(value))
+                }
+            }else{
+                failture(response.result.error)
+            }
+        })
+    }
+    
     /// 图片上传
     ///
     /// - Parameters:
