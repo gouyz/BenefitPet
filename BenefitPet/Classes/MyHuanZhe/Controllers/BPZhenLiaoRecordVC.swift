@@ -126,6 +126,12 @@ class BPZhenLiaoRecordVC: GYZBaseVC {
         vc.huanZheId = huanZheId
         navigationController?.pushViewController(vc, animated: true)
     }
+    /// 病情表
+    func goBingQingList(){
+        let vc = BPBingQingTableVC()
+        vc.huanZheId = huanZheId
+        navigationController?.pushViewController(vc, animated: true)
+    }
     /// 日程和随访计划
     func goWenRiCheng(){
         let vc = BPRiChengPlanManagerVC()
@@ -164,7 +170,7 @@ extension BPZhenLiaoRecordVC: UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 4
+            return 5
         }
         return dataModel == nil ? 0 : (dataModel?.recordList.count)!
     }
@@ -195,6 +201,9 @@ extension BPZhenLiaoRecordVC: UITableViewDelegate,UITableViewDataSource{
                     cell.contentLab.text = ""
                 }else if indexPath.row == 3{
                     cell.nameLab.text = "问诊表"
+                    cell.contentLab.text = ""
+                }else if indexPath.row == 4{
+                    cell.nameLab.text = "病情表"
                     cell.contentLab.text = ""
                 }
             }else{
@@ -244,6 +253,8 @@ extension BPZhenLiaoRecordVC: UITableViewDelegate,UITableViewDataSource{
                 goWenRiCheng()
             case 3://问诊表
                 goWenZhenList()
+            case 4://病情表
+                goBingQingList()
             default:
                 break
             }

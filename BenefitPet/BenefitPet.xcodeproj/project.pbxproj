@@ -27,6 +27,7 @@
 		0A3A51DE219430C200D68C47 /* BPFinishInfoFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A51DD219430C200D68C47 /* BPFinishInfoFooterView.swift */; };
 		0A3DFAED2190222B0024C803 /* BPSearchBlackListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DFAEC2190222B0024C803 /* BPSearchBlackListVC.swift */; };
 		0A3DFAEF219028E40024C803 /* BPSearchFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DFAEE219028E40024C803 /* BPSearchFriendsVC.swift */; };
+		0A42ED3E21996BF800B8234D /* BPBingQingTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A42ED3D21996BF800B8234D /* BPBingQingTableVC.swift */; };
 		0A45B27F218D304A004E7C90 /* BPClassDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B27E218D304A004E7C90 /* BPClassDetailVC.swift */; };
 		0A45B281218D374C004E7C90 /* BPZhenLiaoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B280218D374C004E7C90 /* BPZhenLiaoDetailVC.swift */; };
 		0A487A4B2177803800352EAF /* BPHuanZheGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */; };
@@ -319,6 +320,7 @@
 		0A3A51DD219430C200D68C47 /* BPFinishInfoFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPFinishInfoFooterView.swift; sourceTree = "<group>"; };
 		0A3DFAEC2190222B0024C803 /* BPSearchBlackListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSearchBlackListVC.swift; sourceTree = "<group>"; };
 		0A3DFAEE219028E40024C803 /* BPSearchFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPSearchFriendsVC.swift; sourceTree = "<group>"; };
+		0A42ED3D21996BF800B8234D /* BPBingQingTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPBingQingTableVC.swift; sourceTree = "<group>"; };
 		0A45B27E218D304A004E7C90 /* BPClassDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPClassDetailVC.swift; sourceTree = "<group>"; };
 		0A45B280218D374C004E7C90 /* BPZhenLiaoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPZhenLiaoDetailVC.swift; sourceTree = "<group>"; };
 		0A487A4A2177803800352EAF /* BPHuanZheGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPHuanZheGroupModel.swift; sourceTree = "<group>"; };
@@ -927,6 +929,7 @@
 				0A744865215F2981002DE6AB /* BPFollowPlanDetailVC.swift */,
 				0A8002B32178355500DF1550 /* BPChatVC.swift */,
 				0A45B280218D374C004E7C90 /* BPZhenLiaoDetailVC.swift */,
+				0A42ED3D21996BF800B8234D /* BPBingQingTableVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1729,6 +1732,7 @@
 				0A714E06212D8BC20016BAB1 /* BPMyTeamHeaderView.swift in Sources */,
 				0A954CA92118394A002772A0 /* GYZFuncModelView.swift in Sources */,
 				0A6D51BE216D88B0008B7CF0 /* BPChatBottomView.swift in Sources */,
+				0A42ED3E21996BF800B8234D /* BPBingQingTableVC.swift in Sources */,
 				0A303510212E4D1800B55AAE /* BPAllFriendsVC.swift in Sources */,
 				0A7B6F0021255948005EBCF0 /* BPChatManagerVC.swift in Sources */,
 				0A3A51DC21942DA400D68C47 /* BPFinishInfoVC.swift in Sources */,
