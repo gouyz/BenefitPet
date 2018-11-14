@@ -26,7 +26,7 @@ class BPMineHeaderView: UIView {
         self.addSubview(bgView)
         bgView.addSubview(userHeaderView)
         bgView.addSubview(desLab)
-        bgView.addSubview(moneyLab)
+//        bgView.addSubview(moneyLab)
         
         bgView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
@@ -43,11 +43,11 @@ class BPMineHeaderView: UIView {
             make.height.equalTo(30)
         }
         
-        moneyLab.snp.makeConstraints { (make) in
-            make.left.right.equalTo(desLab)
-            make.top.equalTo(desLab.snp.bottom)
-            make.height.equalTo(20)
-        }
+//        moneyLab.snp.makeConstraints { (make) in
+//            make.left.right.equalTo(desLab)
+//            make.top.equalTo(desLab.snp.bottom)
+//            make.height.equalTo(20)
+//        }
     }
     
     /// 背景
@@ -75,13 +75,13 @@ class BPMineHeaderView: UIView {
         return lab
     }()
     ///
-    lazy var moneyLab: UILabel = {
-        let lab = UILabel()
-        lab.font = k15Font
-        lab.textColor = kWhiteColor
-        lab.textAlignment = .center
-        lab.text = "我的余额：￥300"
-        
-        return lab
-    }()
+//    lazy var moneyLab: UILabel = {
+//        let lab = UILabel()
+//        lab.font = k15Font
+//        lab.textColor = kWhiteColor
+//        lab.textAlignment = .center
+//        lab.text = "我的余额：￥300"
+//
+//        return lab
+//    }()
 }

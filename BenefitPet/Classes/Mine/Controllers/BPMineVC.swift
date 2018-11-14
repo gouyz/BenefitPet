@@ -103,7 +103,7 @@ class BPMineVC: GYZBaseVC {
     func setHeaderData(){
         userHeaderView.desLab.text = userInfoModel?.name
         userHeaderView.userHeaderView.kf.setImage(with: URL.init(string: (userInfoModel?.head)!), placeholder: UIImage.init(named: "icon_header_default"), options: nil, progressBlock: nil, completionHandler: nil)
-        userHeaderView.moneyLab.text = String.init(format: "我的余额：￥%.2f", Double((userInfoModel?.balance)!)!)
+//        userHeaderView.moneyLab.text = String.init(format: "我的余额：￥%.2f", Double((userInfoModel?.balance)!)!)
         
     }
     
@@ -111,7 +111,7 @@ class BPMineVC: GYZBaseVC {
     func setEmptyHeaderData(){
         userHeaderView.desLab.text = "登录/注册"
         userHeaderView.userHeaderView.image = UIImage.init(named: "icon_header_default")
-        userHeaderView.moneyLab.text = "我的余额：￥0"
+//        userHeaderView.moneyLab.text = "我的余额：￥0"
         
     }
     
