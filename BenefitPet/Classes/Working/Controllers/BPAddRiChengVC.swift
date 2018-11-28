@@ -202,6 +202,7 @@ class BPAddRiChengVC: GYZBaseVC {
                 if weakSelf?.resultBlock != nil{
                     weakSelf?.resultBlock!()
                 }
+                weakSelf?.backRefreshData()
                 weakSelf?.clickedBackBtn()
                 
             }
@@ -210,6 +211,12 @@ class BPAddRiChengVC: GYZBaseVC {
             weakSelf?.hud?.hide(animated: true)
             GYZLog(error)
         })
+    }
+    
+    /// 回传，刷新数据
+    func backRefreshData(){
+        /// 发布通知, 完成订单后，刷新待办
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kSendMessageData), object: nil,userInfo:["url" : "日程加入，请到个人中心查看"])
     }
     
     /// 选择患者

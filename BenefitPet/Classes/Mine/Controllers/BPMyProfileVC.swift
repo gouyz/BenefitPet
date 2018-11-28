@@ -16,6 +16,12 @@ class BPMyProfileVC: GYZBaseVC {
     /// 选择用户头像
     var selectUserImg: UIImage?
     var userInfoModel: LHSUserInfoModel?
+    var areaList: [BPAreaModel] = [BPAreaModel]()
+    var jobList: [BPJobModel] = [BPJobModel]()
+    var areaNameList: [String] = [String]()
+    var jobNameList: [String] = [String]()
+    var jobIndex: Int = 0
+    var areaIndex: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +32,7 @@ class BPMyProfileVC: GYZBaseVC {
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        if userInfoModel == nil {
-            requestMineData()
-        }
+        requestMineData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -65,12 +69,85 @@ class BPMyProfileVC: GYZBaseVC {
                 weakSelf?.userInfoModel = LHSUserInfoModel.init(dict: data)
                 weakSelf?.tableView.reloadData()
                 
+                if weakSelf?.areaList.count == 0{
+                    weakSelf?.requestJobDatas()
+                    weakSelf?.requestAreaDatas()
+                }
+                
             }else{
                 MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
             }
             
         }, failture: { (error) in
             weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
+    
+    ///获取地区数据
+    func requestAreaDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        
+        GYZNetWork.requestNetwork("doctor/area_list",parameters: nil,  success: { (response) in
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for (index,item) in data.enumerated(){
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPAreaModel.init(dict: itemInfo)
+                    if model.area_name == weakSelf?.userInfoModel?.area_name{
+                        weakSelf?.areaIndex = index
+                    }
+                    weakSelf?.areaNameList.append(model.area_name!)
+                    weakSelf?.areaList.append(model)
+                }
+                
+            }
+            
+        }, failture: { (error) in
+            
+            GYZLog(error)
+        })
+    }
+    
+    ///获取职位数据
+    func requestJobDatas(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        
+        GYZNetWork.requestNetwork("doctor/job_list",parameters: nil,  success: { (response) in
+            
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+                guard let data = response["data"].array else { return }
+                
+                for (index,item) in data.enumerated(){
+                    guard let itemInfo = item.dictionaryObject else { return }
+                    let model = BPJobModel.init(dict: itemInfo)
+                    
+                    if model.job_name == weakSelf?.userInfoModel?.job_title{
+                        weakSelf?.jobIndex = index
+                    }
+                    
+                    weakSelf?.jobNameList.append(model.job_name!)
+                    weakSelf?.jobList.append(model)
+                }
+                
+            }
+            
+        }, failture: { (error) in
+            
             GYZLog(error)
         })
     }
@@ -181,6 +258,59 @@ class BPMyProfileVC: GYZBaseVC {
             userDefaults.removeObject(forKey: kLastUserAvator)
         }
     }
+    /// 选择职位
+    func selectJob(){
+        if jobList.count > 0 {
+            UsefulPickerView.showSingleColPicker("请选择职位", data: jobNameList, defaultSelectedIndex: jobIndex) {[weak self] (index, value) in
+                self?.jobIndex = index
+                self?.userInfoModel?.job_title = value
+                self?.tableView.reloadData()
+                
+                self?.requestModifyUserInfo(key: "job_id", value: (self?.jobList[index].id)!)
+            }
+        }
+        
+    }
+    /// 选择区域
+    func selectArea(){
+        if areaList.count > 0 {
+            UsefulPickerView.showSingleColPicker("请选择地区", data: areaNameList, defaultSelectedIndex: areaIndex) { [weak self] (index, value) in
+                
+                self?.areaIndex = index
+                self?.userInfoModel?.area_name = value
+                self?.tableView.reloadData()
+                
+                self?.requestModifyUserInfo(key: "area_id", value: (self?.areaList[index].id)!)
+            }
+        }
+        
+    }
+    
+    /// 修改个人资料
+    func requestModifyUserInfo(key: String, value: String){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        
+        GYZNetWork.requestNetwork("doctor/doctor_edit", parameters: ["id": userDefaults.string(forKey: "userId") ?? "",key:value],  success: { (response) in
+            
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(response)
+            
+            MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
+            if response["status"].intValue == kQuestSuccessTag{//请求成功
+                
+            }
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
+    }
 }
 
 extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
@@ -192,7 +322,7 @@ extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
         if section == 0 {
             return 1
         }
-        return 6
+        return 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -236,9 +366,19 @@ extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
             }else if indexPath.row == 4{
                 cell.nameLab.text = "毕业院校"
                 cell.desLab.isHidden = false
-                cell.desLab.text = (userInfoModel?.school?.isEmpty)! ? "未填写":"已填写"
+                cell.desLab.text = (userInfoModel?.school?.isEmpty)! ? "未填写": userInfoModel?.school
                 cell.rightIconView.isHidden = false
             }else if indexPath.row == 5{
+                cell.nameLab.text = "职位"
+                cell.desLab.isHidden = false
+                cell.desLab.text = userInfoModel?.job_title
+                cell.rightIconView.isHidden = false
+            }else if indexPath.row == 6{
+                cell.nameLab.text = "地区"
+                cell.desLab.isHidden = false
+                cell.desLab.text = userInfoModel?.area_name
+                cell.rightIconView.isHidden = false
+            }else if indexPath.row == 7{
                 cell.nameLab.text = "星级评定"
                 cell.desLab.isHidden = false
                 cell.desLab.text = "LV" + (userInfoModel?.role)!
@@ -274,6 +414,10 @@ extension BPMyProfileVC: UITableViewDelegate,UITableViewDataSource{
                 goModifyName()
             }else if indexPath.row == 1{/// 修改医院
                 goModifyHospital()
+            }else if indexPath.row == 5{/// 修改职位
+                selectJob()
+            }else if indexPath.row == 6{/// 修改地区
+                selectArea()
             }
         }
     }

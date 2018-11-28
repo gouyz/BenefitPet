@@ -139,12 +139,19 @@ class BPWenZhenTableDetailVC: GYZBaseVC {
             GYZLog(response)
             MBProgressHUD.showAutoDismissHUD(message: response["msg"].stringValue)
             if response["status"].intValue == kQuestSuccessTag{//请求成功
+                weakSelf?.backRefreshData()
             }
             
         }, failture: { (error) in
             weakSelf?.hud?.hide(animated: true)
             GYZLog(error)
         })
+    }
+    
+    /// 回传，刷新数据
+    func backRefreshData(){
+        /// 发布通知, 完成订单后，刷新待办
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kSendMessageData), object: nil,userInfo:["url" : "问诊表已发送，请到个人中心填写"])
     }
 }
 

@@ -50,5 +50,8 @@ class LHSUserInfoModel: LHSBaseModel {
     var plone : String?
     /// 医生认证
     var renzheng : String? = ""
-    
+    /// 地区
+    var area_name : String? = ""
+    /// 地区id
+    var area_id : String? = ""
 }
