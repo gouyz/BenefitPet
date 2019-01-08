@@ -361,6 +361,9 @@ extension String {
     }
     //根据开始位置和长度截取字符串
     func subString(start:Int, length:Int = -1) -> String {
+        if self.isEmpty {
+            return ""
+        }
         var len = length
         if len == -1 {
             len = self.count - start

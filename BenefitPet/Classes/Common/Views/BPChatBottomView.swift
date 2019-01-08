@@ -33,6 +33,7 @@ class BPChatBottomView: UIView {
         addSubview(planBtn)
         addSubview(riChengBtn)
         addSubview(IconBtn)
+        addSubview(closedBtn)
         
         conmentField.snp.makeConstraints { (make) in
             make.left.equalTo(20)
@@ -47,27 +48,33 @@ class BPChatBottomView: UIView {
         }
         
         tieShiBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(conmentField)
-            make.top.equalTo(conmentField.snp.bottom).offset(kMargin)
+            make.left.equalTo(kMargin)
+            make.top.equalTo(conmentField.snp.bottom)
             make.width.equalTo(50)
             make.height.equalTo(70)
         }
         
         wenZhenBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(tieShiBtn.snp.right).offset(kMargin)
+            make.left.equalTo(tieShiBtn.snp.right)
             make.top.width.height.equalTo(tieShiBtn)
         }
         planBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(wenZhenBtn.snp.right).offset(kMargin)
+            make.left.equalTo(wenZhenBtn.snp.right)
             make.top.width.height.equalTo(tieShiBtn)
         }
         riChengBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(planBtn.snp.right).offset(kMargin)
+            make.left.equalTo(planBtn.snp.right)
             make.top.width.height.equalTo(tieShiBtn)
         }
         IconBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(riChengBtn.snp.right).offset(kMargin)
+            make.left.equalTo(riChengBtn.snp.right)
             make.top.width.height.equalTo(tieShiBtn)
+        }
+        closedBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(IconBtn.snp.right)
+            make.top.equalTo(tieShiBtn)
+            make.width.equalTo(50)
+            make.height.equalTo(70)
         }
         
         tieShiBtn.set(image: UIImage.init(named: "icon_chat_tieshi"), title: "小贴士", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
@@ -76,6 +83,7 @@ class BPChatBottomView: UIView {
         
         riChengBtn.set(image: UIImage.init(named: "icon_chat_richeng"), title: "日程提醒", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
         IconBtn.set(image: UIImage.init(named: "icon_chat_tupian"), title: "图片", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
+        closedBtn.set(image: UIImage.init(named: "icon_chat_tupian"), title: "结束问诊", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
     }
     lazy var conmentField: UITextField = {
         let txtField = UITextField()
@@ -143,6 +151,16 @@ class BPChatBottomView: UIView {
         btn.titleLabel?.font = k10Font
         btn.setTitleColor(kBlackFontColor, for: .normal)
         btn.tag = 105
+        btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
+        
+        return btn
+    }()
+    /// 关闭
+    lazy var closedBtn : UIButton = {
+        let btn = UIButton.init(type: .custom)
+        btn.titleLabel?.font = k10Font
+        btn.setTitleColor(kBlackFontColor, for: .normal)
+        btn.tag = 106
         btn.addTarget(self, action: #selector(onClickedOperator(btn:)), for: .touchUpInside)
         
         return btn

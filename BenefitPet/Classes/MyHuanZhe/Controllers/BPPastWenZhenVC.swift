@@ -96,6 +96,7 @@ class BPPastWenZhenVC: GYZBaseVC {
     func goChatVC(userId: String){
         let vc = BPChatVC()
         vc.userJgId = userId
+        vc.isHuanZhe = true
         navigationController?.pushViewController(vc, animated: true)
     }
 }
