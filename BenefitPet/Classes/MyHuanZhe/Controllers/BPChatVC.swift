@@ -16,6 +16,8 @@ class BPChatVC: GYZBaseVC {
     var conversation: JMSGConversation?
     /// 用户极光id
     var userJgId: String = ""
+    /// 是否是和患者聊天
+    var isHuanZhe: Bool = false
     
     var chatViewLayout: JCChatViewLayout = JCChatViewLayout.init()
     
@@ -109,6 +111,12 @@ class BPChatVC: GYZBaseVC {
             
             self?.bottomOperator(index: index)
         }
+        if !isHuanZhe {
+            bottomView.closedBtn.isHidden = true
+            bottomView.closedBtn.snp.updateConstraints { (make) in
+                make.width.equalTo(0)
+            }
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(_removeAllMessage), name: NSNotification.Name(rawValue: kDeleteAllMessage), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(_reloadMessage), name: NSNotification.Name(rawValue: kReloadAllMessage), object: nil)
@@ -141,6 +149,8 @@ class BPChatVC: GYZBaseVC {
             goRiCheng()
         case 105:// 图片
             selectImg()
+        case 106:// 结束问诊
+            showFinishInfo()
         default:
             break
         }
@@ -169,6 +179,16 @@ class BPChatVC: GYZBaseVC {
         let vc = BPRiChengVC()
         navigationController?.pushViewController(vc, animated: true)
     }
+    // 结束问诊
+    func showFinishInfo(){
+        weak var weakSelf = self
+        GYZAlertViewTools.alertViewTools.showAlert(title: "提示", message: "是否结束问诊？", cancleTitle: "取消", viewController: self, buttonTitles: "确定") { (index) in
+            
+            if index != cancelIndex{
+                weakSelf?.requestClosedWenZhen()
+            }
+        }
+    }
     //图片
     func selectImg(){
         GYZAlertViewTools.alertViewTools.showSheet(title: "选择照片", message: nil, cancleTitle: "取消", titleArray: ["拍照","从相册选取"], viewController: self) { [weak self](index) in
@@ -179,6 +199,22 @@ class BPChatVC: GYZBaseVC {
                 self?.openPhotos()
             }
         }
+    }
+    /// 结束问诊
+    func requestClosedWenZhen(){
+        
+        if !GYZTool.checkNetWork() {
+            return
+        }
+        weak var weakSelf = self
+        createHUD(message: "加载中...")
+        GYZNetWork.requestNetwork("patient/reset_type", parameters: ["u_id": huanZheId,"d_id": userDefaults.string(forKey: "userId") ?? ""],  success: { (response) in
+            weakSelf?.hud?.hide(animated: true)
+            
+        }, failture: { (error) in
+            weakSelf?.hud?.hide(animated: true)
+            GYZLog(error)
+        })
     }
     
     /// 记录发送离线消息提醒
