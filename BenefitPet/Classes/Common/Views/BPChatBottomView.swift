@@ -83,7 +83,7 @@ class BPChatBottomView: UIView {
         
         riChengBtn.set(image: UIImage.init(named: "icon_chat_richeng"), title: "日程提醒", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
         IconBtn.set(image: UIImage.init(named: "icon_chat_tupian"), title: "图片", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
-        closedBtn.set(image: UIImage.init(named: "icon_chat_tupian"), title: "结束问诊", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
+        closedBtn.set(image: UIImage.init(named: "icon_chat_closed"), title: "结束问诊", titlePosition: .bottom, additionalSpacing: 5, state: .normal)
     }
     lazy var conmentField: UITextField = {
         let txtField = UITextField()

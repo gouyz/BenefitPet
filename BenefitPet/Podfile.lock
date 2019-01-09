@@ -41,7 +41,7 @@ DEPENDENCIES:
   - DKImagePickerController
   - FMDB (~> 2.6.2)
   - IQKeyboardManagerSwift (~> 5.0.6)
-  - JMessage
+  - JMessage (~> 3.7.0)
   - JPush
   - Kingfisher (~> 4.2.0)
   - MBProgressHUD (~> 1.0.0)
@@ -93,6 +93,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   WechatOpenSDK: 3117412f8aafde4758cac1e8d20b93c67cafcfef
 
-PODFILE CHECKSUM: 90567f07f7a740956c8111788c6340c59422c0ef
+PODFILE CHECKSUM: 9fb23f00d4e56d42ab45281d1718b7bb2d0dadc8
 
 COCOAPODS: 1.5.3
